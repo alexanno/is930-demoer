@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <title>Bakgrunnskart side om side</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css" />
+  <!-- pmtiles er ikke en ES-modul, så den lastes som et vanlig script og gir oss window.pmtiles -->
+  <script src="https://unpkg.com/pmtiles@3.0.7/dist/pmtiles.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; }
+    header { padding: 12px 16px; background: #222; color: white; }
+    header h1 { margin: 0 0 4px; font-size: 18px; }
+    header p { margin: 0; font-size: 14px; color: #ccc; }
+    header a { color: #8ecbff; }
+    #kart { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4px; flex: 1; min-height: 0; }
+    .rute { position: relative; }
+    .kart { position: absolute; inset: 0; }
+    .tittel { position: absolute; top: 8px; left: 8px; z-index: 1; padding: 4px 8px;
+              background: white; border-radius: 4px; font-size: 14px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ulike bakgrunnskart</h1>
+    <p>
+      Samme kartutsnitt vist gjennom ni forskjellige bakgrunnskart-tjenester.
+      Zoom og beveg deg rundt i ett av kartene – de andre følger med, så du
+      kan se hvor ulikt de fremstiller det samme stedet.
+      Les mer i <a href="README.md">README.md</a>.
+    </p>
+  </header>
+  <div id="kart"></div>
+
+  <script type="module">
+    import * as maplibregl from 'https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.mjs';
+
+    // Registrer pmtiles:// som en protokoll MapLibre forstår (trengs for Overture-kartet)
+    const pmtilesProtokoll = new pmtiles.Protocol();
+    maplibregl.addProtocol('pmtiles', pmtilesProtokoll.tile);
+
+    // Lån en nøkkel fra 1881.no (se nettverksfanen i utviklerverktøyet på kartet deres)
+    const NORKART_KEY = 'DIN_NØKKEL_HER';
+
+    // Lager en enkel stil av én rasterflis-URL
+    const raster = (url, attribution) => ({
+      version: 8,
+      sources: { bakgrunn: { type: 'raster', tiles: [url], tileSize: 256, attribution } },
+      layers: [{ id: 'bakgrunn', type: 'raster', source: 'bakgrunn' }],
+    });
+
+    const kartverket = (lag) =>
+      raster(`https://cache.kartverket.no/v1/wmts/1.0.0/${lag}/default/webmercator/{z}/{y}/{x}.png`, '© Kartverket');
+
+    const esri = (tjeneste) =>
+      raster(`https://services.arcgisonline.com/ArcGIS/rest/services/${tjeneste}/MapServer/tile/{z}/{y}/{x}`, '© Esri');
+
+    // Overture Maps som "x-ray": svart bakgrunn, hvert datalag i sin egen farge.
+    // Poenget er å vise de rå vektordataene, ikke et ferdig kartografisk kart.
+    // Hvert element er ett lag: hvilket tema (pmtiles-arkiv) det ligger i,
+    // hvilket lagnavn i arkivet og hvilken geometritype.
+    const OVERTURE_LAG = [
+      { tema: 'base', lag: 'water', geometri: 'fill' },
+      { tema: 'base', lag: 'land_cover', geometri: 'fill' },
+      { tema: 'base', lag: 'land_use', geometri: 'fill' },
+      { tema: 'base', lag: 'infrastructure', geometri: 'line' },
+      { tema: 'divisions', lag: 'division_boundary', geometri: 'line' },
+      { tema: 'transportation', lag: 'segment', geometri: 'line' },
+      { tema: 'buildings', lag: 'building', geometri: 'fill' },
+      { tema: 'places', lag: 'place', geometri: 'circle' },
+    ];
+
+    // Fargene spres jevnt rundt fargesirkelen (hue 0–360) så hvert lag skiller
+    // seg tydelig fra naboene sine, i stedet for at vi velger fargene for hånd.
+    const fargeTilLag = (indeks) => `hsl(${Math.round((360 / OVERTURE_LAG.length) * indeks)} 90% 55%)`;
+
+    // Overture publiserer nye versjoner jevnlig, så versjonsnummeret hentes
+    // dynamisk fra STAC-katalogen deres i stedet for å skrives inn manuelt.
+    const { latest: overtureVersjon } = await fetch('https://stac.overturemaps.org/catalog.json').then((r) => r.json());
+
+    const overtureKilde = (tema) =>
+      `pmtiles://https://overturemaps-extras-us-west-2.s3.us-west-2.amazonaws.com/tiles/${overtureVersjon}/${tema}.pmtiles`;
+
+    const overtureXray = {
+      version: 8,
+      sources: Object.fromEntries(
+        [...new Set(OVERTURE_LAG.map((l) => l.tema))].map((tema) => [tema, { type: 'vector', url: overtureKilde(tema) }])
+      ),
+      layers: [
+        { id: 'bakgrunn', type: 'background', paint: { 'background-color': '#000000' } },
+        ...OVERTURE_LAG.map(({ tema, lag, geometri }, indeks) => ({
+          id: `${tema}-${lag}`,
+          type: geometri,
+          source: tema,
+          'source-layer': lag,
+          paint:
+            geometri === 'fill' ? { 'fill-color': fargeTilLag(indeks), 'fill-opacity': 0.5 } :
+            geometri === 'line' ? { 'line-color': fargeTilLag(indeks), 'line-width': 1 } :
+            { 'circle-color': fargeTilLag(indeks), 'circle-radius': 2 },
+        })),
+      ],
+    };
+
+    // Navn og stil (stil kan være en URL eller et objekt)
+    const bakgrunnskart = [
+      { navn: 'OpenStreetMap', stil: raster('https://tile.openstreetmap.org/{z}/{x}/{y}.png', '© OpenStreetMap') },
+      { navn: 'OpenFreeMap Liberty', stil: 'https://tiles.openfreemap.org/styles/liberty' },
+      { navn: `Overture Maps x-ray (${overtureVersjon})`, stil: overtureXray },
+      { navn: 'Kartverket Topo', stil: kartverket('topo') },
+      { navn: 'Kartverket Topo Raster', stil: kartverket('toporaster') },
+      { navn: 'Kartverket Gråtone', stil: kartverket('topograatone') },
+      { navn: 'ESRI World Imagery', stil: esri('World_Imagery') },
+      { navn: 'ESRI World Topo', stil: esri('World_Topo_Map') },
+      { navn: '1881 Norkart', stil: raster(`https://www.webatlas.no/maptiles/tiles/webatlas-standard-vektor/wa_grid/{z}/{x}/{y}.png?APIKEY=${NORKART_KEY}`, '© Norkart') },
+    ];
+
+    // Ett kart per bakgrunnskart
+    const beholder = document.getElementById('kart');
+    const kart = bakgrunnskart.map(({ navn, stil }) => {
+      const rute = document.createElement('div');
+      rute.className = 'rute';
+      rute.innerHTML = `<div class="tittel">${navn}</div><div class="kart"></div>`;
+      beholder.append(rute);
+
+      return new maplibregl.Map({
+        container: rute.querySelector('.kart'),
+        style: stil,
+        center: [8.0, 58.16], // Kristiansand
+        zoom: 10,
+      });
+    });
+
+    // Synkroniser: når ett kart flyttes, hopper alle de andre etter
+    let synkroniserer = false;
+    kart.forEach((k) => {
+      k.on('move', () => {
+        if (synkroniserer) return; // ikke reager på våre egne flyttinger
+        synkroniserer = true;
+        kart.filter((andre) => andre !== k).forEach((andre) =>
+          andre.jumpTo({ center: k.getCenter(), zoom: k.getZoom(), bearing: k.getBearing(), pitch: k.getPitch() })
+        );
+        synkroniserer = false;
+      });
+    });
+  </script>
+</body>
+</html>
