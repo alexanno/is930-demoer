@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fargeskalaer for tematiske kart</title>
+<style>
+:root {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --surface-2: #f0f0ee;
+  --text: #1b1b1f;
+  --text-dim: #63636b;
+  --border: #e0e0dc;
+  --accent: #2456c9;
+  --accent-contrast: #ffffff;
+  --radius: 10px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131318;
+    --surface: #1b1c22;
+    --surface-2: #232329;
+    --text: #e9e9ec;
+    --text-dim: #9d9da6;
+    --border: #2d2e36;
+    --accent: #6c93f2;
+    --accent-contrast: #0b1020;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+header.topp {
+  padding: 28px 20px 16px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+header.topp h1 { margin: 0 0 8px; font-size: 1.7rem; }
+header.topp p { margin: 0; color: var(--text-dim); max-width: 70ch; }
+header.topp .kilder-nevnt { margin-top: 10px; font-size: 0.9rem; color: var(--text-dim); }
+header.topp .kilder-nevnt strong { color: var(--text); }
+
+nav.familie-faner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+nav.familie-faner button {
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text);
+}
+nav.familie-faner button span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 400;
+  margin-top: 2px;
+}
+nav.familie-faner button strong { font-size: 0.95rem; }
+nav.familie-faner button.aktiv {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+main.verktoy {
+  max-width: 980px;
+  margin: 16px auto 0;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  main.verktoy { grid-template-columns: 1fr; }
+  nav.familie-faner { grid-template-columns: 1fr; }
+}
+
+aside.skjema-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.kilde-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.kilde-filter button {
+  font-family: inherit;
+  font-size: 0.74rem;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.kilde-filter button.valgt { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
+
+.skjema-liste { display: flex; flex-direction: column; gap: 6px; max-height: 520px; overflow-y: auto; }
+.skjema-kort {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--surface-2);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+.skjema-kort.valgt { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.skjema-kort .strip { height: 14px; border-radius: 4px; display: flex; overflow: hidden; }
+.skjema-kort .strip > span { flex: 1; }
+.skjema-kort .strip.kontinuerlig { background: none; }
+.skjema-kort .meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.skjema-kort .navn { font-size: 0.85rem; font-weight: 600; }
+.skjema-kort .badges { display: flex; gap: 4px; }
+.badge {
+  font-size: 0.62rem;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.badge.cvd-ok { color: #1a7f45; border-color: #1a7f4550; }
+@media (prefers-color-scheme: dark) { .badge.cvd-ok { color: #6fd79a; } }
+
+section.forhandsvisning {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.kontroller {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.kontroller label { display: flex; align-items: center; gap: 8px; }
+.kontroller input[type=range] { width: 140px; }
+.cvd-valg { display: flex; gap: 4px; flex-wrap: wrap; }
+.cvd-valg button {
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+}
+.cvd-valg button.aktiv { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+button#nyeData {
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+}
+
+svg.kart { width: 100%; height: auto; display: block; background: var(--surface-2); border-radius: 8px; }
+svg.kart polygon { stroke: var(--surface); stroke-width: 1; }
+
+.legende { display: flex; flex-wrap: wrap; gap: 6px; }
+.legende .svatsj { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; font-family: var(--mono); padding: 0; }
+.legende .svatsj .prove { width: 34px; height: 22px; border-radius: 5px; border: 1px solid var(--border); }
+.legende .svatsj .kode { font-size: 0.62rem; color: var(--text-dim); }
+.legende .svatsj:hover .kode { color: var(--accent); }
+
+.info { font-size: 0.85rem; color: var(--text-dim); border-top: 1px solid var(--border); padding-top: 10px; }
+.info .rad { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 6px; }
+.info .rad span strong { color: var(--text); font-weight: 600; }
+.info .tips { color: var(--text); }
+
+.eksport { border-top: 1px solid var(--border); padding-top: 10px; }
+.eksport-faner { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.eksport-faner button {
+  font-family: inherit; font-size: 0.76rem; padding: 4px 9px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer;
+}
+.eksport-faner button.aktiv { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+pre#eksportKode {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  overflow-x: auto;
+  margin: 0 0 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+button#kopierKnapp {
+  font-family: inherit; font-size: 0.8rem; padding: 6px 12px; border-radius: 7px;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-contrast); cursor: pointer;
+}
+
+section.veiledning {
+  max-width: 980px;
+  margin: 28px auto 0;
+  padding: 0 20px 40px;
+  display: grid;
+  gap: 18px;
+}
+section.veiledning h2 { font-size: 1.15rem; margin: 0 0 6px; }
+section.veiledning .kort {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+section.veiledning .kort p, section.veiledning .kort ul { margin: 6px 0; color: var(--text-dim); }
+section.veiledning .kort ul { padding-left: 20px; }
+section.veiledning .kort strong { color: var(--text); }
+section.veiledning .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 720px) { section.veiledning .grid-2 { grid-template-columns: 1fr; } }
+section.veiledning a { color: var(--accent); }
+
+footer {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="topp">
+  <h1>Fargeskalaer for tematiske kart</h1>
+  <p>
+    Et verktøy for å velge og forstå fargeskalaer i tematisk kartografi og
+    datavisualisering. <strong>ColorBrewer</strong> (Cynthia Brewer) er
+    utgangspunktet og kjernen her, men verktøyet samler også nyere skalaer fra
+    kartografi og visualisering i samme grensesnitt: live forhåndsvisning på
+    en syntetisk kartflate, simulering av fargeblindhet, og ferdig
+    fargekode-eksport.
+  </p>
+  <p class="kilder-nevnt">
+    Kilder: <strong>ColorBrewer</strong> (Brewer, Harrower m.fl.),
+    <strong>CARTOColors</strong> (CARTO), <strong>Viridis-familien</strong>
+    (matplotlib/BIDS) og <strong>Okabe–Ito</strong> (fargeblind-sikker
+    kvalitativ palett).
+  </p>
+</header>
+
+<nav class="familie-faner" id="familieFaner">
+  <button data-familie="seq" class="aktiv">
+    <strong>Sekvensiell</strong>
+    <span>Ordnede verdier, lav → høy (tetthet, temperatur, andel)</span>
+  </button>
+  <button data-familie="div">
+    <strong>Divergerende</strong>
+    <span>Avvik fra et meningsfullt midtpunkt (endring, vinn/tap)</span>
+  </button>
+  <button data-familie="qual">
+    <strong>Kvalitativ</strong>
+    <span>Kategorier uten iboende rekkefølge (arealbruk, typer)</span>
+  </button>
+</nav>
+
+<main class="verktoy">
+  <aside class="skjema-panel">
+    <div class="kilde-filter" id="kildeFilter"></div>
+    <div class="skjema-liste" id="skjemaListe"></div>
+  </aside>
+
+  <section class="forhandsvisning">
+    <div class="kontroller">
+      <label>Antall klasser
+        <input type="range" id="klasseSlider" min="0" max="0" value="0" step="1" />
+        <output id="klasseVerdi"></output>
+      </label>
+      <div class="cvd-valg" id="cvdValg">
+        <button data-cvd="normal" class="aktiv">Normalsyn</button>
+        <button data-cvd="protan">Protanopi</button>
+        <button data-cvd="deutan">Deuteranopi</button>
+        <button data-cvd="tritan">Tritanopi</button>
+      </div>
+      <button id="nyeData" type="button">↻ Nye data</button>
+    </div>
+
+    <svg id="kartSvg" class="kart" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet"></svg>
+
+    <div class="legende" id="legende"></div>
+
+    <div class="info" id="infoPanel"></div>
+
+    <div class="eksport">
+      <div class="eksport-faner" id="eksportFaner">
+        <button data-format="hex" class="aktiv">HEX</button>
+        <button data-format="css">CSS</button>
+        <button data-format="cssvars">CSS-variabler</button>
+        <button data-format="json">JSON</button>
+        <button data-format="jsonfull">JSON (komplett)</button>
+        <button data-format="python">Python</button>
+      </div>
+      <pre id="eksportKode"></pre>
+      <button id="kopierKnapp" type="button">Kopier</button>
+    </div>
+  </section>
+</main>
+
+<section class="veiledning">
+  <div class="kort">
+    <h2>Hvilken type skal du bruke?</h2>
+    <div class="grid-2">
+      <div>
+        <p><strong>Sekvensiell</strong> brukes når dataene har en naturlig
+        rekkefølge fra lav til høy — befolkningstetthet, inntekt, temperatur,
+        andel i prosent. Fargeskalaen går typisk fra lys til mørk i én eller
+        to beslektede fargetoner, slik at «mer» alltid oppfattes som «mørkere»
+        eller «sterkere».</p>
+        <p><strong>Divergerende</strong> brukes når dataene har et
+        meningsfullt midtpunkt — avvik fra et gjennomsnitt, endring fra ett
+        år til et annet, flertall for/mot. To kontrasterende farger møtes i en
+        nøytral, lys midtfarge, slik at retningen (over/under midtpunktet) er
+        det første man leser av kartet.</p>
+      </div>
+      <div>
+        <p><strong>Kvalitativ</strong> brukes til kategorier uten rangering —
+        arealbruk, kommunetype, administrative inndelinger. Fargene bør være
+        lett å skille fra hverandre, men ingen av dem skal oppfattes som
+        «mer» eller «mindre» enn de andre.</p>
+        <p>Velger du feil familie, er risikoen at kartet forteller en historie
+        dataene ikke har — f.eks. at to kategorier ser ut til å ligge på en
+        skala, eller at et nøytralt avvik ser ut som en lav verdi.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="kort">
+    <h2>Hvor mange klasser?</h2>
+    <p>
+      Brewer og Harrowers egne anbefalinger (og ColorBrewer-verktøyet selv)
+      peker på at de fleste lesere ikke klarer å skille mer enn
+      <strong>5–7 klasser</strong> pålitelig på et choroplethkart, selv om
+      ColorBrewers skalaer tilbyr opptil 9–12 farger. Flere klasser gir
+      finere oppløsning i dataene, men gjør kartet vanskeligere å lese raskt
+      og øker sjansen for at to naboklasser blir forvekslet — spesielt i
+      trykk eller for lesere med fargesynsavvik. Bruk skyveknappen over til å
+      se selv hvordan samme datasett endrer lesbarhet med 3 mot 9–11 klasser.
+    </p>
+  </div>
+
+  <div class="kort">
+    <h2>Perseptuell jevnhet — hvorfor ikke bare «regnbuen»?</h2>
+    <p>
+      Klassiske regnbue-/jet-skalaer (blå→grønn→gul→rød) er fortsatt vanlige,
+      men har et kjent problem: fargene oppfattes ikke som jevnt fordelt av
+      øyet. Enkelte overganger (gul→grønn) virker nesten like, mens andre
+      (blå→cyan) virker som et stort sprang — selv om datasprenget er likt.
+      Dette skaper falske "grenser" i kartet som ikke finnes i dataene.
+    </p>
+    <p>
+      <strong>Viridis-familien</strong> (viridis, magma, inferno, plasma,
+      cividis), utviklet for matplotlib, er konstruert matematisk for at
+      lysstyrken skal øke jevnt gjennom hele skalaen. Det gjør dem
+      perseptuelt jevne, lesbare i gråtoneutskrift, og — siden de følger én
+      lysstyrke-bane — i stor grad trygge for fargesynsavvik. Det er derfor
+      de har blitt en uformell standard i vitenskapelig visualisering det
+      siste tiåret.
+    </p>
+  </div>
+
+  <div class="kort">
+    <h2>Tilgjengelighet og fargesynsavvik</h2>
+    <p>
+      Rundt 8 % av menn og under 1 % av kvinner med nordeuropeisk bakgrunn har
+      en form for fargesynsavvik, i de aller fleste tilfeller rød–grønn
+      (protanopi/deuteranopi). Et kart som bare skiller klasser med
+      rød–grønn-kontrast, vil være vanskelig å lese for denne gruppen.
+    </p>
+    <p>
+      Merket <span class="badge cvd-ok">CVD-trygg</span> i listen til venstre
+      er hentet fra kildenes egne tester (RColorBrewer sin
+      <code>colorblind</code>-liste og CARTOColors sin «Safe»-palett) — et
+      skjema uten merket er ikke nødvendigvis utrygt, det er bare ikke
+      eksplisitt testet i kildedataene. Bruk knappene
+      <strong>Protanopi / Deuteranopi / Tritanopi</strong> over kartet til å
+      simulere hvordan den valgte skalaen oppfattes, basert på modellen til
+      Machado, Oliveira &amp; Fernandes (2009). Simuleringen påvirker bare
+      forhåndsvisningen — fargekodene du eksporterer er alltid de ekte
+      verdiene.
+    </p>
+  </div>
+
+  <div class="kort">
+    <h2>Kilder og videre lesning</h2>
+    <ul>
+      <li><a href="https://colorbrewer2.org" target="_blank" rel="noopener">ColorBrewer 2.0</a> — Cynthia Brewer &amp; Mark Harrower, Pennsylvania State University.</li>
+      <li><a href="https://carto.com/carto-colors" target="_blank" rel="noopener">CARTOColors</a> — fargepaletter utviklet spesifikt for kartografi, CARTO.</li>
+      <li><a href="https://bids.github.io/colormap/" target="_blank" rel="noopener">Viridis / BIDS colormap-prosjektet</a> — Stéfan van der Walt &amp; Nathaniel Smith, grunnlaget for matplotlibs perseptuelt jevne skalaer.</li>
+      <li>Okabe, M. &amp; Ito, K. (2008), <em>Color Universal Design</em> — åtte-fargers kvalitativ palett konstruert for å være skillbar ved alle vanlige typer fargesynsavvik.</li>
+      <li>Machado, G.M., Oliveira, M.M. &amp; Fernandes, L.A.F. (2009), <em>A Physiologically-based Model for Simulation of Color Vision Deficiency</em>, IEEE TVCG — modellen bak fargeblindhet-simuleringen i dette verktøyet.</li>
+      <li>For fagspesifikke skalaer utover det som dekkes her: <a href="https://matplotlib.org/cmocean/" target="_blank" rel="noopener">cmocean</a> (oseanografi) og <a href="https://www.fabiocrameri.ch/colourmaps/" target="_blank" rel="noopener">Fabio Crameris vitenskapelige fargekart</a> (geofag).</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  Laget for undervisning i tematisk kartografi (IS930). Alle fargeverdier er
+  hentet direkte fra kildenes egne datasett, ikke anslått — se README for
+  detaljer om hver kilde.
+</footer>
+
+<script>
+const DATA = [{"name":"Spectral","kilde":"colorbrewer","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"3":["#fc8d59","#ffffbf","#99d594"],"4":["#d7191c","#fdae61","#abdda4","#2b83ba"],"5":["#d7191c","#fdae61","#ffffbf","#abdda4","#2b83ba"],"6":["#d53e4f","#fc8d59","#fee08b","#e6f598","#99d594","#3288bd"],"7":["#d53e4f","#fc8d59","#fee08b","#ffffbf","#e6f598","#99d594","#3288bd"],"8":["#d53e4f","#f46d43","#fdae61","#fee08b","#e6f598","#abdda4","#66c2a5","#3288bd"],"9":["#d53e4f","#f46d43","#fdae61","#fee08b","#ffffbf","#e6f598","#abdda4","#66c2a5","#3288bd"],"10":["#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b","#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"],"11":["#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b","#ffffbf","#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"]},"id":0},{"name":"RdYlGn","kilde":"colorbrewer","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"3":["#fc8d59","#ffffbf","#91cf60"],"4":["#d7191c","#fdae61","#a6d96a","#1a9641"],"5":["#d7191c","#fdae61","#ffffbf","#a6d96a","#1a9641"],"6":["#d73027","#fc8d59","#fee08b","#d9ef8b","#91cf60","#1a9850"],"7":["#d73027","#fc8d59","#fee08b","#ffffbf","#d9ef8b","#91cf60","#1a9850"],"8":["#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850"],"9":["#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850"],"10":["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"],"11":["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"]},"id":1},{"name":"RdBu","kilde":"colorbrewer","type":"div","colorblind":true,"kontinuerlig":false,"counts":{"3":["#ef8a62","#f7f7f7","#67a9cf"],"4":["#ca0020","#f4a582","#92c5de","#0571b0"],"5":["#ca0020","#f4a582","#f7f7f7","#92c5de","#0571b0"],"6":["#b2182b","#ef8a62","#fddbc7","#d1e5f0","#67a9cf","#2166ac"],"7":["#b2182b","#ef8a62","#fddbc7","#f7f7f7","#d1e5f0","#67a9cf","#2166ac"],"8":["#b2182b","#d6604d","#f4a582","#fddbc7","#d1e5f0","#92c5de","#4393c3","#2166ac"],"9":["#b2182b","#d6604d","#f4a582","#fddbc7","#f7f7f7","#d1e5f0","#92c5de","#4393c3","#2166ac"],"10":["#67001f","#b2182b","#d6604d","#f4a582","#fddbc7","#d1e5f0","#92c5de","#4393c3","#2166ac","#053061"],"11":["#67001f","#b2182b","#d6604d","#f4a582","#fddbc7","#f7f7f7","#d1e5f0","#92c5de","#4393c3","#2166ac","#053061"]},"id":2},{"name":"PiYG","kilde":"colorbrewer","type":"div","colorblind":true,"kontinuerlig":false,"counts":{"3":["#e9a3c9","#f7f7f7","#a1d76a"],"4":["#d01c8b","#f1b6da","#b8e186","#4dac26"],"5":["#d01c8b","#f1b6da","#f7f7f7","#b8e186","#4dac26"],"6":["#c51b7d","#e9a3c9","#fde0ef","#e6f5d0","#a1d76a","#4d9221"],"7":["#c51b7d","#e9a3c9","#fde0ef","#f7f7f7","#e6f5d0","#a1d76a","#4d9221"],"8":["#c51b7d","#de77ae","#f1b6da","#fde0ef","#e6f5d0","#b8e186","#7fbc41","#4d9221"],"9":["#c51b7d","#de77ae","#f1b6da","#fde0ef","#f7f7f7","#e6f5d0","#b8e186","#7fbc41","#4d9221"],"10":["#8e0152","#c51b7d","#de77ae","#f1b6da","#fde0ef","#e6f5d0","#b8e186","#7fbc41","#4d9221","#276419"],"11":["#8e0152","#c51b7d","#de77ae","#f1b6da","#fde0ef","#f7f7f7","#e6f5d0","#b8e186","#7fbc41","#4d9221","#276419"]},"id":3},{"name":"PRGn","kilde":"colorbrewer","type":"div","colorblind":true,"kontinuerlig":false,"counts":{"3":["#af8dc3","#f7f7f7","#7fbf7b"],"4":["#7b3294","#c2a5cf","#a6dba0","#008837"],"5":["#7b3294","#c2a5cf","#f7f7f7","#a6dba0","#008837"],"6":["#762a83","#af8dc3","#e7d4e8","#d9f0d3","#7fbf7b","#1b7837"],"7":["#762a83","#af8dc3","#e7d4e8","#f7f7f7","#d9f0d3","#7fbf7b","#1b7837"],"8":["#762a83","#9970ab","#c2a5cf","#e7d4e8","#d9f0d3","#a6dba0","#5aae61","#1b7837"],"9":["#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837"],"10":["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"],"11":["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"]},"id":4},{"name":"RdYlBu","kilde":"colorbrewer","type":"div","colorblind":true,"kontinuerlig":false,"counts":{"3":["#fc8d59","#ffffbf","#91bfdb"],"4":["#d7191c","#fdae61","#abd9e9","#2c7bb6"],"5":["#d7191c","#fdae61","#ffffbf","#abd9e9","#2c7bb6"],"6":["#d73027","#fc8d59","#fee090","#e0f3f8","#91bfdb","#4575b4"],"7":["#d73027","#fc8d59","#fee090","#ffffbf","#e0f3f8","#91bfdb","#4575b4"],"8":["#d73027","#f46d43","#fdae61","#fee090","#e0f3f8","#abd9e9","#74add1","#4575b4"],"9":["#d73027","#f46d43","#fdae61","#fee090","#ffffbf","#e0f3f8","#abd9e9","#74add1","#4575b4"],"10":["#a50026","#d73027","#f46d43","#fdae61","#fee090","#e0f3f8","#abd9e9","#74add1","#4575b4","#313695"],"11":["#a50026","#d73027","#f46d43","#fdae61","#fee090","#ffffbf","#e0f3f8","#abd9e9","#74add1","#4575b4","#313695"]},"id":5},{"name":"BrBG","kilde":"colorbrewer","type":"div","colorblind":true,"kontinuerlig":false,"counts":{"3":["#d8b365","#f5f5f5","#5ab4ac"],"4":["#a6611a","#dfc27d","#80cdc1","#018571"],"5":["#a6611a","#dfc27d","#f5f5f5","#80cdc1","#018571"],"6":["#8c510a","#d8b365","#f6e8c3","#c7eae5","#5ab4ac","#01665e"],"7":["#8c510a","#d8b365","#f6e8c3","#f5f5f5","#c7eae5","#5ab4ac","#01665e"],"8":["#8c510a","#bf812d","#dfc27d","#f6e8c3","#c7eae5","#80cdc1","#35978f","#01665e"],"9":["#8c510a","#bf812d","#dfc27d","#f6e8c3","#f5f5f5","#c7eae5","#80cdc1","#35978f","#01665e"],"10":["#543005","#8c510a","#bf812d","#dfc27d","#f6e8c3","#c7eae5","#80cdc1","#35978f","#01665e","#003c30"],"11":["#543005","#8c510a","#bf812d","#dfc27d","#f6e8c3","#f5f5f5","#c7eae5","#80cdc1","#35978f","#01665e","#003c30"]},"id":6},{"name":"RdGy","kilde":"colorbrewer","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"3":["#ef8a62","#ffffff","#999999"],"4":["#ca0020","#f4a582","#bababa","#404040"],"5":["#ca0020","#f4a582","#ffffff","#bababa","#404040"],"6":["#b2182b","#ef8a62","#fddbc7","#e0e0e0","#999999","#4d4d4d"],"7":["#b2182b","#ef8a62","#fddbc7","#ffffff","#e0e0e0","#999999","#4d4d4d"],"8":["#b2182b","#d6604d","#f4a582","#fddbc7","#e0e0e0","#bababa","#878787","#4d4d4d"],"9":["#b2182b","#d6604d","#f4a582","#fddbc7","#ffffff","#e0e0e0","#bababa","#878787","#4d4d4d"],"10":["#67001f","#b2182b","#d6604d","#f4a582","#fddbc7","#e0e0e0","#bababa","#878787","#4d4d4d","#1a1a1a"],"11":["#67001f","#b2182b","#d6604d","#f4a582","#fddbc7","#ffffff","#e0e0e0","#bababa","#878787","#4d4d4d","#1a1a1a"]},"id":7},{"name":"PuOr","kilde":"colorbrewer","type":"div","colorblind":true,"kontinuerlig":false,"counts":{"3":["#f1a340","#f7f7f7","#998ec3"],"4":["#e66101","#fdb863","#b2abd2","#5e3c99"],"5":["#e66101","#fdb863","#f7f7f7","#b2abd2","#5e3c99"],"6":["#b35806","#f1a340","#fee0b6","#d8daeb","#998ec3","#542788"],"7":["#b35806","#f1a340","#fee0b6","#f7f7f7","#d8daeb","#998ec3","#542788"],"8":["#b35806","#e08214","#fdb863","#fee0b6","#d8daeb","#b2abd2","#8073ac","#542788"],"9":["#b35806","#e08214","#fdb863","#fee0b6","#f7f7f7","#d8daeb","#b2abd2","#8073ac","#542788"],"10":["#7f3b08","#b35806","#e08214","#fdb863","#fee0b6","#d8daeb","#b2abd2","#8073ac","#542788","#2d004b"],"11":["#7f3b08","#b35806","#e08214","#fdb863","#fee0b6","#f7f7f7","#d8daeb","#b2abd2","#8073ac","#542788","#2d004b"]},"id":8},{"name":"Set2","kilde":"colorbrewer","type":"qual","colorblind":true,"kontinuerlig":false,"counts":{"3":["#66c2a5","#fc8d62","#8da0cb"],"4":["#66c2a5","#fc8d62","#8da0cb","#e78ac3"],"5":["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854"],"6":["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854","#ffd92f"],"7":["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854","#ffd92f","#e5c494"],"8":["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854","#ffd92f","#e5c494","#b3b3b3"]},"id":9},{"name":"Accent","kilde":"colorbrewer","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"3":["#7fc97f","#beaed4","#fdc086"],"4":["#7fc97f","#beaed4","#fdc086","#ffff99"],"5":["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0"],"6":["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f"],"7":["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f","#bf5b17"],"8":["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f","#bf5b17","#666666"]},"id":10},{"name":"Set1","kilde":"colorbrewer","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"3":["#e41a1c","#377eb8","#4daf4a"],"4":["#e41a1c","#377eb8","#4daf4a","#984ea3"],"5":["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00"],"6":["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33"],"7":["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628"],"8":["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#f781bf"],"9":["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#f781bf","#999999"]},"id":11},{"name":"Set3","kilde":"colorbrewer","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"3":["#8dd3c7","#ffffb3","#bebada"],"4":["#8dd3c7","#ffffb3","#bebada","#fb8072"],"5":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3"],"6":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462"],"7":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69"],"8":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5"],"9":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9"],"10":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd"],"11":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5"],"12":["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]},"id":12},{"name":"Dark2","kilde":"colorbrewer","type":"qual","colorblind":true,"kontinuerlig":false,"counts":{"3":["#1b9e77","#d95f02","#7570b3"],"4":["#1b9e77","#d95f02","#7570b3","#e7298a"],"5":["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e"],"6":["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02"],"7":["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d"],"8":["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666"]},"id":13},{"name":"Paired","kilde":"colorbrewer","type":"qual","colorblind":true,"kontinuerlig":false,"counts":{"3":["#a6cee3","#1f78b4","#b2df8a"],"4":["#a6cee3","#1f78b4","#b2df8a","#33a02c"],"5":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99"],"6":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c"],"7":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f"],"8":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00"],"9":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6"],"10":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a"],"11":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99"],"12":["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928"]},"id":14},{"name":"Pastel2","kilde":"colorbrewer","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"3":["#b3e2cd","#fdcdac","#cbd5e8"],"4":["#b3e2cd","#fdcdac","#cbd5e8","#f4cae4"],"5":["#b3e2cd","#fdcdac","#cbd5e8","#f4cae4","#e6f5c9"],"6":["#b3e2cd","#fdcdac","#cbd5e8","#f4cae4","#e6f5c9","#fff2ae"],"7":["#b3e2cd","#fdcdac","#cbd5e8","#f4cae4","#e6f5c9","#fff2ae","#f1e2cc"],"8":["#b3e2cd","#fdcdac","#cbd5e8","#f4cae4","#e6f5c9","#fff2ae","#f1e2cc","#cccccc"]},"id":15},{"name":"Pastel1","kilde":"colorbrewer","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"3":["#fbb4ae","#b3cde3","#ccebc5"],"4":["#fbb4ae","#b3cde3","#ccebc5","#decbe4"],"5":["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6"],"6":["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc"],"7":["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd"],"8":["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec"],"9":["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec","#f2f2f2"]},"id":16},{"name":"OrRd","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#fee8c8","#fdbb84","#e34a33"],"4":["#fef0d9","#fdcc8a","#fc8d59","#d7301f"],"5":["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"],"6":["#fef0d9","#fdd49e","#fdbb84","#fc8d59","#e34a33","#b30000"],"7":["#fef0d9","#fdd49e","#fdbb84","#fc8d59","#ef6548","#d7301f","#990000"],"8":["#fff7ec","#fee8c8","#fdd49e","#fdbb84","#fc8d59","#ef6548","#d7301f","#990000"],"9":["#fff7ec","#fee8c8","#fdd49e","#fdbb84","#fc8d59","#ef6548","#d7301f","#b30000","#7f0000"]},"id":17},{"name":"PuBu","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#ece7f2","#a6bddb","#2b8cbe"],"4":["#f1eef6","#bdc9e1","#74a9cf","#0570b0"],"5":["#f1eef6","#bdc9e1","#74a9cf","#2b8cbe","#045a8d"],"6":["#f1eef6","#d0d1e6","#a6bddb","#74a9cf","#2b8cbe","#045a8d"],"7":["#f1eef6","#d0d1e6","#a6bddb","#74a9cf","#3690c0","#0570b0","#034e7b"],"8":["#fff7fb","#ece7f2","#d0d1e6","#a6bddb","#74a9cf","#3690c0","#0570b0","#034e7b"],"9":["#fff7fb","#ece7f2","#d0d1e6","#a6bddb","#74a9cf","#3690c0","#0570b0","#045a8d","#023858"]},"id":18},{"name":"BuPu","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#e0ecf4","#9ebcda","#8856a7"],"4":["#edf8fb","#b3cde3","#8c96c6","#88419d"],"5":["#edf8fb","#b3cde3","#8c96c6","#8856a7","#810f7c"],"6":["#edf8fb","#bfd3e6","#9ebcda","#8c96c6","#8856a7","#810f7c"],"7":["#edf8fb","#bfd3e6","#9ebcda","#8c96c6","#8c6bb1","#88419d","#6e016b"],"8":["#f7fcfd","#e0ecf4","#bfd3e6","#9ebcda","#8c96c6","#8c6bb1","#88419d","#6e016b"],"9":["#f7fcfd","#e0ecf4","#bfd3e6","#9ebcda","#8c96c6","#8c6bb1","#88419d","#810f7c","#4d004b"]},"id":19},{"name":"Oranges","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#fee6ce","#fdae6b","#e6550d"],"4":["#feedde","#fdbe85","#fd8d3c","#d94701"],"5":["#feedde","#fdbe85","#fd8d3c","#e6550d","#a63603"],"6":["#feedde","#fdd0a2","#fdae6b","#fd8d3c","#e6550d","#a63603"],"7":["#feedde","#fdd0a2","#fdae6b","#fd8d3c","#f16913","#d94801","#8c2d04"],"8":["#fff5eb","#fee6ce","#fdd0a2","#fdae6b","#fd8d3c","#f16913","#d94801","#8c2d04"],"9":["#fff5eb","#fee6ce","#fdd0a2","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704"]},"id":20},{"name":"BuGn","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#e5f5f9","#99d8c9","#2ca25f"],"4":["#edf8fb","#b2e2e2","#66c2a4","#238b45"],"5":["#edf8fb","#b2e2e2","#66c2a4","#2ca25f","#006d2c"],"6":["#edf8fb","#ccece6","#99d8c9","#66c2a4","#2ca25f","#006d2c"],"7":["#edf8fb","#ccece6","#99d8c9","#66c2a4","#41ae76","#238b45","#005824"],"8":["#f7fcfd","#e5f5f9","#ccece6","#99d8c9","#66c2a4","#41ae76","#238b45","#005824"],"9":["#f7fcfd","#e5f5f9","#ccece6","#99d8c9","#66c2a4","#41ae76","#238b45","#006d2c","#00441b"]},"id":21},{"name":"YlOrBr","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#fff7bc","#fec44f","#d95f0e"],"4":["#ffffd4","#fed98e","#fe9929","#cc4c02"],"5":["#ffffd4","#fed98e","#fe9929","#d95f0e","#993404"],"6":["#ffffd4","#fee391","#fec44f","#fe9929","#d95f0e","#993404"],"7":["#ffffd4","#fee391","#fec44f","#fe9929","#ec7014","#cc4c02","#8c2d04"],"8":["#ffffe5","#fff7bc","#fee391","#fec44f","#fe9929","#ec7014","#cc4c02","#8c2d04"],"9":["#ffffe5","#fff7bc","#fee391","#fec44f","#fe9929","#ec7014","#cc4c02","#993404","#662506"]},"id":22},{"name":"YlGn","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#f7fcb9","#addd8e","#31a354"],"4":["#ffffcc","#c2e699","#78c679","#238443"],"5":["#ffffcc","#c2e699","#78c679","#31a354","#006837"],"6":["#ffffcc","#d9f0a3","#addd8e","#78c679","#31a354","#006837"],"7":["#ffffcc","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#005a32"],"8":["#ffffe5","#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#005a32"],"9":["#ffffe5","#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#006837","#004529"]},"id":23},{"name":"Reds","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#fee0d2","#fc9272","#de2d26"],"4":["#fee5d9","#fcae91","#fb6a4a","#cb181d"],"5":["#fee5d9","#fcae91","#fb6a4a","#de2d26","#a50f15"],"6":["#fee5d9","#fcbba1","#fc9272","#fb6a4a","#de2d26","#a50f15"],"7":["#fee5d9","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#99000d"],"8":["#fff5f0","#fee0d2","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#99000d"],"9":["#fff5f0","#fee0d2","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#a50f15","#67000d"]},"id":24},{"name":"RdPu","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#fde0dd","#fa9fb5","#c51b8a"],"4":["#feebe2","#fbb4b9","#f768a1","#ae017e"],"5":["#feebe2","#fbb4b9","#f768a1","#c51b8a","#7a0177"],"6":["#feebe2","#fcc5c0","#fa9fb5","#f768a1","#c51b8a","#7a0177"],"7":["#feebe2","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#ae017e","#7a0177"],"8":["#fff7f3","#fde0dd","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#ae017e","#7a0177"],"9":["#fff7f3","#fde0dd","#fcc5c0","#fa9fb5","#f768a1","#dd3497","#ae017e","#7a0177","#49006a"]},"id":25},{"name":"Greens","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#e5f5e0","#a1d99b","#31a354"],"4":["#edf8e9","#bae4b3","#74c476","#238b45"],"5":["#edf8e9","#bae4b3","#74c476","#31a354","#006d2c"],"6":["#edf8e9","#c7e9c0","#a1d99b","#74c476","#31a354","#006d2c"],"7":["#edf8e9","#c7e9c0","#a1d99b","#74c476","#41ab5d","#238b45","#005a32"],"8":["#f7fcf5","#e5f5e0","#c7e9c0","#a1d99b","#74c476","#41ab5d","#238b45","#005a32"],"9":["#f7fcf5","#e5f5e0","#c7e9c0","#a1d99b","#74c476","#41ab5d","#238b45","#006d2c","#00441b"]},"id":26},{"name":"YlGnBu","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#edf8b1","#7fcdbb","#2c7fb8"],"4":["#ffffcc","#a1dab4","#41b6c4","#225ea8"],"5":["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"],"6":["#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#2c7fb8","#253494"],"7":["#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#0c2c84"],"8":["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#0c2c84"],"9":["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]},"id":27},{"name":"Purples","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#efedf5","#bcbddc","#756bb1"],"4":["#f2f0f7","#cbc9e2","#9e9ac8","#6a51a3"],"5":["#f2f0f7","#cbc9e2","#9e9ac8","#756bb1","#54278f"],"6":["#f2f0f7","#dadaeb","#bcbddc","#9e9ac8","#756bb1","#54278f"],"7":["#f2f0f7","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#4a1486"],"8":["#fcfbfd","#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#4a1486"],"9":["#fcfbfd","#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d"]},"id":28},{"name":"GnBu","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#e0f3db","#a8ddb5","#43a2ca"],"4":["#f0f9e8","#bae4bc","#7bccc4","#2b8cbe"],"5":["#f0f9e8","#bae4bc","#7bccc4","#43a2ca","#0868ac"],"6":["#f0f9e8","#ccebc5","#a8ddb5","#7bccc4","#43a2ca","#0868ac"],"7":["#f0f9e8","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#08589e"],"8":["#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#08589e"],"9":["#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"]},"id":29},{"name":"Greys","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#f0f0f0","#bdbdbd","#636363"],"4":["#f7f7f7","#cccccc","#969696","#525252"],"5":["#f7f7f7","#cccccc","#969696","#636363","#252525"],"6":["#f7f7f7","#d9d9d9","#bdbdbd","#969696","#636363","#252525"],"7":["#f7f7f7","#d9d9d9","#bdbdbd","#969696","#737373","#525252","#252525"],"8":["#ffffff","#f0f0f0","#d9d9d9","#bdbdbd","#969696","#737373","#525252","#252525"],"9":["#ffffff","#f0f0f0","#d9d9d9","#bdbdbd","#969696","#737373","#525252","#252525","#000000"]},"id":30},{"name":"YlOrRd","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#ffeda0","#feb24c","#f03b20"],"4":["#ffffb2","#fecc5c","#fd8d3c","#e31a1c"],"5":["#ffffb2","#fecc5c","#fd8d3c","#f03b20","#bd0026"],"6":["#ffffb2","#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"],"7":["#ffffb2","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"],"8":["#ffffcc","#ffeda0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"]},"id":31},{"name":"PuRd","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#e7e1ef","#c994c7","#dd1c77"],"4":["#f1eef6","#d7b5d8","#df65b0","#ce1256"],"5":["#f1eef6","#d7b5d8","#df65b0","#dd1c77","#980043"],"6":["#f1eef6","#d4b9da","#c994c7","#df65b0","#dd1c77","#980043"],"7":["#f1eef6","#d4b9da","#c994c7","#df65b0","#e7298a","#ce1256","#91003f"],"8":["#f7f4f9","#e7e1ef","#d4b9da","#c994c7","#df65b0","#e7298a","#ce1256","#91003f"],"9":["#f7f4f9","#e7e1ef","#d4b9da","#c994c7","#df65b0","#e7298a","#ce1256","#980043","#67001f"]},"id":32},{"name":"Blues","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#deebf7","#9ecae1","#3182bd"],"4":["#eff3ff","#bdd7e7","#6baed6","#2171b5"],"5":["#eff3ff","#bdd7e7","#6baed6","#3182bd","#08519c"],"6":["#eff3ff","#c6dbef","#9ecae1","#6baed6","#3182bd","#08519c"],"7":["#eff3ff","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594"],"8":["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594"],"9":["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b"]},"id":33},{"name":"PuBuGn","kilde":"colorbrewer","type":"seq","colorblind":true,"kontinuerlig":false,"counts":{"3":["#ece2f0","#a6bddb","#1c9099"],"4":["#f6eff7","#bdc9e1","#67a9cf","#02818a"],"5":["#f6eff7","#bdc9e1","#67a9cf","#1c9099","#016c59"],"6":["#f6eff7","#d0d1e6","#a6bddb","#67a9cf","#1c9099","#016c59"],"7":["#f6eff7","#d0d1e6","#a6bddb","#67a9cf","#3690c0","#02818a","#016450"],"8":["#fff7fb","#ece2f0","#d0d1e6","#a6bddb","#67a9cf","#3690c0","#02818a","#016450"],"9":["#fff7fb","#ece2f0","#d0d1e6","#a6bddb","#67a9cf","#3690c0","#02818a","#016c59","#014636"]},"id":34},{"name":"Burg","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#ffc6c4","#672044"],"3":["#ffc6c4","#cc607d","#672044"],"4":["#ffc6c4","#e38191","#ad466c","#672044"],"5":["#ffc6c4","#ee919b","#cc607d","#9e3963","#672044"],"6":["#ffc6c4","#f29ca3","#da7489","#b95073","#93345d","#672044"],"7":["#ffc6c4","#f4a3a8","#e38191","#cc607d","#ad466c","#8b3058","#672044"]},"id":35},{"name":"BurgYl","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#fbe6c5","#70284a"],"3":["#fbe6c5","#dc7176","#70284a"],"4":["#fbe6c5","#ee8a82","#c8586c","#70284a"],"5":["#fbe6c5","#f2a28a","#dc7176","#b24b65","#70284a"],"6":["#fbe6c5","#f4b191","#e7807d","#d06270","#a44360","#70284a"],"7":["#fbe6c5","#f5ba98","#ee8a82","#dc7176","#c8586c","#9c3f5d","#70284a"]},"id":36},{"name":"RedOr","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#f6d2a9","#b13f64"],"3":["#f6d2a9","#ea8171","#b13f64"],"4":["#f6d2a9","#f19c7c","#dd686c","#b13f64"],"5":["#f6d2a9","#f3aa84","#ea8171","#d55d6a","#b13f64"],"6":["#f6d2a9","#f4b28a","#ef9177","#e3726d","#cf5669","#b13f64"],"7":["#f6d2a9","#f5b78e","#f19c7c","#ea8171","#dd686c","#ca5268","#b13f64"]},"id":37},{"name":"OrYel","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#ecda9a","#ee4d5a"],"3":["#ecda9a","#f7945d","#ee4d5a"],"4":["#ecda9a","#f3ad6a","#f97b57","#ee4d5a"],"5":["#ecda9a","#f1b973","#f7945d","#f86f56","#ee4d5a"],"6":["#ecda9a","#f0c079","#f5a363","#f98558","#f76856","#ee4d5a"],"7":["#ecda9a","#efc47e","#f3ad6a","#f7945d","#f97b57","#f66356","#ee4d5a"]},"id":38},{"name":"Peach","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#fde0c5","#eb4a40"],"3":["#fde0c5","#f59e72","#eb4a40"],"4":["#fde0c5","#f8b58b","#f2855d","#eb4a40"],"5":["#fde0c5","#f9c098","#f59e72","#f17854","#eb4a40"],"6":["#fde0c5","#fac7a1","#f7ac80","#f38f65","#f0704f","#eb4a40"],"7":["#fde0c5","#facba6","#f8b58b","#f59e72","#f2855d","#ef6a4c","#eb4a40"]},"id":39},{"name":"PinkYl","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#fef6b5","#e15383"],"3":["#fef6b5","#ffa679","#e15383"],"4":["#fef6b5","#ffc285","#fa8a76","#e15383"],"5":["#fef6b5","#ffd08e","#ffa679","#f67b77","#e15383"],"6":["#fef6b5","#ffd795","#ffb77f","#fd9576","#f37378","#e15383"],"7":["#fef6b5","#ffdd9a","#ffc285","#ffa679","#fa8a76","#f16d7a","#e15383"]},"id":40},{"name":"Mint","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#e4f1e1","#0d585f"],"3":["#e4f1e1","#63a6a0","#0d585f"],"4":["#e4f1e1","#89c0b6","#448c8a","#0d585f"],"5":["#E4F1E1","#9CCDC1","#63A6A0","#337F7F","#0D585F"],"6":["#e4f1e1","#abd4c7","#7ab5ad","#509693","#2c7778","#0d585f"],"7":["#e4f1e1","#b4d9cc","#89c0b6","#63a6a0","#448c8a","#287274","#0d585f"]},"id":41},{"name":"BluGrn","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#c4e6c3","#1d4f60"],"3":["#c4e6c3","#4da284","#1d4f60"],"4":["#c4e6c3","#6dbc90","#36877a","#1d4f60"],"5":["#c4e6c3","#80c799","#4da284","#2d7974","#1d4f60"],"6":["#c4e6c3","#8dce9f","#5fb28b","#3e927e","#297071","#1d4f60"],"7":["#c4e6c3","#96d2a4","#6dbc90","#4da284","#36877a","#266b6e","#1d4f60"]},"id":42},{"name":"DarkMint","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#d2fbd4","#123f5a"],"3":["#d2fbd4","#559c9e","#123f5a"],"4":["#d2fbd4","#7bbcb0","#3a7c89","#123f5a"],"5":["#d2fbd4","#8eccb9","#559c9e","#2b6c7f","#123f5a"],"6":["#d2fbd4","#9cd5be","#6cafa9","#458892","#266377","#123f5a"],"7":["#d2fbd4","#a5dbc2","#7bbcb0","#559c9e","#3a7c89","#235d72","#123f5a"]},"id":43},{"name":"Emrld","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#d3f2a3","#074050"],"3":["#d3f2a3","#4c9b82","#074050"],"4":["#d3f2a3","#6cc08b","#217a79","#074050"],"5":["#d3f2a3","#82d091","#4c9b82","#19696f","#074050"],"6":["#d3f2a3","#8fda94","#60b187","#35877d","#145f69","#074050"],"7":["#d3f2a3","#97e196","#6cc08b","#4c9b82","#217a79","#105965","#074050"]},"id":44},{"name":"ag_GrnYl","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#245668","#EDEF5D"],"3":["#245668","#39AB7E","#EDEF5D"],"4":["#245668","#0D8F81","#6EC574","#EDEF5D"],"5":["#245668","#04817E","#39AB7E","#8BD16D","#EDEF5D"],"6":["#245668","#09787C","#1D9A81","#58BB79","#9DD869","#EDEF5D"],"7":["#245668","#0F7279","#0D8F81","#39AB7E","#6EC574","#A9DC67","#EDEF5D"]},"id":45},{"name":"BluYl","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#f7feae","#045275"],"3":["#f7feae","#46aea0","#045275"],"4":["#f7feae","#7ccba2","#089099","#045275"],"5":["#f7feae","#9bd8a4","#46aea0","#058092","#045275"],"6":["#f7feae","#ace1a4","#68bfa1","#2a9c9c","#02778e","#045275"],"7":["#f7feae","#b7e6a5","#7ccba2","#46aea0","#089099","#00718b","#045275"]},"id":46},{"name":"Teal","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#d1eeea","#2a5674"],"3":["#d1eeea","#68abb8","#2a5674"],"4":["#d1eeea","#85c4c9","#4f90a6","#2a5674"],"5":["#d1eeea","#96d0d1","#68abb8","#45829b","#2a5674"],"6":["#d1eeea","#a1d7d6","#79bbc3","#599bae","#3f7994","#2a5674"],"7":["#d1eeea","#a8dbd9","#85c4c9","#68abb8","#4f90a6","#3b738f","#2a5674"]},"id":47},{"name":"TealGrn","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#b0f2bc","#257d98"],"3":["#b0f2bc","#4cc8a3","#257d98"],"4":["#b0f2bc","#67dba5","#38b2a3","#257d98"],"5":["#b0f2bc","#77e2a8","#4cc8a3","#31a6a2","#257d98"],"6":["#b0f2bc","#82e6aa","#5bd4a4","#3fbba3","#2e9ea1","#257d98"],"7":["#b0f2bc","#89e8ac","#67dba5","#4cc8a3","#38b2a3","#2c98a0","#257d98"]},"id":48},{"name":"Purp","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#f3e0f7","#63589f"],"3":["#f3e0f7","#b998dd","#63589f"],"4":["#f3e0f7","#d1afe8","#9f82ce","#63589f"],"5":["#f3e0f7","#dbbaed","#b998dd","#9178c4","#63589f"],"6":["#f3e0f7","#e0c2ef","#c8a5e4","#aa8bd4","#8871be","#63589f"],"7":["#f3e0f7","#e4c7f1","#d1afe8","#b998dd","#9f82ce","#826dba","#63589f"]},"id":49},{"name":"PurpOr","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#f9ddda","#573b88"],"3":["#f9ddda","#ce78b3","#573b88"],"4":["#f9ddda","#e597b9","#ad5fad","#573b88"],"5":["#f9ddda","#eda8bd","#ce78b3","#9955a8","#573b88"],"6":["#f9ddda","#f0b2c1","#dd8ab6","#bb69b0","#8c4fa4","#573b88"],"7":["#f9ddda","#f2b9c4","#e597b9","#ce78b3","#ad5fad","#834ba0","#573b88"]},"id":50},{"name":"Sunset","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#f3e79b","#5c53a5"],"3":["#f3e79b","#eb7f86","#5c53a5"],"4":["#f3e79b","#f8a07e","#ce6693","#5c53a5"],"5":["#f3e79b","#fab27f","#eb7f86","#b95e9a","#5c53a5"],"6":["#f3e79b","#fabc82","#f59280","#dc6f8e","#ab5b9e","#5c53a5"],"7":["#f3e79b","#fac484","#f8a07e","#eb7f86","#ce6693","#a059a0","#5c53a5"]},"id":51},{"name":"Magenta","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#f3cbd3","#6c2167"],"3":["#f3cbd3","#ca699d","#6c2167"],"4":["#f3cbd3","#dd88ac","#b14d8e","#6c2167"],"5":["#f3cbd3","#e498b4","#ca699d","#a24186","#6c2167"],"6":["#f3cbd3","#e7a2b9","#d67ba5","#bc5894","#983a81","#6c2167"],"7":["#f3cbd3","#eaa9bd","#dd88ac","#ca699d","#b14d8e","#91357d","#6c2167"]},"id":52},{"name":"SunsetDark","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#fcde9c","#7c1d6f"],"3":["#fcde9c","#e34f6f","#7c1d6f"],"4":["#fcde9c","#f0746e","#dc3977","#7c1d6f"],"5":["#fcde9c","#f58670","#e34f6f","#d72d7c","#7c1d6f"],"6":["#fcde9c","#f89872","#ec666d","#df4273","#c5287b","#7c1d6f"],"7":["#fcde9c","#faa476","#f0746e","#e34f6f","#dc3977","#b9257a","#7c1d6f"]},"id":53},{"name":"ag_Sunset","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#4b2991","#edd9a3"],"3":["#4b2991","#ea4f88","#edd9a3"],"4":["#4b2991","#c0369d","#fa7876","#edd9a3"],"5":["#4b2991","#a52fa2","#ea4f88","#fa9074","#edd9a3"],"6":["#4b2991","#932da3","#d43f96","#f7667c","#f89f77","#edd9a3"],"7":["#4b2991","#872ca2","#c0369d","#ea4f88","#fa7876","#f6a97a","#edd9a3"]},"id":54},{"name":"BrwnYl","kilde":"cartocolor","type":"seq","colorblind":false,"kontinuerlig":false,"counts":{"2":["#ede5cf","#541f3f"],"3":["#ede5cf","#c1766f","#541f3f"],"4":["#ede5cf","#d39c83","#a65461","#541f3f"],"5":["#ede5cf","#daaf91","#c1766f","#95455a","#541f3f"],"6":["#ede5cf","#ddba9b","#cd8c7a","#b26166","#8a3c56","#541f3f"],"7":["#ede5cf","#e0c2a2","#d39c83","#c1766f","#a65461","#813753","#541f3f"]},"id":55},{"name":"ArmyRose","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#929b4f","#db8195"],"3":["#a3ad62","#fdfbe4","#df91a3"],"4":["#929b4f","#d9dbaf","#f3d1ca","#db8195"],"5":["#879043","#c1c68c","#fdfbe4","#ebb4b8","#d8758b"],"6":["#7f883b","#b0b874","#e3e4be","#f6ddd1","#e4a0ac","#d66d85"],"7":["#798234","#a3ad62","#d0d3a2","#fdfbe4","#f0c6c3","#df91a3","#d46780"]},"id":56},{"name":"Fall","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#3d5941","#ca562c"],"3":["#3d5941","#f6edbd","#ca562c"],"4":["#3d5941","#b5b991","#edbb8a","#ca562c"],"5":["#3d5941","#96a07c","#f6edbd","#e6a272","#ca562c"],"6":["#3d5941","#839170","#cecea2","#f1cf9e","#e19464","#ca562c"],"7":["#3d5941","#778868","#b5b991","#f6edbd","#edbb8a","#de8a5a","#ca562c"]},"id":57},{"name":"Geyser","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#008080","#ca562c"],"3":["#008080","#f6edbd","#ca562c"],"4":["#008080","#b4c8a8","#edbb8a","#ca562c"],"5":["#008080","#92b69e","#f6edbd","#e6a272","#ca562c"],"6":["#008080","#7eab98","#ced7b1","#f1cf9e","#e19464","#ca562c"],"7":["#008080","#70a494","#b4c8a8","#f6edbd","#edbb8a","#de8a5a","#ca562c"]},"id":58},{"name":"Temps","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#009392","#cf597e"],"3":["#009392","#e9e29c","#cf597e"],"4":["#009392","#9ccb86","#eeb479","#cf597e"],"5":["#009392","#71be83","#e9e29c","#ed9c72","#cf597e"],"6":["#009392","#52b684","#bcd48c","#edc783","#eb8d71","#cf597e"],"7":["#009392","#39b185","#9ccb86","#e9e29c","#eeb479","#e88471","#cf597e"]},"id":59},{"name":"TealRose","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#009392","#d0587e"],"3":["#009392","#f1eac8","#d0587e"],"4":["#009392","#91b8aa","#dfa0a0","#d0587e"],"5":["#009392","#91b8aa","#f1eac8","#dfa0a0","#d0587e"],"6":["#009392","#72aaa1","#b1c7b3","#e5b9ad","#d98994","#d0587e"],"7":["#009392","#72aaa1","#b1c7b3","#f1eac8","#e5b9ad","#d98994","#d0587e"]},"id":60},{"name":"Tropic","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#009B9E","#C75DAB"],"3":["#009B9E","#F1F1F1","#C75DAB"],"4":["#009B9E","#A7D3D4","#E4C1D9","#C75DAB"],"5":["#009B9E","#7CC5C6","#F1F1F1","#DDA9CD","#C75DAB"],"6":["#009B9E","#5DBCBE","#C6DFDF","#E9D4E2","#D99BC6","#C75DAB"],"7":["#009B9E","#42B7B9","#A7D3D4","#F1F1F1","#E4C1D9","#D691C1","#C75DAB"]},"id":61},{"name":"Earth","kilde":"cartocolor","type":"div","colorblind":false,"kontinuerlig":false,"counts":{"2":["#A16928","#2887a1"],"3":["#A16928","#edeac2","#2887a1"],"4":["#A16928","#d6bd8d","#b5c8b8","#2887a1"],"5":["#A16928","#caa873","#edeac2","#98b7b2","#2887a1"],"6":["#A16928","#c29b64","#e0cfa2","#cbd5bc","#85adaf","#2887a1"],"7":["#A16928","#bd925a","#d6bd8d","#edeac2","#b5c8b8","#79a7ac","#2887a1"]},"id":62},{"name":"Antique","kilde":"cartocolor","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"2":["#855C75","#D9AF6B"],"3":["#855C75","#D9AF6B","#AF6458"],"4":["#855C75","#D9AF6B","#AF6458","#736F4C"],"5":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83"],"6":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83","#625377"],"7":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83","#625377","#68855C"],"8":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83","#625377","#68855C","#9C9C5E"],"9":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83","#625377","#68855C","#9C9C5E","#A06177"],"10":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83","#625377","#68855C","#9C9C5E","#A06177","#8C785D"],"11":["#855C75","#D9AF6B","#AF6458","#736F4C","#526A83","#625377","#68855C","#9C9C5E","#A06177","#8C785D","#467378"]},"id":63},{"name":"Bold","kilde":"cartocolor","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"2":["#7F3C8D","#11A579"],"3":["#7F3C8D","#11A579","#3969AC"],"4":["#7F3C8D","#11A579","#3969AC","#F2B701"],"5":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74"],"6":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A"],"7":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310"],"8":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695"],"9":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90"],"10":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72"],"11":["#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72","#4b4b8f"]},"id":64},{"name":"Pastel","kilde":"cartocolor","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"2":["#66C5CC","#F6CF71"],"3":["#66C5CC","#F6CF71","#F89C74"],"4":["#66C5CC","#F6CF71","#F89C74","#DCB0F2"],"5":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F"],"6":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F","#9EB9F3"],"7":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F","#9EB9F3","#FE88B1"],"8":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F","#9EB9F3","#FE88B1","#C9DB74"],"9":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F","#9EB9F3","#FE88B1","#C9DB74","#8BE0A4"],"10":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F","#9EB9F3","#FE88B1","#C9DB74","#8BE0A4","#B497E7"],"11":["#66C5CC","#F6CF71","#F89C74","#DCB0F2","#87C55F","#9EB9F3","#FE88B1","#C9DB74","#8BE0A4","#B497E7","#D3B484"]},"id":65},{"name":"Prism","kilde":"cartocolor","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"2":["#5F4690","#1D6996"],"3":["#5F4690","#1D6996","#38A6A5"],"4":["#5F4690","#1D6996","#38A6A5","#0F8554"],"5":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48"],"6":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48","#EDAD08"],"7":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48","#EDAD08","#E17C05"],"8":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48","#EDAD08","#E17C05","#CC503E"],"9":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48","#EDAD08","#E17C05","#CC503E","#94346E"],"10":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48","#EDAD08","#E17C05","#CC503E","#94346E","#6F4070"],"11":["#5F4690","#1D6996","#38A6A5","#0F8554","#73AF48","#EDAD08","#E17C05","#CC503E","#94346E","#6F4070","#994E95"]},"id":66},{"name":"Safe","kilde":"cartocolor","type":"qual","colorblind":true,"kontinuerlig":false,"counts":{"2":["#88CCEE","#CC6677"],"3":["#88CCEE","#CC6677","#DDCC77"],"4":["#88CCEE","#CC6677","#DDCC77","#117733"],"5":["#88CCEE","#CC6677","#DDCC77","#117733","#332288"],"6":["#88CCEE","#CC6677","#DDCC77","#117733","#332288","#AA4499"],"7":["#88CCEE","#CC6677","#DDCC77","#117733","#332288","#AA4499","#44AA99"],"8":["#88CCEE","#CC6677","#DDCC77","#117733","#332288","#AA4499","#44AA99","#999933"],"9":["#88CCEE","#CC6677","#DDCC77","#117733","#332288","#AA4499","#44AA99","#999933","#882255"],"10":["#88CCEE","#CC6677","#DDCC77","#117733","#332288","#AA4499","#44AA99","#999933","#882255","#661100"],"11":["#88CCEE","#CC6677","#DDCC77","#117733","#332288","#AA4499","#44AA99","#999933","#882255","#661100","#6699CC"]},"id":67},{"name":"Vivid","kilde":"cartocolor","type":"qual","colorblind":false,"kontinuerlig":false,"counts":{"2":["#E58606","#5D69B1"],"3":["#E58606","#5D69B1","#52BCA3"],"4":["#E58606","#5D69B1","#52BCA3","#99C945"],"5":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0"],"6":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0","#24796C"],"7":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0","#24796C","#DAA51B"],"8":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0","#24796C","#DAA51B","#2F8AC4"],"9":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0","#24796C","#DAA51B","#2F8AC4","#764E9F"],"10":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0","#24796C","#DAA51B","#2F8AC4","#764E9F","#ED645A"],"11":["#E58606","#5D69B1","#52BCA3","#99C945","#CC61B0","#24796C","#DAA51B","#2F8AC4","#764E9F","#ED645A","#CC3A8E"]},"id":68},{"name":"Magma","kilde":"viridis","type":"seq","colorblind":true,"kontinuerlig":true,"stops32":["#000004","#030312","#0a0822","#140e36","#1e1149","#2a115c","#38106c","#471078","#54137d","#601880","#6d1d81","#792282","#882781","#942c80","#a1307e","#ae347b","#bd3977","#ca3e72","#d6456c","#e24d66","#ec5860","#f3655c","#f8745c","#fb835f","#fd9266","#fea36f","#feb27a","#fec185","#fecf92","#fde0a1","#fceeb0","#fcfdbf"],"counts":{"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null},"id":69},{"name":"Inferno","kilde":"viridis","type":"seq","colorblind":true,"kontinuerlig":true,"stops32":["#000004","#040312","#0b0724","#160b39","#230c4c","#310a5c","#3e0966","#4d0d6c","#5a116e","#67166e","#741a6e","#801f6c","#8f2469","#9b2964","#a82e5f","#b43359","#c13a50","#cc4248","#d74b3f","#e05536","#e9612b","#ef6e21","#f57b17","#f8890c","#fb9706","#fca80d","#fbb81d","#f9c72f","#f6d746","#f2e865","#f3f586","#fcffa4"],"counts":{"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null},"id":70},{"name":"Plasma","kilde":"viridis","type":"seq","colorblind":true,"kontinuerlig":true,"stops32":["#0d0887","#220690","#310597","#41049d","#4e02a2","#5b01a5","#6700a8","#7501a8","#8104a7","#8d0ba5","#9814a0","#a21d9a","#ad2793","#b6308b","#bf3984","#c7427c","#cf4c74","#d6556d","#dd5e66","#e3685f","#e97257","#ef7c51","#f3874a","#f79143","#fa9c3c","#fca934","#fdb52e","#fdc229","#fcce25","#f9dd25","#f5eb27","#f0f921"],"counts":{"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null},"id":71},{"name":"Viridis","kilde":"viridis","type":"seq","colorblind":true,"kontinuerlig":true,"stops32":["#440154","#470d60","#48186a","#482475","#472e7c","#453882","#424186","#3e4c8a","#3a548c","#365d8d","#32658e","#2e6d8e","#2b758e","#287d8e","#25848e","#228c8d","#1f948c","#1e9c89","#20a386","#25ab82","#2eb37c","#3aba76","#48c16e","#58c765","#69cd5b","#7fd34e","#93d741","#a8db34","#bddf26","#d5e21a","#eae51a","#fde725"],"counts":{"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null},"id":72},{"name":"Cividis","kilde":"viridis","type":"seq","colorblind":true,"kontinuerlig":true,"stops32":["#00224e","#00285b","#002e6a","#083370","#1c396f","#293f6e","#33446d","#3d4a6c","#45506c","#4d556c","#555b6d","#5c616e","#646770","#6b6d72","#727274","#787877","#807f78","#888578","#908b78","#979177","#a09875","#a89e73","#b0a571","#b9ab6d","#c1b26a","#cbb965","#d3c05f","#dcc859","#e5cf52","#efd748","#f8df3c","#fee838"],"counts":{"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null},"id":73},{"name":"Okabe-Ito","kilde":"okabeito","type":"qual","colorblind":true,"kontinuerlig":false,"counts":{"2":["#000000","#E69F00"],"3":["#000000","#E69F00","#56B4E9"],"4":["#000000","#E69F00","#56B4E9","#009E73"],"5":["#000000","#E69F00","#56B4E9","#009E73","#F0E442"],"6":["#000000","#E69F00","#56B4E9","#009E73","#F0E442","#0072B2"],"7":["#000000","#E69F00","#56B4E9","#009E73","#F0E442","#0072B2","#D55E00"],"8":["#000000","#E69F00","#56B4E9","#009E73","#F0E442","#0072B2","#D55E00","#CC79A7"]},"id":74}];
+
+const KILDE_NAVN = { colorbrewer: 'ColorBrewer', cartocolor: 'CARTOColors', viridis: 'Viridis-familien', okabeito: 'Okabe–Ito' };
+const TYPE_NAVN = { seq: 'Sekvensiell', div: 'Divergerende', qual: 'Kvalitativ' };
+const KILDE_REKKEFOLGE = { colorbrewer: 0, cartocolor: 1, viridis: 2, okabeito: 3 };
+
+const MACHADO = {
+  protan: [0.152286, 1.052583, -0.204868, 0.114503, 0.786281, 0.099216, -0.003882, -0.048116, 1.051998],
+  deutan: [0.367322, 0.860646, -0.227968, 0.280085, 0.672501, 0.047413, -0.011820, 0.042940, 0.968881],
+  tritan: [1.255528, -0.076749, -0.178779, -0.078411, 0.930809, 0.147602, 0.004733, 0.691367, 0.303900],
+};
+
+const state = {
+  familie: 'seq',
+  kilder: new Set(),
+  valgtId: null,
+  nKlasser: 5,
+  cvd: 'normal',
+  eksportFormat: 'hex',
+  verdier: null,
+  kategorier: null,
+  verdiParam: null,
+};
+
+const COLS = 11, ROWS = 7, SIZE = 24;
+
+function hexTilRgb(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+function rgbTilHex(r, g, b) {
+  return '#' + [r, g, b].map((v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
+}
+function srgbTilLinear(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+function linearTilSrgb(c) { const v = c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; return v * 255; }
+
+// Simulerer fargesynsavvik via Machado/Oliveira/Fernandes (2009) sine matriser,
+// anvendt i lineært fargerom (ikke direkte på sRGB).
+function simuler(hex, type) {
+  if (type === 'normal') return hex;
+  const m = MACHADO[type];
+  const { r, g, b } = hexTilRgb(hex);
+  const lr = srgbTilLinear(r), lg = srgbTilLinear(g), lb = srgbTilLinear(b);
+  const nr = m[0] * lr + m[1] * lg + m[2] * lb;
+  const ng = m[3] * lr + m[4] * lg + m[5] * lb;
+  const nb = m[6] * lr + m[7] * lg + m[8] * lb;
+  return rgbTilHex(linearTilSrgb(nr), linearTilSrgb(ng), linearTilSrgb(nb));
+}
+
+function lerpHex(a, b, t) {
+  const ca = hexTilRgb(a), cb = hexTilRgb(b);
+  return rgbTilHex(ca.r + (cb.r - ca.r) * t, ca.g + (cb.g - ca.g) * t, ca.b + (cb.b - ca.b) * t);
+}
+
+function tilgjengeligeKlasseantall(skjema) {
+  if (skjema.kontinuerlig) return [3, 4, 5, 6, 7, 8, 9, 10, 11];
+  return Object.keys(skjema.counts).map(Number).sort((a, b) => a - b);
+}
+
+function hentFarger(skjema, n) {
+  if (skjema.kontinuerlig) {
+    const stops = skjema.stops32;
+    const ut = [];
+    for (let i = 0; i < n; i++) {
+      const t = n === 1 ? 0 : i / (n - 1);
+      const pos = t * (stops.length - 1);
+      const i0 = Math.floor(pos), i1 = Math.min(stops.length - 1, i0 + 1);
+      ut.push(lerpHex(stops[i0], stops[i1], pos - i0));
+    }
+    return ut;
+  }
+  return skjema.counts[String(n)];
+}
+
+function getSkjema() { return DATA.find((s) => s.id === state.valgtId); }
+
+function skjemaerForFamilie(fam) {
+  return DATA.filter((s) => s.type === fam && state.kilder.has(s.kilde))
+    .sort((a, b) => (KILDE_REKKEFOLGE[a.kilde] - KILDE_REKKEFOLGE[b.kilde]) || a.name.localeCompare(b.name));
+}
+
+function kilderForFamilie(fam) {
+  return [...new Set(DATA.filter((s) => s.type === fam).map((s) => s.kilde))].sort((a, b) => KILDE_REKKEFOLGE[a] - KILDE_REKKEFOLGE[b]);
+}
+
+function byggMiniStrip(skjema) {
+  if (skjema.kontinuerlig) {
+    return `<div class="strip kontinuerlig" style="background:linear-gradient(90deg, ${skjema.stops32.join(',')})"></div>`;
+  }
+  const antall = tilgjengeligeKlasseantall(skjema);
+  const n = antall.includes(7) ? 7 : antall[antall.length - 1];
+  const farger = hentFarger(skjema, n);
+  return `<div class="strip">${farger.map((f) => `<span style="background:${f}"></span>`).join('')}</div>`;
+}
+
+function byggKildeFilter() {
+  const kilder = kilderForFamilie(state.familie);
+  const wrap = document.getElementById('kildeFilter');
+  wrap.innerHTML = kilder.map((k) => `<button data-kilde="${k}" class="${state.kilder.has(k) ? 'valgt' : ''}">${KILDE_NAVN[k]}</button>`).join('');
+  wrap.querySelectorAll('button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const k = btn.dataset.kilde;
+      if (state.kilder.has(k) && state.kilder.size > 1) state.kilder.delete(k);
+      else state.kilder.add(k);
+      byggKildeFilter();
+      byggSkjemaListe();
+    });
+  });
+}
+
+function byggSkjemaListe() {
+  const liste = skjemaerForFamilie(state.familie);
+  const wrap = document.getElementById('skjemaListe');
+  if (!liste.find((s) => s.id === state.valgtId)) {
+    state.valgtId = liste.length ? liste[0].id : null;
+  }
+  wrap.innerHTML = liste.map((s) => `
+    <button class="skjema-kort ${s.id === state.valgtId ? 'valgt' : ''}" data-id="${s.id}">
+      ${byggMiniStrip(s)}
+      <div class="meta">
+        <span class="navn">${s.name}</span>
+        <span class="badges">
+          <span class="badge">${KILDE_NAVN[s.kilde]}</span>
+          ${s.colorblind ? '<span class="badge cvd-ok">CVD-trygg</span>' : ''}
+        </span>
+      </div>
+    </button>
+  `).join('');
+  wrap.querySelectorAll('.skjema-kort').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      state.valgtId = Number(btn.dataset.id);
+      velgKlasseantallVedSkjemabytte();
+      tegnAlt();
+    });
+  });
+}
+
+function velgKlasseantallVedSkjemabytte() {
+  const skjema = getSkjema();
+  if (!skjema) return;
+  const antall = tilgjengeligeKlasseantall(skjema);
+  const slider = document.getElementById('klasseSlider');
+  slider.max = antall.length - 1;
+  let idx = antall.indexOf(state.nKlasser);
+  if (idx === -1) idx = antall.includes(5) ? antall.indexOf(5) : Math.floor(antall.length / 2);
+  slider.value = idx;
+  state.nKlasser = antall[idx];
+  genererKategorier();
+}
+
+function genererVerdier() {
+  const p = { fx: 1 + Math.random() * 2, fy: 1 + Math.random() * 2, px: Math.random() * Math.PI * 2, py: Math.random() * Math.PI * 2, fx2: 1 + Math.random() * 3, px2: Math.random() * Math.PI * 2 };
+  const verdier = [];
+  for (let c = 0; c < COLS; c++) {
+    for (let r = 0; r < ROWS; r++) {
+      const v = Math.sin((c / COLS) * Math.PI * 2 * p.fx + p.px) + Math.sin((r / ROWS) * Math.PI * 2 * p.fy + p.py) + 0.5 * Math.sin(((c + r) / (COLS + ROWS)) * Math.PI * 2 * p.fx2 + p.px2);
+      verdier.push(v);
+    }
+  }
+  const min = Math.min(...verdier), max = Math.max(...verdier);
+  state.verdier = verdier.map((v) => (v - min) / (max - min || 1));
+}
+
+function genererKategorier() {
+  const n = state.nKlasser;
+  state.kategorier = Array.from({ length: COLS * ROWS }, () => Math.floor(Math.random() * n));
+}
+
+function hexHjorner(cx, cy, size) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const ang = (Math.PI / 180) * 60 * i;
+    pts.push(`${(cx + size * Math.cos(ang)).toFixed(1)},${(cy + size * Math.sin(ang)).toFixed(1)}`);
+  }
+  return pts.join(' ');
+}
+
+function tegnKart() {
+  const skjema = getSkjema();
+  if (!skjema) return;
+  const n = state.nKlasser;
+  const ekteFarger = hentFarger(skjema, n);
+  const visteFarger = ekteFarger.map((f) => simuler(f, state.cvd));
+  const horiz = SIZE * 1.5, vert = SIZE * Math.sqrt(3);
+  const svg = document.getElementById('kartSvg');
+  svg.setAttribute('viewBox', `0 0 ${horiz * COLS + SIZE} ${vert * ROWS + SIZE * 2}`);
+  let polys = '';
+  let i = 0;
+  for (let c = 0; c < COLS; c++) {
+    for (let r = 0; r < ROWS; r++) {
+      const x = horiz * c + SIZE;
+      const y = vert * r + (c % 2 ? vert / 2 : 0) + SIZE;
+      const klasse = skjema.type === 'qual' ? state.kategorier[i] : Math.min(n - 1, Math.floor(state.verdier[i] * n));
+      polys += `<polygon points="${hexHjorner(x, y, SIZE * 0.94)}" fill="${visteFarger[klasse]}"></polygon>`;
+      i++;
+    }
+  }
+  svg.innerHTML = polys;
+}
+
+function tegnLegende() {
+  const skjema = getSkjema();
+  if (!skjema) return;
+  const n = state.nKlasser;
+  const ekteFarger = hentFarger(skjema, n);
+  const visteFarger = ekteFarger.map((f) => simuler(f, state.cvd));
+  const wrap = document.getElementById('legende');
+  wrap.innerHTML = ekteFarger.map((hex, idx) => `
+    <button class="svatsj" data-hex="${hex}" title="Klikk for å kopiere ${hex}">
+      <span class="prove" style="background:${visteFarger[idx]}"></span>
+      <span class="kode">${hex}</span>
+    </button>
+  `).join('');
+  wrap.querySelectorAll('.svatsj').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      navigator.clipboard?.writeText(btn.dataset.hex);
+      const kode = btn.querySelector('.kode');
+      const original = kode.textContent;
+      kode.textContent = 'kopiert!';
+      setTimeout(() => { kode.textContent = original; }, 900);
+    });
+  });
+}
+
+function tegnInfo() {
+  const skjema = getSkjema();
+  if (!skjema) return;
+  const wrap = document.getElementById('infoPanel');
+  const antall = tilgjengeligeKlasseantall(skjema);
+  wrap.innerHTML = `
+    <div class="rad">
+      <span><strong>${skjema.name}</strong></span>
+      <span>${KILDE_NAVN[skjema.kilde]}</span>
+      <span>${TYPE_NAVN[skjema.type]}${skjema.kontinuerlig ? ' (kontinuerlig)' : ''}</span>
+      <span>${skjema.kontinuerlig ? 'Vilkårlig antall klasser' : antall[0] + '–' + antall[antall.length - 1] + ' klasser i kilden'}</span>
+      <span>${skjema.colorblind ? '<span class="badge cvd-ok">CVD-trygg</span>' : 'Ikke merket CVD-trygg i kilden'}</span>
+    </div>
+  `;
+}
+
+function tilCssNavn(navn) {
+  return navn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function eksportTekst() {
+  const skjema = getSkjema();
+  if (!skjema) return '';
+  const farger = hentFarger(skjema, state.nKlasser);
+  const variabelnavn = skjema.name.replace(/[^a-zA-Z0-9]/g, '_');
+  switch (state.eksportFormat) {
+    case 'hex': return farger.join(', ');
+    case 'css': return `background: linear-gradient(90deg, ${farger.join(', ')});`;
+    case 'cssvars': {
+      const cssNavn = tilCssNavn(skjema.name);
+      const linjer = farger.map((f, i) => `  --${cssNavn}-${i + 1}: ${f};`).join(`
+`);
+      return `:root {
+  /* ${skjema.name} – ${TYPE_NAVN[skjema.type].toLowerCase()} (${KILDE_NAVN[skjema.kilde]}), ${farger.length} klasser */
+${linjer}
+}
+
+/* Bruk fra TypeScript/JavaScript: */
+/* el.style.setProperty('--${cssNavn}-1', '${farger[0]}') */
+/* getComputedStyle(el).getPropertyValue('--${cssNavn}-1') */
+/* eller i CSS-in-JS: color: var(--${cssNavn}-1); */`;
+    }
+    case 'json': return JSON.stringify(farger, null, 2);
+    case 'jsonfull': {
+      const objekt = {
+        navn: skjema.name,
+        kilde: KILDE_NAVN[skjema.kilde],
+        type: TYPE_NAVN[skjema.type],
+        kontinuerlig: !!skjema.kontinuerlig,
+        antall_klasser: farger.length,
+        fargeblind_trygg: !!skjema.colorblind,
+        farger: farger,
+      };
+      return JSON.stringify(objekt, null, 2);
+    }
+    case 'python': return `from matplotlib.colors import ListedColormap
+
+${variabelnavn} = ListedColormap([
+    ${farger.map((f) => `"${f}"`).join(`,
+    `)}
+])`;
+    default: return '';
+  }
+}
+
+function tegnEksport() {
+  document.getElementById('eksportKode').textContent = eksportTekst();
+}
+
+function tegnAlt() {
+  tegnKart();
+  tegnLegende();
+  tegnInfo();
+  tegnEksport();
+  document.getElementById('klasseVerdi').textContent = state.nKlasser;
+}
+
+document.getElementById('familieFaner').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-familie]');
+  if (!btn) return;
+  state.familie = btn.dataset.familie;
+  document.querySelectorAll('#familieFaner button').forEach((b) => b.classList.toggle('aktiv', b === btn));
+  state.kilder = new Set(kilderForFamilie(state.familie));
+  byggKildeFilter();
+  byggSkjemaListe();
+  velgKlasseantallVedSkjemabytte();
+  genererVerdier();
+  tegnAlt();
+});
+
+document.getElementById('klasseSlider').addEventListener('input', (e) => {
+  const skjema = getSkjema();
+  const antall = tilgjengeligeKlasseantall(skjema);
+  state.nKlasser = antall[Number(e.target.value)];
+  genererKategorier();
+  tegnAlt();
+});
+
+document.getElementById('cvdValg').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-cvd]');
+  if (!btn) return;
+  state.cvd = btn.dataset.cvd;
+  document.querySelectorAll('#cvdValg button').forEach((b) => b.classList.toggle('aktiv', b === btn));
+  tegnAlt();
+});
+
+document.getElementById('nyeData').addEventListener('click', () => {
+  genererVerdier();
+  genererKategorier();
+  tegnAlt();
+});
+
+document.getElementById('eksportFaner').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-format]');
+  if (!btn) return;
+  state.eksportFormat = btn.dataset.format;
+  document.querySelectorAll('#eksportFaner button').forEach((b) => b.classList.toggle('aktiv', b === btn));
+  tegnEksport();
+});
+
+document.getElementById('kopierKnapp').addEventListener('click', () => {
+  navigator.clipboard?.writeText(eksportTekst());
+  const btn = document.getElementById('kopierKnapp');
+  const original = btn.textContent;
+  btn.textContent = 'Kopiert!';
+  setTimeout(() => { btn.textContent = original; }, 1000);
+});
+
+// Førstegangsoppsett
+state.kilder = new Set(kilderForFamilie(state.familie));
+byggKildeFilter();
+byggSkjemaListe();
+velgKlasseantallVedSkjemabytte();
+genererVerdier();
+tegnAlt();
+</script>
+</body>
+</html>

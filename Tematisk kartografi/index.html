@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tematisk kartografi – visualiseringsmetoder</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --tekst: #222222;
+    --lys-bg: #f7f7f5;
+    --kant: #e2e2de;
+    --aksent: #2b6cb0;
+    --dempet: #666666;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: var(--tekst);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  header {
+    padding: 36px 24px 28px;
+    background: #1c1f26;
+    color: #fff;
+  }
+  header .innhold { max-width: 960px; margin: 0 auto; }
+  header h1 { margin: 0 0 10px; font-size: 28px; }
+  header p { margin: 0; color: #c7ccd4; max-width: 720px; }
+  header a { color: #8ecbff; }
+
+  main { max-width: 960px; margin: 0 auto; padding: 0 24px 64px; }
+
+  nav.innholdsliste {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 28px 0 8px;
+  }
+  nav.innholdsliste a {
+    font-size: 13px; padding: 6px 12px; border-radius: 999px;
+    background: var(--lys-bg); border: 1px solid var(--kant);
+    color: var(--tekst); text-decoration: none;
+  }
+  nav.innholdsliste a:hover { border-color: var(--aksent); color: var(--aksent); }
+
+  section.metode {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--kant);
+  }
+  section.metode:first-of-type { border-top: none; }
+
+  .metode-header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .metode-header h2 { margin: 0; font-size: 22px; }
+  .metode-header .engelsk { color: var(--dempet); font-size: 14px; }
+
+  figure { margin: 18px 0; }
+  figure img {
+    width: 100%; max-width: 640px; display: block; margin: 0 auto;
+    border: 1px solid var(--kant); border-radius: 4px; background: #fff;
+  }
+  figure.bred img { max-width: 100%; }
+  figcaption { font-size: 12.5px; color: var(--dempet); text-align: center; margin-top: 6px; }
+
+  .faktaboks {
+    display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    margin: 18px 0; padding: 16px; background: var(--lys-bg); border: 1px solid var(--kant);
+    border-radius: 6px; font-size: 14px;
+  }
+  .faktaboks h3 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dempet); }
+  .faktaboks p { margin: 0; }
+
+  .lesmer { margin-top: 16px; }
+  .lesmer h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dempet); margin: 0 0 8px; }
+  .lesmer ul { margin: 0; padding-left: 18px; }
+  .lesmer li { margin-bottom: 4px; }
+  a { color: var(--aksent); }
+
+  .obs {
+    margin-top: 14px; padding: 12px 14px; border-left: 3px solid #c0392b;
+    background: #fdf2f1; font-size: 14px; border-radius: 0 4px 4px 0;
+  }
+  .obs strong { color: #c0392b; }
+
+  footer {
+    max-width: 960px; margin: 0 auto; padding: 24px 24px 48px; color: var(--dempet); font-size: 13px;
+  }
+  code { background: var(--lys-bg); padding: 1px 5px; border-radius: 3px; font-size: 0.92em; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="innhold">
+    <h1>Tematisk kartografi: fem visualiseringsmetoder</h1>
+    <p>
+      Samme type fenomen (gjerne befolkning) vist på flere forskjellige måter.
+      Poenget er ikke hvilken metode som er «riktig», men at valget av metode
+      endrer hva kartet faktisk kommuniserer. Bildene er generert med
+      <a href="generer_eksempler.py">generer_eksempler.py</a> fra ekte, live
+      hentede data – se <a href="README.md">README.md</a> for kildene og
+      hvordan du kjører skriptet selv.
+    </p>
+  </div>
+</header>
+
+<main>
+
+  <nav class="innholdsliste">
+    <a href="#choropleth">Choropleth</a>
+    <a href="#proporsjonale-sirkler">Proporsjonale sirkler</a>
+    <a href="#dot-density">Dot density</a>
+    <a href="#kartogram">Kartogram</a>
+    <a href="#heatmap">Heatmap</a>
+  </nav>
+
+  <section class="metode" id="choropleth">
+    <div class="metode-header">
+      <h2>1. Choropleth</h2>
+      <span class="engelsk">(choropleth map)</span>
+    </div>
+    <p>
+      Administrative enheter (her: fylker) farges etter en klasseinndelt verdi.
+      Metoden er den mest brukte formen for tematisk kart, og den som oftest
+      brukes feil.
+    </p>
+    <figure>
+      <img src="bilder/01_choropleth.png" alt="Choroplethkart som viser befolkningstetthet per norsk fylke, klassifisert i fem fargeklasser fra lysegul til mørk fiolett (CARTOColors SunsetDark).">
+      <figcaption>Befolkningstetthet (innbyggere/km²) per fylke, CARTOColors SunsetDark, kvantiler, 5 klasser. Egengenerert av generer_eksempler.py.</figcaption>
+    </figure>
+    <div class="faktaboks">
+      <div><h3>Data</h3><p>Fylkesgrenser fra Geonorge + folketall fra SSB tabell 01222, normalisert til tetthet (innb./km²).</p></div>
+      <div><h3>Bruk til</h3><p>Rater, andeler og tettheter bundet til et areal: valgdeltakelse, arbeidsløshet, inntekt per innbygger.</p></div>
+      <div><h3>Unngå til</h3><p>Absolutte totaler (folketall, antall biler). Store/arealrike enheter dominerer visuelt selv om verdien ikke er høyere relativt.</p></div>
+    </div>
+    <div class="obs">
+      <strong>Legg merke til</strong> to uavhengige designvalg her: <em>fargeskala</em>
+      og <em>klassifiseringsmetode</em>. Fargene er hentet fra CARTOColors
+      SunsetDark i stedet for en lysere ColorBrewer-skala som YlOrRd, nettopp
+      fordi den holder seg mettet og mørk i hele spennet – ingen klasse blir
+      nesten usynlig lys. Klassene er dessuten satt med <em>kvantiler</em>
+      (nøyaktig 3 fylker per klasse) i stedet for Jenks natural breaks.
+      Natural breaks ville her presset nesten alle fylkene inn i én eneste
+      (lyseste) klasse, siden Oslos tetthet er en så ekstrem outlier – korrekt
+      gjengivelse av skjevfordelte data, men dårlig egnet til å vise variasjon
+      i resten av landet. Kvantiler tvinger frem fargevariasjon over hele
+      kartet, på bekostning av at fylker med ganske ulik tetthet kan havne i
+      samme klasse. Prøv gjerne begge selv i
+      <a href="../Fargeskalaer%20for%20tematiske%20kart/index.html">fargeskala-verktøyet</a>
+      i denne repoen.
+    </div>
+    <div class="lesmer">
+      <h3>Videre lesning</h3>
+      <ul>
+        <li><a href="https://www.axismaps.com/guide/choropleth">Axis Maps – Choropleth Maps</a></li>
+        <li><a href="https://www.axismaps.com/guide/data-classification">Axis Maps – Data Classification</a></li>
+        <li><a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/data-classification-methods.htm">Esri ArcGIS Pro – Data classification methods</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Choropleth_map">Wikipedia – Choropleth map</a></li>
+        <li><a href="../Fargeskalaer%20for%20tematiske%20kart/index.html">Fargeskalaer for tematiske kart (verktøy i denne repoen)</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="metode" id="proporsjonale-sirkler">
+    <div class="metode-header">
+      <h2>2. Proporsjonale sirkler</h2>
+      <span class="engelsk">(proportional / graduated symbols)</span>
+    </div>
+    <p>
+      En sirkel plasseres på hvert sted, med <em>areal</em> proporsjonalt med
+      verdien. Samme datasett som choropleth-eksemplet over – men her vises
+      rene folketall, ikke tetthet.
+    </p>
+    <figure>
+      <img src="bilder/02_proporsjonale_sirkler.png" alt="Kart over Norge med blå sirkler sentrert på hvert fylke, der sirkelens areal er proporsjonalt med folketallet.">
+      <figcaption>Folketall per fylke som proporsjonale sirkler. Egengenerert av generer_eksempler.py.</figcaption>
+    </figure>
+    <div class="faktaboks">
+      <div><h3>Data</h3><p>Samme fylkesdata som choropleth-eksemplet, men med rått folketall i stedet for tetthet.</p></div>
+      <div><h3>Bruk til</h3><p>Absolutte totaler og mengder – akkurat det choropleth bør unngå.</p></div>
+      <div><h3>Fallgruve</h3><p>Lesere oppfatter ofte <em>radius</em>, ikke areal, lineært med verdi. Riktig praksis er å skalere arealet (π·r²), ikke radiusen direkte.</p></div>
+    </div>
+    <div class="obs">
+      <strong>Legg merke til</strong> at selv korrekt areal-skalering (brukt her)
+      ikke er hele historien. Forsøk helt tilbake til Flannery (1956, 1971)
+      viser at lesere systematisk <em>undervurderer</em> hvor mye større store
+      sirkler faktisk er, i tråd med Stevens' maktlov for persepsjon av areal.
+      Noen kartografer kompenserer derfor med en egen «psykologisk» eller
+      «apparent magnitude»-skalering som gjør store sirkler enda litt større
+      enn den matematisk korrekte arealformelen tilsier – en bevisst avvik fra
+      «riktig» matematikk for å treffe riktigere på hvordan hjernen faktisk
+      oppfatter sirkler. Se referansen under for formelen og bakgrunnen.
+    </div>
+    <div class="lesmer">
+      <h3>Videre lesning</h3>
+      <ul>
+        <li><a href="https://www.axismaps.com/guide/proportional-symbols">Axis Maps – Proportional Symbols</a></li>
+        <li><a href="https://www.axismaps.com/guide/standardizing-data">Axis Maps – Standardizing Data (totaler vs. rater)</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Proportional_symbol_map">Wikipedia – Proportional symbol map</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Proportional_symbol_map#Apparent_magnitude_(Flannery)_scaling">Wikipedia – Apparent magnitude (Flannery) scaling</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="metode" id="dot-density">
+    <div class="metode-header">
+      <h2>3. Dot density-kart</h2>
+      <span class="engelsk">(dot distribution map)</span>
+    </div>
+    <p>
+      Hver prikk representerer et fast antall enheter (her: 150 innbyggere),
+      tilfeldig plassert innenfor grensen til kommunen den hører til. I
+      motsetning til choropleth, som gir hele enheten én jevn farge, lar
+      dot density-kartet øyet selv oppfatte variasjon <em>innenfor</em>
+      enhetene – selv om prikkene ikke viser faktiske boliger.
+    </p>
+    <figure>
+      <img src="bilder/03_dot_density.png" alt="Dot density-kart over Agder med svart bakgrunn og gjennomsiktige, lysegrønne prikker som glødsrer tettest langs kysten rundt Kristiansand og Arendal, og er spredt tynt i innlandet.">
+      <figcaption>1 prikk = 150 innbyggere, Agder-kommunene. Mørk bakgrunn med gjennomsiktige prikker, slik at tette områder «lyser» sterkere der mange prikker overlapper. Egengenerert av generer_eksempler.py.</figcaption>
+    </figure>
+    <div class="faktaboks">
+      <div><h3>Data</h3><p>Kommunegrenser fra Geonorge og folketall fra SSB, for de 25 kommunene i Agder fylke.</p></div>
+      <div><h3>Bruk til</h3><p>Å vise konsentrasjon/spredning av et fenomen uten å late som man vet nøyaktig hvor hver enhet er.</p></div>
+      <div><h3>Fallgruve</h3><p>Prikkene er tilfeldig plassert <em>innenfor</em> kommunen – ikke faktiske adresser. Valg av «verdi per prikk» og tilfeldig frø påvirker hvor jevnt/klumpete kartet ser ut.</p></div>
+    </div>
+    <div class="obs">
+      <strong>Legg merke til</strong> at mørk bakgrunn og gjennomsiktige
+      (alpha ≈ 0,35) prikker gjør at tetthet oppstår <em>emergent</em>: en
+      enkelt prikk er nesten usynlig, men der mange prikker overlapper blir
+      fargen stadig lysere/sterkere. Det er egentlig samme idé som
+      heatmap-metoden under – bare at her bygges tetthetsinntrykket opp av
+      mange halvgjennomsiktige punkter i stedet for en beregnet, glattet
+      overflate.
+    </div>
+    <div class="lesmer">
+      <h3>Videre lesning</h3>
+      <ul>
+        <li><a href="https://www.axismaps.com/guide/dot-density">Axis Maps – Dot Density Maps</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Dot_distribution_map">Wikipedia – Dot distribution map</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="metode" id="kartogram">
+    <div class="metode-header">
+      <h2>4. Kartogram (Dorling)</h2>
+      <span class="engelsk">(Dorling cartogram)</span>
+    </div>
+    <p>
+      Geografien forlates helt: hvert fylke blir en sirkel med areal
+      proporsjonalt med folketallet, plassert så nær sin egentlige posisjon
+      som mulig uten at sirklene overlapper. Samme datasett som de to første
+      eksemplene – en tredje måte å vise det på.
+    </p>
+    <figure>
+      <img src="bilder/04_kartogram.png" alt="Dorling-kartogram av Norge der hvert fylke er en sirkel med areal proporsjonalt med folketallet, plassert tilnærmet geografisk korrekt.">
+      <figcaption>Dorling-kartogram av folketall per fylke, med ekte fylkesgrenser i bakgrunnen til sammenligning. Egengenerert av generer_eksempler.py.</figcaption>
+    </figure>
+    <div class="faktaboks">
+      <div><h3>Data</h3><p>Samme fylkesdata som choropleth- og sirkel-eksemplet.</p></div>
+      <div><h3>Bruk til</h3><p>Å bevisst overdrive den visuelle vekten til befolkningsrike, men arealmessig små enheter (f.eks. Oslo) – motsatt av et vanlig arealkart, som overdriver store, glisne enheter.</p></div>
+      <div><h3>Fallgruve</h3><p>Lesere kan miste geografisk orientering helt. Krever at man beholder en form for nabolagsrelasjon eller referansekart for å forbli forståelig.</p></div>
+    </div>
+    <div class="lesmer">
+      <h3>Videre lesning</h3>
+      <ul>
+        <li><a href="https://www.axismaps.com/guide/cartograms">Axis Maps – Cartograms</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Cartogram">Wikipedia – Cartogram</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="metode" id="heatmap">
+    <div class="metode-header">
+      <h2>5. Heatmap (kernel density estimation)</h2>
+      <span class="engelsk">(heat map / KDE)</span>
+    </div>
+    <p>
+      I stedet for å telle punkter innenfor forhåndsdefinerte enheter (som i
+      dot density), beregner et heatmap en glatt, kontinuerlig
+      tetthetsoverflate direkte fra punktene selv. Her er datagrunnlaget
+      <em>nøyaktig det samme</em> som i dot density-eksemplet over – de
+      disaggregerte befolkningspunktene for Agder – kjørt gjennom en kernel
+      density-beregning i stedet for tegnet som enkeltprikker.
+    </p>
+    <figure>
+      <img src="bilder/05_heatmap.png" alt="Heatmap over Agder med mørk bakgrunn og en glødende oransje/gul tetthetsoverflate sterkest rundt Kristiansand og Arendal.">
+      <figcaption>Kernel density estimation av de samme befolkningspunktene som dot density-kartet. Egengenerert av generer_eksempler.py.</figcaption>
+    </figure>
+    <div class="faktaboks">
+      <div><h3>Data</h3><p>De samme disaggregerte befolkningspunktene for Agder som i dot density-eksemplet (Geonorge + SSB tabell 01222).</p></div>
+      <div><h3>Bruk til</h3><p>Å vise konsentrasjon som en sammenhengende overflate, uten de synlige kommunegrensene et choroplethkart ville tvunget frem.</p></div>
+      <div><h3>Fallgruve</h3><p>Båndbredden (bw_method) i KDE-beregningen er et subjektivt valg som avgjør hvor «klumpete» eller «glatt» kartet blir – akkurat som klasseantall i choropleth eller innbyggere/prikk i dot density.</p></div>
+    </div>
+    <div class="obs">
+      <strong>Legg merke til</strong> forskjellen fra dot density-kartet over,
+      selv om datagrunnlaget er identisk: her forsvinner den synlige
+      «korn»-strukturen av enkeltprikker helt, til fordel for glatte soner.
+      Det gjør det lettere å se <em>hvor</em> de tetteste punktene ligger
+      (Kristiansand og Arendal-området skiller seg nå tydelig ut som to
+      atskilte topper), men skjuler samtidig at datagrunnlaget egentlig er
+      diskret, ikke kontinuerlig – en påminnelse om at «glatt» ikke betyr
+      «mer presist», bare en annen fremstilling av samme usikkerhet.
+    </div>
+    <div class="lesmer">
+      <h3>Videre lesning</h3>
+      <ul>
+        <li><a href="https://en.wikipedia.org/wiki/Heat_map">Wikipedia – Heat map</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Kernel_density_estimation">Wikipedia – Kernel density estimation</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Data: <a href="https://www.geonorge.no">Geonorge</a> (fylke- og kommunegrenser) ·
+  <a href="https://www.ssb.no/statbank/table/01222">SSB tabell 01222</a> (befolkning).
+  Fargeskala: <a href="../Fargeskalaer%20for%20tematiske%20kart/index.html">Fargeskalaer for tematiske kart</a> (CARTOColors).
+  Se <a href="README.md">README.md</a> for full forklaring og kjøreinstruksjoner.
+</footer>
+
+</body>
+</html>
