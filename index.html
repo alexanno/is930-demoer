@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IS930 Temasider – demoer</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --fg: #1a1a1a;
+    --bg: #f7f7f5;
+    --card-bg: #ffffff;
+    --border: #e0e0dc;
+    --accent: #2b6cb0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fg: #e8e8e6;
+      --bg: #1b1b1a;
+      --card-bg: #262625;
+      --border: #3a3a38;
+      --accent: #7ab0e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+  }
+  header {
+    max-width: 960px;
+    margin: 0 auto 2rem;
+  }
+  h1 {
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem;
+  }
+  header p {
+    margin: 0;
+    opacity: 0.75;
+  }
+  ul.cards {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .card a {
+    display: block;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+  .card p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>IS930 Temasider</h1>
+    <p>Demoer til bruk i undervisning i tematisk kartografi.</p>
+  </header>
+  <ul class="cards">
+      <li class="card">
+        <a href="Fargeskalaer for tematiske kart/index.html">
+          <h2>Fargeskalaer for tematiske kart</h2>
+          <p>Et verktøy for å velge og forstå fargeskalaer i tematisk kartografi og datavisualisering. ColorBrewer (Cynthia Brewer) er utgangspunktet og kjernen i verktøyet, men det samler også nyere skalaer fra kartografi og visualisering i samme grensesnitt, med live forhåndsvisning, simulering av fargeblindhet og ferdig fargekode-eksport — tingene ColorBrewer2.org aldri har tilbudt i ett grensesnitt.</p>
+        </a>
+      </li>
+      <li class="card">
+        <a href="Tematisk kartografi/index.html">
+          <h2>Tematisk kartografi – visualiseringsmetoder</h2>
+          <p>En demo til bruk i undervisning: fem mye brukte metoder for å visualisere tematiske data på kart, illustrert med ekte, live hentede datasett (ikke syntetiske tall). Bildene presenteres i index.html, sammen med korte forklaringer og lenker til videre lesning.</p>
+        </a>
+      </li>
+      <li class="card">
+        <a href="Ulike bakgrunnskart/index.html">
+          <h2>Bakgrunnskart side om side</h2>
+          <p>En demo til bruk i undervisning: samme kartutsnitt vist gjennom ni forskjellige bakgrunnskart-tjenester, side om side. Panorer eller zoom i ett kart, og alle de andre følger med. Poenget er å vise at et "kart" bare er en visning av data, og at valget av datakilde og kartmotor påvirker hvordan verden ser ut.</p>
+        </a>
+      </li>
+  </ul>
+</body>
+</html>
