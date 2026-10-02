@@ -1,0 +1,10 @@
+#!/bin/sh
+# Oppdaterer rot-index.html med kort for alle demoer før hvert commit.
+set -e
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+cd "$REPO_ROOT"
+
+python3 generer_index.py
+
+git add index.html
