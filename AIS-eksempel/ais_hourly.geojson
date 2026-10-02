@@ -1,0 +1,1155 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.079317,
+     63.251301
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T07:00:00Z",
+    "time": "2025-10-20T07:59:53Z",
+    "count": 102,
+    "hasSignal": true,
+    "sog": 8.2,
+    "cog": 61.5,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.30971,
+     63.342892
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T08:00:00Z",
+    "time": "2025-10-20T08:59:52Z",
+    "count": 103,
+    "hasSignal": true,
+    "sog": 8.5,
+    "cog": 1.2,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.294048,
+     63.37743
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T09:00:00Z",
+    "time": "2025-10-20T09:15:51Z",
+    "count": 29,
+    "hasSignal": true,
+    "sog": 8.3,
+    "cog": 334.7,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T10:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T11:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T12:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T13:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T14:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T15:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T16:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T17:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-20T18:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.189379,
+     63.294201
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T19:00:00Z",
+    "time": "2025-10-20T19:59:04Z",
+    "count": 38,
+    "hasSignal": true,
+    "sog": 7.1,
+    "cog": 235.5,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.959116,
+     63.230972
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T20:00:00Z",
+    "time": "2025-10-20T20:59:59Z",
+    "count": 89,
+    "hasSignal": true,
+    "sog": 7.5,
+    "cog": 237.4,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.739686,
+     63.172527
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T21:00:00Z",
+    "time": "2025-10-20T21:59:29Z",
+    "count": 119,
+    "hasSignal": true,
+    "sog": 7.8,
+    "cog": 246.6,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.532565,
+     63.108578
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T22:00:00Z",
+    "time": "2025-10-20T22:59:30Z",
+    "count": 120,
+    "hasSignal": true,
+    "sog": 6.6,
+    "cog": 233.3,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.32413,
+     63.055573
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-20T23:00:00Z",
+    "time": "2025-10-20T23:59:29Z",
+    "count": 119,
+    "hasSignal": true,
+    "sog": 6.3,
+    "cog": 258.1,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.098562,
+     63.014744
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T00:00:00Z",
+    "time": "2025-10-21T00:59:31Z",
+    "count": 107,
+    "hasSignal": true,
+    "sog": 6.9,
+    "cog": 238.6,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.875494,
+     62.972469
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T01:00:00Z",
+    "time": "2025-10-21T01:59:30Z",
+    "count": 117,
+    "hasSignal": true,
+    "sog": 6.2,
+    "cog": 240.7,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.738616,
+     62.89613
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T02:00:00Z",
+    "time": "2025-10-21T02:59:32Z",
+    "count": 112,
+    "hasSignal": true,
+    "sog": 5.9,
+    "cog": 210.8,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.618072,
+     62.808342
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T03:00:00Z",
+    "time": "2025-10-21T03:59:30Z",
+    "count": 108,
+    "hasSignal": true,
+    "sog": 6.6,
+    "cog": 212.6,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.487484,
+     62.715477
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T04:00:00Z",
+    "time": "2025-10-21T04:59:32Z",
+    "count": 118,
+    "hasSignal": true,
+    "sog": 7.2,
+    "cog": 212.2,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.348737,
+     62.631744
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T05:00:00Z",
+    "time": "2025-10-21T05:59:30Z",
+    "count": 114,
+    "hasSignal": true,
+    "sog": 7.1,
+    "cog": 238.7,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.184625,
+     62.558525
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T06:00:00Z",
+    "time": "2025-10-21T06:59:30Z",
+    "count": 117,
+    "hasSignal": true,
+    "sog": 6.6,
+    "cog": 227.3,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.070587,
+     62.474617
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T07:00:00Z",
+    "time": "2025-10-21T07:59:59Z",
+    "count": 121,
+    "hasSignal": true,
+    "sog": 6.0,
+    "cog": 236.7,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.870237,
+     62.424305
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T08:00:00Z",
+    "time": "2025-10-21T08:59:59Z",
+    "count": 120,
+    "hasSignal": true,
+    "sog": 6.4,
+    "cog": 244.5,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.667356,
+     62.362835
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T09:00:00Z",
+    "time": "2025-10-21T09:59:59Z",
+    "count": 116,
+    "hasSignal": true,
+    "sog": 7.4,
+    "cog": 230.9,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.641132,
+     62.338707
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T10:00:00Z",
+    "time": "2025-10-21T10:58:30Z",
+    "count": 66,
+    "hasSignal": true,
+    "sog": 0.0,
+    "cog": 360.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.641817,
+     62.338768
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T11:00:00Z",
+    "time": "2025-10-21T11:59:59Z",
+    "count": 25,
+    "hasSignal": true,
+    "sog": 0.0,
+    "cog": 360.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.641803,
+     62.338741
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T12:00:00Z",
+    "time": "2025-10-21T12:56:56Z",
+    "count": 19,
+    "hasSignal": true,
+    "sog": 0.0,
+    "cog": 360.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.675673,
+     62.341927
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T13:00:00Z",
+    "time": "2025-10-21T13:57:29Z",
+    "count": 48,
+    "hasSignal": true,
+    "sog": 0.0,
+    "cog": 360.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.675672,
+     62.341942
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T14:00:00Z",
+    "time": "2025-10-21T14:54:32Z",
+    "count": 16,
+    "hasSignal": true,
+    "sog": 0.0,
+    "cog": 360.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.675683,
+     62.341923
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T15:00:00Z",
+    "time": "2025-10-21T15:57:32Z",
+    "count": 18,
+    "hasSignal": true,
+    "sog": 0.0,
+    "cog": 360.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.792873,
+     62.397625
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T16:00:00Z",
+    "time": "2025-10-21T16:59:29Z",
+    "count": 101,
+    "hasSignal": true,
+    "sog": 8.1,
+    "cog": 53.4,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.025218,
+     62.457561
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T17:00:00Z",
+    "time": "2025-10-21T17:59:30Z",
+    "count": 119,
+    "hasSignal": true,
+    "sog": 7.9,
+    "cog": 72.1,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.186473,
+     62.559071
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T18:00:00Z",
+    "time": "2025-10-21T18:59:32Z",
+    "count": 119,
+    "hasSignal": true,
+    "sog": 7.5,
+    "cog": 44.5,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.391762,
+     62.648357
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T19:00:00Z",
+    "time": "2025-10-21T19:59:32Z",
+    "count": 118,
+    "hasSignal": true,
+    "sog": 7.7,
+    "cog": 39.5,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.555423,
+     62.753345
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T20:00:00Z",
+    "time": "2025-10-21T20:59:33Z",
+    "count": 114,
+    "hasSignal": true,
+    "sog": 7.5,
+    "cog": 34.1,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.694393,
+     62.86174
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T21:00:00Z",
+    "time": "2025-10-21T21:59:30Z",
+    "count": 133,
+    "hasSignal": true,
+    "sog": 6.3,
+    "cog": 33.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.904483,
+     62.94054
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T22:00:00Z",
+    "time": "2025-10-21T22:59:33Z",
+    "count": 238,
+    "hasSignal": true,
+    "sog": 7.7,
+    "cog": 68.4,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.120481,
+     63.001171
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-21T23:00:00Z",
+    "time": "2025-10-21T23:59:33Z",
+    "count": 238,
+    "hasSignal": true,
+    "sog": 7.5,
+    "cog": 63.6,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.37049,
+     63.05072
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T00:00:00Z",
+    "time": "2025-10-22T00:59:30Z",
+    "count": 108,
+    "hasSignal": true,
+    "sog": 7.8,
+    "cog": 83.8,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.5971,
+     63.102154
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T01:00:00Z",
+    "time": "2025-10-22T01:59:29Z",
+    "count": 119,
+    "hasSignal": true,
+    "sog": 5.6,
+    "cog": 356.0,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.775993,
+     63.180561
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T02:00:00Z",
+    "time": "2025-10-22T02:59:31Z",
+    "count": 119,
+    "hasSignal": true,
+    "sog": 7.3,
+    "cog": 54.2,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.023728,
+     63.240849
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T03:00:00Z",
+    "time": "2025-10-22T03:59:30Z",
+    "count": 118,
+    "hasSignal": true,
+    "sog": 7.6,
+    "cog": 58.4,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.245655,
+     63.309689
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T04:00:00Z",
+    "time": "2025-10-22T04:59:30Z",
+    "count": 112,
+    "hasSignal": true,
+    "sog": 7.5,
+    "cog": 37.5,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.281613,
+     63.33527
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T05:00:00Z",
+    "time": "2025-10-22T05:13:33Z",
+    "count": 25,
+    "hasSignal": true,
+    "sog": 7.4,
+    "cog": 24.2,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T06:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T07:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T08:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T09:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T10:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T11:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T12:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T13:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T14:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T15:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T16:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T17:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T18:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T19:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T20:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "hour": "2025-10-22T21:00:00Z",
+    "time": null,
+    "count": 0,
+    "hasSignal": false,
+    "sog": null,
+    "cog": null,
+    "heading": null,
+    "status": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.214704,
+     63.301315
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T22:00:00Z",
+    "time": "2025-10-22T22:59:31Z",
+    "count": 58,
+    "hasSignal": true,
+    "sog": 6.2,
+    "cog": 234.7,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.02273,
+     63.245983
+    ]
+   },
+   "properties": {
+    "hour": "2025-10-22T23:00:00Z",
+    "time": "2025-10-22T23:59:30Z",
+    "count": 193,
+    "hasSignal": true,
+    "sog": 5.9,
+    "cog": 240.1,
+    "heading": 511,
+    "status": "Under maskin"
+   }
+  }
+ ]
+}
