@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tabell eller kart</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css" />
+  <style>
+    body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background: #f2f2f2; }
+    header { padding: 12px 16px; background: #222; color: white; }
+    header h1 { margin: 0 0 4px; font-size: 18px; }
+    header p { margin: 0; font-size: 14px; color: #ccc; }
+    header a { color: #8ecbff; }
+    main { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 16px; gap: 12px; }
+    button { font: inherit; font-size: 15px; padding: 8px 18px; border: 0; border-radius: 4px; background: #222; color: white; cursor: pointer; }
+    button:hover { background: #444; }
+
+    /* Kortet: to sider som roterer rundt y-aksen */
+    #scene { flex: 1; min-height: 0; width: 100%; max-width: 900px; perspective: 1600px; }
+    #kort { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s; }
+    #kort.snudd { transform: rotateY(180deg); }
+    .side { position: absolute; inset: 0; backface-visibility: hidden; background: white; border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.3); overflow: hidden; }
+    .bak { transform: rotateY(180deg); }
+
+    .rull { height: 100%; overflow: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { padding: 4px 10px; text-align: left; border-bottom: 1px solid #eee; }
+    th { position: sticky; top: 0; background: #222; color: white; }
+    td.wkt { font-family: monospace; white-space: nowrap; }
+    td.tall, th.tall { text-align: right; }
+
+    #kartvisning { position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tabell eller kart?</h1>
+    <p>
+      Her er ett og samme datasett – 59 punkter med koordinater og attributter.
+      Prøv å finne ut hva det forestiller ved å lese tabellen, og snu så kortet.
+      Les mer i <a href="README.md">README.md</a>.
+    </p>
+  </header>
+  <main>
+    <button id="snu">Snu kortet → vis kart</button>
+    <div id="scene">
+      <div id="kort">
+        <div class="side foran"><div class="rull"><table id="tabell"></table></div></div>
+        <div class="side bak"><div id="kartvisning"></div></div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import * as maplibregl from 'https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.mjs';
+
+    const data = await (await fetch('smiley.geojson')).json();
+
+    // --- Tabell: geometrien vises som WKT-tekst, resten som vanlige attributter ---
+    const wkt = (g) => `POINT (${g.coordinates[0]} ${g.coordinates[1]})`;
+    const kolonner = ['id', 'geometri (WKT)', 'del', 'farge', 'verdi'];
+    const tall = new Set(['id', 'verdi']);
+    document.getElementById('tabell').innerHTML =
+      '<thead><tr>' + kolonner.map((k) => `<th class="${tall.has(k) ? 'tall' : ''}">${k}</th>`).join('') + '</tr></thead>' +
+      '<tbody>' + data.features.map((f) => {
+        const p = f.properties;
+        return `<tr><td class="tall">${p.id}</td><td class="wkt">${wkt(f.geometry)}</td>` +
+               `<td>${p.del}</td><td>${p.farge}</td><td class="tall">${p.verdi}</td></tr>`;
+      }).join('') + '</tbody>';
+
+    // --- Kart: samme data, tegnet i koordinatrommet ---
+    const farger = { gul: '#f5c400', svart: '#222', 'rød': '#d62828' };
+    const kart = new maplibregl.Map({
+      container: 'kartvisning',
+      // OpenFreeMap: gratis vektorfliser uten API-nøkkel. "positron" er lys og dempet, så punktene skiller seg ut.
+      style: 'https://tiles.openfreemap.org/styles/positron',
+      center: [8.0031, 58.1647],
+      zoom: 11,
+    });
+    kart.on('load', () => {
+      kart.addSource('smiley', { type: 'geojson', data });
+      kart.addLayer({
+        id: 'punkter', type: 'circle', source: 'smiley',
+        paint: {
+          'circle-radius': ['interpolate', ['linear'], ['get', 'verdi'], 5, 6, 15, 10],
+          'circle-color': ['match', ['get', 'farge'], 'gul', farger.gul, 'svart', farger.svart, 'rød', farger['rød'], '#888'],
+          'circle-stroke-color': '#222', 'circle-stroke-width': 1,
+        },
+      });
+      const b = new maplibregl.LngLatBounds();
+      data.features.forEach((f) => b.extend(f.geometry.coordinates));
+      kart.fitBounds(b, { padding: 60, animation: false });
+    });
+
+    // --- Snu kortet ---
+    const kort = document.getElementById('kort');
+    const knapp = document.getElementById('snu');
+    knapp.addEventListener('click', () => {
+      const snudd = kort.classList.toggle('snudd');
+      knapp.textContent = snudd ? '← Snu kortet tilbake → vis tabell' : 'Snu kortet → vis kart';
+      kart.resize();
+    });
+  </script>
+</body>
+</html>
