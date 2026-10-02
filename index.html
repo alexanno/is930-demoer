@@ -63,20 +63,45 @@
   }
   .card a {
     display: block;
-    padding: 1.25rem;
     text-decoration: none;
     color: inherit;
+  }
+  .card > a {
+    padding: 1.25rem;
   }
   .card h2 {
     margin: 0 0 0.5rem;
     font-size: 1.15rem;
     color: var(--accent);
+    padding: 1.25rem 1.25rem 0;
+  }
+  .card > a h2 {
+    padding: 0;
   }
   .card p {
     margin: 0;
     font-size: 0.92rem;
     line-height: 1.4;
     opacity: 0.85;
+    padding: 0 1.25rem;
+  }
+  .card > a p {
+    padding: 0;
+  }
+  .card ul.pages {
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .card ul.pages a {
+    color: var(--accent);
+    font-size: 0.92rem;
+  }
+  .card ul.pages a:hover {
+    text-decoration: underline;
   }
 </style>
 </head>
@@ -86,6 +111,12 @@
     <p>Demoer til bruk i undervisning i tematisk kartografi.</p>
   </header>
   <ul class="cards">
+      <li class="card">
+        <a href="AIS-eksempel/ais_animasjon.html">
+          <h2>AIS-eksempel</h2>
+          
+        </a>
+      </li>
       <li class="card">
         <a href="Fargeskalaer for tematiske kart/index.html">
           <h2>Fargeskalaer for tematiske kart</h2>
@@ -109,6 +140,14 @@
           <h2>Bakgrunnskart side om side</h2>
           <p>En demo til bruk i undervisning: samme kartutsnitt vist gjennom ni forskjellige bakgrunnskart-tjenester, side om side. Panorer eller zoom i ett kart, og alle de andre følger med. Poenget er å vise at et "kart" bare er en visning av data, og at valget av datakilde og kartmotor påvirker hvordan verden ser ut.</p>
         </a>
+      </li>
+      <li class="card">
+        <h2>geografiske-okosystem-i-norge</h2>
+        
+        <ul class="pages">
+          <li><a href="geografiske-okosystem-i-norge/okosystem-gammelt-kart.html">Kart over det geografiske økosystemet i Norge</a></li>
+          <li><a href="geografiske-okosystem-i-norge/okosystem-soner-og-kort.html">Det geografiske økosystemet i Norge, oversikt</a></li>
+        </ul>
       </li>
   </ul>
 </body>
