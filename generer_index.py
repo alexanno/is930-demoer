@@ -29,13 +29,17 @@ def find_demos():
         if not entry.is_dir():
             continue
         if entry.name.startswith("."):
+            print(f"  hopper over {entry.name}/ (skjult mappe)")
             continue
         if is_ignored(entry.name):
+            print(f"  hopper over {entry.name}/ (i .gitignore)")
             continue
-        index = entry / "index.html"
-        if not index.exists():
+        pages = sorted(entry.glob("*.html"))
+        if not pages:
+            print(f"  hopper over {entry.name}/ (ingen .html-filer)")
             continue
-        demos.append(entry)
+        print(f"  fant demo: {entry.name}/ ({len(pages)} side(r))")
+        demos.append((entry, pages))
     return demos
 
 
@@ -76,17 +80,31 @@ def extract_description(folder):
 
 def build_html(demos):
     cards = []
-    for folder in demos:
+    for folder, pages in demos:
         index = folder / "index.html"
-        title = extract_title(index)
+        title = extract_title(index) if index.exists() else folder.name
         description = extract_description(folder)
-        href = f"{folder.name}/index.html"
         desc_html = f"<p>{description}</p>" if description else ""
-        cards.append(f"""      <li class="card">
+
+        if len(pages) == 1:
+            href = f"{folder.name}/{pages[0].name}"
+            cards.append(f"""      <li class="card">
         <a href="{href}">
           <h2>{title}</h2>
           {desc_html}
         </a>
+      </li>""")
+        else:
+            page_links = "\n".join(
+                f'          <li><a href="{folder.name}/{page.name}">{extract_title(page)}</a></li>'
+                for page in pages
+            )
+            cards.append(f"""      <li class="card">
+        <h2>{title}</h2>
+        {desc_html}
+        <ul class="pages">
+{page_links}
+        </ul>
       </li>""")
 
     cards_html = "\n".join(cards)
@@ -156,20 +174,45 @@ def build_html(demos):
   }}
   .card a {{
     display: block;
-    padding: 1.25rem;
     text-decoration: none;
     color: inherit;
+  }}
+  .card > a {{
+    padding: 1.25rem;
   }}
   .card h2 {{
     margin: 0 0 0.5rem;
     font-size: 1.15rem;
     color: var(--accent);
+    padding: 1.25rem 1.25rem 0;
+  }}
+  .card > a h2 {{
+    padding: 0;
   }}
   .card p {{
     margin: 0;
     font-size: 0.92rem;
     line-height: 1.4;
     opacity: 0.85;
+    padding: 0 1.25rem;
+  }}
+  .card > a p {{
+    padding: 0;
+  }}
+  .card ul.pages {{
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }}
+  .card ul.pages a {{
+    color: var(--accent);
+    font-size: 0.92rem;
+  }}
+  .card ul.pages a:hover {{
+    text-decoration: underline;
   }}
 </style>
 </head>
