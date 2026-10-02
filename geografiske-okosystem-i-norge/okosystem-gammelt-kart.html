@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kart over det geografiske økosystemet i Norge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<style>
+:root{
+  --desk:#CDBB94; --deskink:#2B1E10; --deskmuted:#5C4527;
+  --parch:#E9DBB4; --parch2:#F2E8C8; --ink:#3A2818; --ink2:#6B4E2E; --sea:#5E7B80; --red:#9A2F1F;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --desk:#1D1610; --deskink:#EADCB8; --deskmuted:#B8A47A; }
+}
+:root[data-theme="dark"]{ --desk:#1D1610; --deskink:#EADCB8; --deskmuted:#B8A47A; }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--deskink);font:16px/1.5 "IM Fell English",Georgia,"Times New Roman",serif}
+.wrap{max-width:1400px;margin:0 auto;padding:26px 22px 56px}
+h1{font:400 clamp(1.7rem,3.6vw,2.6rem)/1.1 "IM Fell English SC","IM Fell English",Georgia,serif;margin:0 0 6px;letter-spacing:.02em}
+.lede{color:var(--deskmuted);max-width:64ch;margin:0 0 18px;font-style:italic}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+@media (min-width:1100px){.layout{grid-template-columns:minmax(0,1fr) 300px}}
+.mapwrap{overflow-x:auto;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+#map{display:block;width:100%;min-width:900px;height:auto;background:var(--parch)}
+
+/* Kartelementer */
+.sea-ink{stroke:var(--sea)}
+.w3{fill:none;stroke:var(--sea);stroke-width:36;stroke-linejoin:round;opacity:.07}
+.w2{fill:none;stroke:var(--sea);stroke-width:24;stroke-linejoin:round;opacity:.09}
+.w1{fill:none;stroke:var(--sea);stroke-width:12;stroke-linejoin:round;opacity:.15}
+.gr{fill:var(--parch2)}
+.coast{fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linejoin:round}
+.mt{fill:var(--parch2);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.mh{stroke:var(--ink);stroke-width:1;fill:none;opacity:.8}
+.rv-o{fill:none;stroke:var(--ink);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.rv-i{fill:none;stroke:#A9C0BE;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.rv-d{fill:none;stroke:var(--sea);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round;opacity:.9}
+.reg{fill:rgba(154,47,31,.07);stroke:none}
+.regline{fill:none;stroke:var(--red);stroke-width:3;stroke-dasharray:14 5 2 5;stroke-linecap:round;opacity:.85}
+.ink{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.inkf{fill:var(--ink)}
+.parf{fill:var(--parch2);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
+.redf{fill:var(--red);stroke:var(--ink);stroke-width:1}
+.lbl{font-family:"IM Fell English",Georgia,serif;font-style:italic;fill:var(--ink);text-anchor:middle;
+  paint-order:stroke;stroke:#EFE3C0;stroke-width:4;stroke-linejoin:round}
+.lbl.sc{font-family:"IM Fell English SC","IM Fell English",Georgia,serif;font-style:normal;letter-spacing:.14em}
+.lbl.sea{font-family:"IM Fell English SC","IM Fell English",Georgia,serif;font-style:normal;fill:#41606A;letter-spacing:.3em;stroke:none}
+.lbl.small{stroke-width:3}
+.lbl.rt{fill:var(--red);font-size:19px;stroke-width:5}
+.route{fill:none;stroke:var(--red);stroke-width:3;stroke-dasharray:11 8;stroke-linecap:round;opacity:.92}
+.feat{cursor:pointer}
+.feat.dim{opacity:.26}
+.feat.sel{filter:drop-shadow(0 0 5px rgba(154,47,31,.85))}
+.feat:focus{outline:none}
+.feat:focus-visible{filter:drop-shadow(0 0 5px rgba(154,47,31,.85))}
+.pointer-none{pointer-events:none}
+
+/* Panel */
+#panel{align-self:start;background:var(--parch);color:var(--ink);padding:20px 20px 18px;
+  box-shadow:inset 0 0 0 4px var(--parch),inset 0 0 0 5.5px #8B6B3D,0 8px 22px rgba(0,0,0,.3)}
+@media (min-width:1100px){#panel{position:sticky;top:16px}}
+#panel h3{font:400 1.55rem/1.15 "IM Fell English SC","IM Fell English",Georgia,serif;margin:0 0 6px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-style:italic;color:var(--ink2);margin-bottom:8px}
+.tag i{width:11px;height:11px;background:var(--c);display:inline-block;border:1px solid var(--ink)}
+#panel p{margin:0}
+.muted{color:var(--ink2)}
+#panel h4{font:400 .95rem "IM Fell English SC","IM Fell English",serif;letter-spacing:.06em;margin:16px 0 4px;color:var(--ink2)}
+#panel ul{list-style:none;margin:0;padding:0}
+#panel li{border-top:1px solid rgba(107,78,46,.45);padding:5px 0}
+.lnk{font:inherit;font-size:15px;background:none;border:0;padding:0;text-align:left;cursor:pointer;color:var(--ink)}
+.lnk b{font-weight:400;text-decoration:underline;text-decoration-color:rgba(154,47,31,.6);text-underline-offset:3px}
+.ty{color:var(--ink2);font-style:italic}
+.nb{display:block;font-size:13.5px;color:var(--ink2)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.ext{color:var(--red);text-decoration:underline;text-underline-offset:3px}
+
+/* Tegnforklaring */
+.key{margin-top:22px;background:var(--parch);color:var(--ink);padding:16px 20px 18px;
+  box-shadow:inset 0 0 0 4px var(--parch),inset 0 0 0 5.5px #8B6B3D}
+.key h2{font:400 1.2rem "IM Fell English SC","IM Fell English",serif;letter-spacing:.08em;margin:0 0 10px}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px 22px}
+.keygrid div{display:flex;gap:10px;align-items:center;font-size:15px;line-height:1.25}
+.keygrid svg{flex:none;width:54px;height:36px}
+.keygrid small{display:block;color:var(--ink2);font-style:italic;font-size:13px}
+.washes{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;padding-top:10px;border-top:1px solid rgba(107,78,46,.45);font-size:14px}
+.washes span{display:inline-flex;align-items:center;gap:6px}
+.washes i{width:16px;height:12px;border:1px solid var(--ink);display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Kart over det geografiske økosystemet i Norge</h1>
+  <p class="lede">Lovene er fjell, departementet sitter på slottet, Kartverket er hovedstaden og Geonorge er den store elva. Klikk på et sted for å se seilingsrutene til de andre.</p>
+  <div class="layout">
+    <main>
+      <div class="mapwrap"><svg id="map" viewBox="0 0 1600 1000" role="group" aria-label="Kart over aktørene"></svg></div>
+    </main>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+
+  <section class="key" aria-label="Tegnforklaring">
+    <h2>Tegnforklaring</h2>
+    <div class="keygrid">
+      <div><svg viewBox="0 0 54 36"><path d="M4 32L18 8L32 32Z M22 32L36 12L50 32Z" class="mt"/><path d="M30 20l-3 12M34 22l-3 10M38 24l-3 8" class="mh"/></svg><span>Fjell<small>lov og regelverk</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M10 32V14h6v-4h4v4h4v-4h4v4h6v18Z" class="parf"/><path d="M27 14V4l10 3-10 3" class="redf"/></svg><span>Slott<small>departement</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M10 14L27 5L44 14Z" class="parf"/><rect x="10" y="14" width="34" height="3" class="parf"/><path d="M14 17v13M22 17v13M30 17v13M38 17v13" class="ink" style="stroke-width:3"/><rect x="8" y="30" width="38" height="3" class="parf"/></svg><span>Rådssal<small>rådgivende organ (Geodatarådet)</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M6 20C8 8 22 4 34 8C48 10 52 22 42 30C30 36 12 34 6 20Z" class="parf"/></svg><span>Øy<small>en organisasjon eller aktør</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M6 14c2-5 8-5 10-1c2 5-6 8-10 1Z M22 22c3-5 10-4 11 1c1 5-9 6-11-1Z M38 10c3-4 9-3 10 2c0 5-9 6-10-2Z" class="parf"/></svg><span>Øygruppe<small>mange like aktører (kommunene)</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M4 8C18 8 20 18 28 20S44 22 50 30" class="rv-o"/><path d="M4 8C18 8 20 18 28 20S44 22 50 30" class="rv-i"/></svg><span>Elv<small>felles tjeneste for deling</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M4 18H50" class="regline"/></svg><span>Stiplet grense<small>Norge digitalt: avtalebasert samarbeid</small></span></div>
+      <div><svg viewBox="0 0 54 36"><text x="27" y="23" text-anchor="middle" style="font:15px 'IM Fell English SC',serif;letter-spacing:.2em;fill:#41606A">HAV</text></svg><span>Havområde<small>Geovekst: felles finansiering</small></span></div>
+      <div><svg viewBox="0 0 54 36"><circle cx="27" cy="18" r="9" class="parf"/><path d="M27 18v-6" class="ink"/></svg><span>Ytre skjær<small>randsoneaktører</small></span></div>
+      <div><svg viewBox="0 0 54 36"><path d="M4 28C16 8 38 8 50 26" class="route"/><path d="M50 26l-9-2 3 8z" fill="#9A2F1F"/></svg><span>Seilingsrute<small>relasjon: regulering, penger, data</small></span></div>
+    </div>
+    <div class="washes" id="washes"></div>
+  </section>
+  <p class="lede" style="margin-top:20px">Steder og ruter merket med «?» er ikke faktasjekket. Kartet er en tegnet metafor, ikke en målestokk.</p>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ship" viewBox="-16 -26 32 30" overflow="visible">
+      <path d="M-14 -4H14L9 3H-9Z" class="parf"/>
+      <path d="M0 -4V-24" class="ink"/>
+      <path d="M1 -23C12 -17 12 -9 1 -6Z" class="parf"/>
+      <path d="M-1 -20C-9 -15 -9 -9 -1 -6Z" class="parf"/>
+      <path d="M0 -24l6 2l-6 2z" class="redf"/>
+    </symbol>
+    <g id="town">
+      <path d="M-5 0V-6L0 -10L5 -6V0Z" class="parf"/>
+      <path d="M9 0V-4L12 -7L15 -4V0Z" class="parf"/>
+      <path d="M-11 0V-3L-8 -5L-5 -3V0Z" class="parf"/>
+    </g>
+    <g id="tree"><path d="M0 0V6" class="ink"/><path d="M-6 0C-8 -8 -2 -13 0 -14C2 -13 8 -8 6 0Z" class="parf"/></g>
+  </defs>
+</svg>
+
+<script>
+const D = {"sektorer": {"stat": {"navn": "Stat", "farge": "#1D4E89"}, "regelverk": {"navn": "Lov og regelverk", "farge": "#B03A48"}, "kommune": {"navn": "Kommune", "farge": "#2E7D5B"}, "privat": {"navn": "Privat sektor", "farge": "#C7781B"}, "samarbeid": {"navn": "Samarbeid og fellestjenester", "farge": "#0E8C99"}, "randsone": {"navn": "Randsoneaktører", "farge": "#6B7B85"}}, "kategorier": [{"id": "styring", "navn": "Politikk og regelverk", "farge": "#B03A48"}, {"id": "kjerne", "navn": "Koordinator og fellestjenester", "farge": "#1D4E89"}, {"id": "samarbeid", "navn": "Samarbeid og rådgivning", "farge": "#0E7C89"}, {"id": "kommune", "navn": "Kommunene", "farge": "#2E7D5B"}, {"id": "privat", "navn": "Privat sektor", "farge": "#9A5A0C"}, {"id": "randsone", "navn": "Randsoneaktører", "farge": "#56656E"}], "relasjonstyper": {"regulerer": "Regulerer / pålegger", "finansierer": "Finansierer", "produserer": "Produserer / vedlikeholder", "forvalter": "Forvalter / drifter", "distribuerer": "Distribuerer til", "bruker": "Bruker data fra", "leverer": "Leverer til", "samarbeider": "Samarbeider i"}, "entiteter": [{"id": "kdd", "navn": "Kommunal- og distriktsdepartementet", "kort": "KDD", "kat": "styring", "sektor": "stat", "tekst": "Departementet med ansvar for den nasjonale kart- og geodatapolitikken og plan- og bygningsloven. Styrer Kartverket gjennom hovedinstruks og tildelingsbrev.", "lenke": "https://www.regjeringen.no/nb/dep/kmd/dep/id509/", "lenketekst": "regjeringen.no: KDDs ansvarsområder"}, {"id": "inspire", "navn": "INSPIRE-direktivet (EU)", "kort": "INSPIRE", "kat": "styring", "sektor": "regelverk", "tekst": "EU-direktiv om infrastruktur for geodata. Gjennomført i norsk rett gjennom geodataloven og geodataforskriften.", "lenke": "https://www.regjeringen.no/no/sub/eos-notatbasen/notatene/sl/inspire-direktivet/id2434417/", "lenketekst": "EØS-notatbasen: INSPIRE-direktivet"}, {"id": "geodataloven", "navn": "Geodataloven", "kat": "styring", "sektor": "regelverk", "tekst": "Lov om infrastruktur for geografisk informasjon (2010). Pålegger eiere av geodata å gjøre dem tilgjengelige. Forskriften gir Kartverket rollen som geodatakoordinator.", "lenke": "https://lovdata.no/dokument/NL/lov/2010-09-03-56", "lenketekst": "Lovdata: geodataloven"}, {"id": "matrikkelloven", "navn": "Matrikkelloven", "kat": "styring", "sektor": "regelverk", "tekst": "Lov om eigedomsregistrering. Regulerer matrikkelen, det offisielle eiendomsregisteret, og hvem som fører den.", "lenke": "https://lovdata.no/dokument/NL/lov/2005-06-17-101", "lenketekst": "Lovdata: matrikkelloven"}, {"id": "pbl", "navn": "Plan- og bygningsloven", "kort": "Plan- og bygningsl.", "kat": "styring", "sektor": "regelverk", "tekst": "Lov om planlegging og byggesaksbehandling. Rammer for arealplanlegging og byggesak.", "lenke": "https://lovdata.no/dokument/NL/lov/2008-06-27-71", "lenketekst": "Lovdata: plan- og bygningsloven"}, {"id": "kartverket", "navn": "Kartverket", "kat": "kjerne", "sektor": "stat", "stor": true, "tekst": "Statens fagorgan for kart, geodata og eiendomsinformasjon. Sentral matrikkel- og tinglysingsmyndighet og nasjonal geodatakoordinator. Sekretariat for Norge digitalt og Geodatarådet, leder Geovekst og driver Geonorge.", "lenke": "https://www.kartverket.no/geodataarbeid", "lenketekst": "Kartverket: geodataarbeid"}, {"id": "geonorge", "navn": "Geonorge", "kat": "kjerne", "sektor": "samarbeid", "tekst": "Det nasjonale nettstedet for kartdata og annen stedfestet informasjon. Her søker og laster brukere ned det som er tilgjengelig.", "lenke": "https://www.geonorge.no/", "lenketekst": "geonorge.no"}, {"id": "norge-digitalt", "navn": "Norge digitalt", "kat": "samarbeid", "sektor": "samarbeid", "tekst": "Samarbeid mellom virksomheter som skaffer eller bruker stedfestet informasjon. Nær 500 parter, blant dem kommuner, fylker og nasjonale etater, deler data etter geodataloven.", "lenke": "https://www.kartverket.no/geodataarbeid/norge-digitalt", "lenketekst": "Kartverket: Norge digitalt"}, {"id": "geovekst", "navn": "Geovekst", "kat": "samarbeid", "sektor": "samarbeid", "tekst": "Samarbeid om etablering, forvaltning og bruk av geografisk informasjon, blant annet felles finansiering av FKB og ortofoto. Kartverket leder. Parter: Statens vegvesen, NVE, Bane NOR, Fornybar Norge, Telenor, kommunene, fylkeskommunene og landbruksetatene.", "lenke": "https://www.kartverket.no/geodataarbeid/geovekst", "lenketekst": "Kartverket: Geovekst"}, {"id": "geodatarad", "navn": "Geodatarådet", "kat": "samarbeid", "sektor": "samarbeid", "tekst": "Nasjonalt geodataråd gir geofaglige råd til KDD og regjeringen om geodatapolitikk. 16 medlemmer fra offentlig og privat sektor.", "lenke": "https://www.kartverket.no/geodataarbeid/nasjonalt-geodatarad", "lenketekst": "Kartverket: Nasjonalt geodataråd"}, {"id": "kommuner", "navn": "Kommunene", "kat": "kommune", "sektor": "kommune", "tekst": "Planmyndighet, adressemyndighet og lokal matrikkelmyndighet. Er parter i Norge digitalt og Geovekst.", "lenke": "https://www.kartverket.no/geodataarbeid/felleslosningene/kommune-og-distrikt", "lenketekst": "Kartverket: kommune og distrikt"}, {"id": "ks", "navn": "KS", "kat": "kommune", "sektor": "kommune", "tekst": "Kommunesektorens organisasjon: interesse- og arbeidsgiverorganisasjon for kommuner og fylkeskommuner. Har sete i Geodatarådet.", "lenke": "https://www.ks.no/", "lenketekst": "ks.no"}, {"id": "dibk", "navn": "DiBK", "kat": "kommune", "sektor": "stat", "tekst": "Direktoratet for byggkvalitet: sentral myndighet for bygningsdelen av plan- og bygningsloven, med arbeid rettet mot kommunene og byggenæringen. Slås sammen med Husbanken til «Husbanken – Bolig og bygningsdirektoratet» 1. januar 2027.", "lenke": "https://www.dibk.no/", "lenketekst": "dibk.no"}, {"id": "privat", "navn": "Privat sektor", "kat": "privat", "sektor": "privat", "tekst": "Programvareleverandører, rådgivere, datafangstfirma og viderebrukere som lager produkter og tjenester på geodata.", "lenke": "https://www.kartverket.no/geodataarbeid/felleslosningene/innovasjon-og-naringsliv", "lenketekst": "Kartverket: innovasjon og næringsliv"}, {"id": "entur", "navn": "Entur", "kat": "randsone", "sektor": "randsone", "tekst": "Statlig eid selskap for kollektivtransport. Administrerer Nasjonalt stoppestedsregister (NSR). Enturs geocoder kombinerer NSR, matrikkelen, Kartverkets stedsnavn og OpenStreetMap.", "lenke": "https://developer.entur.org/pages-nsr-nsr", "lenketekst": "Entur: Nasjonalt stoppestedsregister"}, {"id": "brreg", "navn": "Brønnøysundregistrene", "kort": "Brreg", "kat": "randsone", "sektor": "randsone", "tekst": "Enhetsregisteret er ett av Norges tre basisregistre, sammen med matrikkelen og Folkeregisteret. Matrikkelen mottar adresser til foretak fra Brønnøysundregistrene.", "lenke": "https://www.brreg.no/", "lenketekst": "brreg.no"}, {"id": "randsone-andre", "navn": "Andre randsoneaktører", "kort": "Andre", "kat": "randsone", "sektor": "randsone", "tekst": "For eksempel Skatteetaten (Folkeregisteret) og aktører innen post- og budtjenester. De bruker offisielle adresser fra matrikkelen."}], "relasjoner": [{"fra": "kdd", "til": "kartverket", "type": "regulerer", "merknad": "Styrer gjennom hovedinstruks og tildelingsbrev", "verifiser": ""}, {"fra": "kdd", "til": "dibk", "type": "regulerer", "merknad": "Direktoratet er underlagt KDD", "verifiser": ""}, {"fra": "kdd", "til": "pbl", "type": "forvalter", "merknad": "Har ansvar for loven", "verifiser": ""}, {"fra": "kdd", "til": "geodataloven", "type": "forvalter", "merknad": "Har ansvar for loven", "verifiser": "ja"}, {"fra": "kdd", "til": "matrikkelloven", "type": "forvalter", "merknad": "Har ansvar for loven", "verifiser": "ja"}, {"fra": "inspire", "til": "geodataloven", "type": "regulerer", "merknad": "Direktivet gjennomføres i norsk rett", "verifiser": ""}, {"fra": "inspire", "til": "norge-digitalt", "type": "regulerer", "merknad": "Praktisk gjennomføring skjer i Norge digitalt", "verifiser": ""}, {"fra": "geodataloven", "til": "kartverket", "type": "regulerer", "merknad": "Forskriften til loven gir Kartverket rollen som geodatakoordinator", "verifiser": ""}, {"fra": "geodataloven", "til": "norge-digitalt", "type": "regulerer", "merknad": "Lovkravet om deling av geodata innfris gjennom samarbeidet", "verifiser": ""}, {"fra": "matrikkelloven", "til": "kartverket", "type": "regulerer", "merknad": "Kartverket er sentral matrikkelmyndighet", "verifiser": ""}, {"fra": "matrikkelloven", "til": "kommuner", "type": "regulerer", "merknad": "Kommunen er lokal matrikkelmyndighet", "verifiser": ""}, {"fra": "pbl", "til": "kommuner", "type": "regulerer", "merknad": "Kommunen er planmyndighet", "verifiser": ""}, {"fra": "dibk", "til": "pbl", "type": "forvalter", "merknad": "Sentral myndighet for bygningsdelen av loven", "verifiser": ""}, {"fra": "dibk", "til": "kommuner", "type": "leverer", "merknad": "Veiledning om byggeregler og byggesaksprosess", "verifiser": ""}, {"fra": "kartverket", "til": "geonorge", "type": "forvalter", "merknad": "Driver den nasjonale geoportalen", "verifiser": ""}, {"fra": "kartverket", "til": "norge-digitalt", "type": "forvalter", "merknad": "Sekretariat og nasjonal geodatakoordinator", "verifiser": ""}, {"fra": "kartverket", "til": "geovekst", "type": "forvalter", "merknad": "Leder Geovekst-samarbeidet", "verifiser": ""}, {"fra": "kartverket", "til": "geovekst", "type": "finansierer", "merknad": "Kartverket er selv part i Geovekst", "verifiser": ""}, {"fra": "kartverket", "til": "geodatarad", "type": "forvalter", "merknad": "Sekretariat for rådet", "verifiser": ""}, {"fra": "geodatarad", "til": "kdd", "type": "leverer", "merknad": "Gir geofaglige råd til departementet og regjeringen", "verifiser": ""}, {"fra": "ks", "til": "geodatarad", "type": "samarbeider", "merknad": "Har sete i rådet", "verifiser": ""}, {"fra": "kommuner", "til": "geodatarad", "type": "samarbeider", "merknad": "Har en kommunal representant i rådet", "verifiser": ""}, {"fra": "ks", "til": "kommuner", "type": "samarbeider", "merknad": "Interesse- og arbeidsgiverorganisasjon for kommunene", "verifiser": ""}, {"fra": "kommuner", "til": "geovekst", "type": "finansierer", "merknad": "Kommunal andel av FKB-finansiering", "verifiser": ""}, {"fra": "privat", "til": "geovekst", "type": "finansierer", "merknad": "Telenor og Fornybar Norge er parter", "verifiser": ""}, {"fra": "kommuner", "til": "norge-digitalt", "type": "samarbeider", "merknad": "Alle kommuner er parter regionalt", "verifiser": ""}, {"fra": "kommuner", "til": "kartverket", "type": "leverer", "merknad": "Matrikkel- og plandata", "verifiser": ""}, {"fra": "geovekst", "til": "privat", "type": "finansierer", "merknad": "Kjøper datafangst og kartproduksjon", "verifiser": "ja"}, {"fra": "geonorge", "til": "kommuner", "type": "distribuerer", "merknad": "", "verifiser": ""}, {"fra": "geonorge", "til": "privat", "type": "distribuerer", "merknad": "Åpne og lisensierte data til viderebruk", "verifiser": ""}, {"fra": "privat", "til": "kommuner", "type": "leverer", "merknad": "Systemer og rådgivning", "verifiser": ""}, {"fra": "kartverket", "til": "entur", "type": "leverer", "merknad": "Matrikkeladresser og stedsnavn til Enturs geocoder", "verifiser": ""}, {"fra": "kartverket", "til": "brreg", "type": "leverer", "merknad": "Offisielle adresser fra matrikkelen", "verifiser": ""}, {"fra": "brreg", "til": "kartverket", "type": "leverer", "merknad": "Foretaksadresser føres inn i matrikkelen", "verifiser": ""}, {"fra": "kartverket", "til": "randsone-andre", "type": "leverer", "merknad": "Offisielle adresser fra matrikkelen", "verifiser": ""}]};
+const S = D.sektorer, K = D.kategorier, T = D.relasjonstyper, N = D.entiteter, E = D.relasjoner;
+const byId = Object.fromEntries(N.map(n => [n.id, n]));
+const state = {sel: null};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const f = x => Math.round(x*10)/10;
+
+/* Dempede «håndkolorerte» farger per sektor */
+const PAL = {stat:'#5E7F9F', kommune:'#7D9A5A', privat:'#C9A04A', samarbeid:'#5C9A9A', regelverk:'#B0574A', randsone:'#9A927E'};
+const wash = n => PAL[n.sektor] || S[n.sektor].farge;
+
+/* Deterministisk tilfeldighet, så kartet ser likt ut hver gang */
+function hash(str){ let h = 2166136261; for(const c of str){ h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+function rng(seed){ let s = seed >>> 0; return () => { s += 0x6D2B79F5; let t = s; t = Math.imul(t ^ t>>>15, t|1); t ^= t + Math.imul(t ^ t>>>7, t|61); return ((t ^ t>>>14) >>> 0) / 4294967296; }; }
+
+function smooth(pts, closed){
+  const n = pts.length; let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
+  const g = i => closed ? pts[(i+n)%n] : pts[Math.max(0, Math.min(n-1, i))];
+  for(let i=0; i<(closed ? n : n-1); i++){
+    const p0 = g(i-1), p1 = g(i), p2 = g(i+1), p3 = g(i+2);
+    d += `C${f(p1[0]+(p2[0]-p0[0])/6)} ${f(p1[1]+(p2[1]-p0[1])/6)} ${f(p2[0]-(p3[0]-p1[0])/6)} ${f(p2[1]-(p3[1]-p1[1])/6)} ${f(p2[0])} ${f(p2[1])}`;
+  }
+  return closed ? d + 'Z' : d;
+}
+function blob(cx, cy, rx, ry, seed, rough = .24, n = 46){
+  const r = rng(seed), a1 = r()*6.28, a2 = r()*6.28, a3 = r()*6.28, pts = [];
+  for(let i=0;i<n;i++){
+    const t = i/n*2*Math.PI;
+    const k = 1 + rough*(.5*Math.sin(3*t+a1) + .35*Math.sin(5*t+a2) + .25*Math.sin(9*t+a3) + (r()-.5)*.28);
+    pts.push([cx + Math.cos(t)*rx*k, cy + Math.sin(t)*ry*k]);
+  }
+  return smooth(pts, true);
+}
+function landG(d, color, wo = .32){
+  return `<path d="${d}" class="w3"/><path d="${d}" class="w2"/><path d="${d}" class="w1"/>
+    <path d="${d}" class="gr"/><path d="${d}" fill="${color}" opacity="${wo}"/><path d="${d}" fill="url(#stip)" opacity=".5"/><path d="${d}" class="coast"/>`;
+}
+function towns(list, sc = 1){ return list.map(([x,y,s]) => `<use href="#town" transform="translate(${x} ${y}) scale(${(s||1)*sc})"/>`).join(''); }
+function trees(list){ return list.map(([x,y,s]) => `<use href="#tree" transform="translate(${x} ${y}) scale(${s||1})"/>`).join(''); }
+function ships(list){ return list.map(([x,y,s,fl]) => `<use href="#ship" width="32" height="30" x="-16" y="-26" transform="translate(${x} ${y}) scale(${(fl?-1:1)*(s||1.3)} ${s||1.3})"/>`).join(''); }
+function lines(arr, x, y){
+  let yy = y;
+  return arr.map(([t, size, c]) => { const el = `<text class="lbl ${c||''}" x="${x}" y="${f(yy)}" style="font-size:${size}px">${esc(t)}</text>`; yy += size*1.18; return el; }).join('');
+}
+function mountains(x, y, w, count, seed){
+  const r = rng(seed), step = w/count, ps = [];
+  for(let i=0;i<count;i++) ps.push({cx:x-w/2+step*(i+.5)+(r()-.5)*step*.3, h:40+r()*40, hw:step*.72+r()*10, base:y+(r()-.5)*14});
+  ps.sort((a,b) => a.base-b.base);
+  return ps.map(p => {
+    let s = `<path d="M${f(p.cx-p.hw)} ${f(p.base)}L${f(p.cx)} ${f(p.base-p.h)}L${f(p.cx+p.hw)} ${f(p.base)}Z" class="mt"/>`;
+    for(let k=1;k<=6;k++){ const u = .12 + k*.13, sx = p.cx + p.hw*u, sy = p.base - p.h + p.h*u;
+      s += `<path d="M${f(sx)} ${f(sy)}L${f(sx-3)} ${f(sy+(p.base-sy)*.86)}" class="mh"/>`; }
+    return s;
+  }).join('');
+}
+function castle(x, y){
+  return `<path d="M${x-30} ${y}V${y-24}h10v-8h6v8h8v-8h6v8h8v-8h6v8h10V${y}Z" class="parf"/>
+    <path d="M${x-38} ${y}V${y-34}h10v-6h4v6h4v-6h4v6h4v34Z" class="parf" transform="translate(6 0)"/>
+    <path d="M${x+14} ${y}V${y-34}h10v-6h4v6h4v-6h4v6h4v34Z" class="parf" transform="translate(-2 0)"/>
+    <path d="M${x-4} ${y}V${y-12}a4 4 0 0 1 8 0V${y}Z" class="inkf"/>
+    <path d="M${x} ${y-44}V${y-64}" class="ink"/><path d="M${x} ${y-64}l16 5l-16 5z" class="redf"/>`;
+}
+function serpent(x, y){
+  const d = `M${x} ${y}q14 -34 28 0t28 0t28 0t28 0`;
+  return `<path d="${d}" class="rv-o" style="stroke-width:9"/><path d="${d}" class="rv-i" style="stroke:#D9C58F;stroke-width:5"/>
+    <path d="M${x+112} ${y}c8 -10 16 -14 20 -22c-6 2 -12 0 -16 -4c-6 8 -10 16 -4 26Z" class="parf"/>
+    <circle cx="${x+124}" cy="${y-19}" r="1.8" class="inkf"/>
+    <path d="M${x-2} ${y}l-10 -8l4 10l-10 2z" class="parf"/>`;
+}
+function compass(cx, cy, R){
+  let s = `<circle cx="${cx}" cy="${cy}" r="${R*.78}" class="ink"/><circle cx="${cx}" cy="${cy}" r="${R*.72}" class="ink" style="stroke-width:.8"/>`;
+  for(let i=0;i<8;i++){
+    const a = i*Math.PI/4 - Math.PI/2, len = i%2===0 ? R : R*.62, w = R*.13, px = -Math.sin(a), py = Math.cos(a);
+    const tip = [cx+Math.cos(a)*len, cy+Math.sin(a)*len], b1 = [cx+px*w, cy+py*w], b2 = [cx-px*w, cy-py*w];
+    s += `<path d="M${f(tip[0])} ${f(tip[1])}L${f(b1[0])} ${f(b1[1])}L${cx} ${cy}Z" class="inkf"/><path d="M${f(tip[0])} ${f(tip[1])}L${f(b2[0])} ${f(b2[1])}L${cx} ${cy}Z" class="parf"/>`;
+  }
+  return s + `<text class="lbl sc" x="${cx}" y="${cy-R-8}" style="font-size:24px;stroke:none">N</text>`;
+}
+
+/* Plassering av stedene. Nøkkel = id fra entiteter.yaml. */
+const L = {
+  inspire:        {t:'continent', x:60,  y:50,  rx:340, ry:250, ax:170, ay:150},
+  kdd:            {t:'castle',    x:800, y:150, ax:800, ay:120},
+  geodataloven:   {t:'mountains', x:560, y:190, w:230, n:5, ax:560, ay:165},
+  matrikkelloven: {t:'mountains', x:1040,y:190, w:230, n:5, ax:1040,ay:165},
+  pbl:            {t:'mountains', x:1310,y:225, w:230, n:5, ax:1310,ay:200},
+  kartverket:     {t:'capital',   x:800, y:455, rx:230, ry:125, ax:800, ay:430},
+  geodatarad:     {t:'hall',      x:300, y:460, rx:125, ry:82,  ax:300, ay:455},
+  ks:             {t:'isle',      x:1500,y:255, r:36, ax:1500,ay:255},
+  dibk:           {t:'isle',      x:1090,y:635, r:36, ax:1090,ay:635},
+  kommuner:       {t:'archipel',  x:1300,y:460, ax:1300,ay:460},
+  privat:         {t:'harbour',   x:830, y:855, rx:215, ry:78,  ax:830, ay:850},
+  geonorge:       {t:'river',     ax:770, ay:560},
+  'norge-digitalt':{t:'region',   ax:800, ay:298},
+  geovekst:       {t:'sea',       x:1110,y:740, ax:1110,ay:740},
+  entur:          {t:'isle',      x:1400,y:815, r:46, ax:1400,ay:815},
+  brreg:          {t:'isle',      x:1240,y:895, r:40, ax:1240,ay:895},
+  'randsone-andre':{t:'isle',     x:1500,y:715, r:34, ax:1500,ay:715, dotted:true},
+};
+const A = {};
+Object.entries(L).forEach(([id,c]) => A[id] = [c.ax, c.ay]);
+
+const selCls = n => {
+  if(!state.sel) return '';
+  if(n.id===state.sel) return 'sel';
+  const rel = state.rel; return rel.has(n.id) ? '' : 'dim';
+};
+const feat = (id, inner, hit) => {
+  const n = byId[id]; if(!n) return '';
+  return `<g class="feat ${selCls(n)}" data-id="${id}" tabindex="0" role="button" aria-label="${esc(n.navn)}">${hit||''}${inner}</g>`;
+};
+const hitE = (cx, cy, rx, ry) => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="transparent"/>`;
+const host = u => { try { return new URL(u).hostname.replace(/^www\./,''); } catch(e){ return u; } };
+const linkTxt = n => n.lenketekst || host(n.lenke);
+const nm = id => { const n = byId[id]; return (n.kort || n.navn) + (n.verifiser ? ' ?' : ''); };
+
+function drawFeature(id){
+  const c = L[id], n = byId[id]; if(!c || !n) return '';
+  const col = wash(n), seed = hash(id);
+  switch(c.t){
+    case 'continent': {
+      const d = blob(150, 80, 300, 185, seed, .12, 60);
+      return feat(id, landG(d, col, .2) + towns([[300,215,1.3],[90,215,1.1],[330,110,1.1],[60,110,1]]) + trees([[110,160],[260,190],[380,150],[40,60]]) +
+        lines([['E U R O P A',34,'sc'],[nm(id),26,'']], 190, 120), hitE(190,130,190,80));
+    }
+    case 'castle': {
+      const d = blob(c.x, c.y+8, 100, 44, seed, .2, 30);
+      return feat(id, landG(d, col) + castle(c.x, c.y) + lines([['KDD',28,'sc'],['Departementet',20,'']], c.x, c.y+64), hitE(c.x, c.y, 100, 70));
+    }
+    case 'mountains': {
+      return feat(id, mountains(c.x, c.y, c.w, c.n, seed) + lines([[nm(id),26,'']], c.x, c.y+42), hitE(c.x, c.y-10, c.w/2+10, 50));
+    }
+    case 'capital': {
+      const d = blob(c.x, c.y, c.rx, c.ry, seed, .2, 52);
+      const star = `<path d="M800 392l5 12h13l-10 8l4 13l-12-8l-12 8l4-13l-10-8h13z" class="redf"/>`;
+      return feat(id, landG(d, col) + towns([[650,440,1.3],[655,505,1.1],[945,430,1.3],[950,498,1.1],[725,385,1.1],[875,385,1.2]]) + trees([[690,535],[915,538],[985,465]]) + star +
+        lines([['KARTVERKET',32,'sc'],['nasjonal geodatakoordinator',21,'']], 800, 462), hitE(800, 450, 210, 100));
+    }
+    case 'hall': {
+      const d = blob(c.x, c.y, c.rx, c.ry, seed, .24, 40), x = c.x, y = c.y - 8;
+      const hall = `<path d="M${x-54} ${y-24}L${x} ${y-52}L${x+54} ${y-24}Z" class="parf"/><rect x="${x-54}" y="${y-24}" width="108" height="8" class="parf"/>` +
+        [-40,-20,0,20,40].map(dx => `<rect x="${x+dx-4}" y="${y-16}" width="8" height="30" class="parf"/>`).join('') +
+        `<rect x="${x-58}" y="${y+14}" width="116" height="7" class="parf"/>`;
+      return feat(id, landG(d, col) + hall + lines([[nm(id).toUpperCase(),24,'sc'],['rådgiver departementet',19,'']], c.x, c.y+50), hitE(c.x, c.y, c.rx, c.ry));
+    }
+    case 'island': {
+      const d = blob(c.x, c.y, c.rx, c.ry, seed, .26, 40);
+      return feat(id, landG(d, col) + towns([[c.x-60,c.y-15,1.2],[c.x+40,c.y-25,1.1],[c.x+70,c.y+25,1.2],[c.x-70,c.y+30,1]]) + trees([[c.x-10,c.y+30],[c.x+100,c.y]]) +
+        lines([[nm(id).toUpperCase(),26,'sc']], c.x, c.y+58), hitE(c.x, c.y, c.rx, c.ry));
+    }
+    case 'archipel': {
+      const r = rng(seed); let s = '';
+      const spots = [[-140,-70,54,36],[-30,-95,46,32],[95,-60,58,38],[-120,25,60,40],[10,10,66,44],[135,50,52,36],[-30,100,50,32]];
+      spots.forEach(([dx,dy,rx,ry], i) => { const d = blob(c.x+dx, c.y+dy, rx, ry, seed+i*17, .3, 28);
+        s += landG(d, col) + towns([[c.x+dx-8,c.y+dy+4,.9],[c.x+dx+14,c.y+dy-6,.8]]); });
+      return feat(id, s + lines([['K O M M U N E N E',26,'sc']], c.x, c.y+205), hitE(c.x, c.y+20, 210, 170));
+    }
+    case 'harbour': {
+      const d = blob(c.x, c.y, c.rx, c.ry, seed, .2, 44);
+      return feat(id, landG(d, col) + towns([[c.x-100,c.y-30,1.3],[c.x-30,c.y-42,1.4],[c.x+60,c.y-32,1.3],[c.x+125,c.y-8,1.1],[c.x-60,c.y-5,1.1]]) +
+        `<path d="M${c.x-8} ${c.y-70}v-14M${c.x-8} ${c.y-84}h10" class="ink"/>` + ships([[c.x-250,c.y-40,1.5],[c.x+270,c.y+10,1.3,true],[c.x-140,c.y+92,1.2]]) +
+        lines([['PRIVAT SEKTOR',30,'sc'],['Markedsplassen',21,'']], c.x, c.y+40), hitE(c.x, c.y, c.rx+30, c.ry+20));
+    }
+    case 'isle': {
+      const d = blob(c.x, c.y, c.r*1.15, c.r*.85, seed, .3, 26);
+      return feat(id, landG(d, col) + trees([[c.x-8,c.y+2,1.1],[c.x+12,c.y+8,.9]]) +
+        lines([[nm(id),24,'']], c.x, c.y+c.r+30), hitE(c.x, c.y+10, c.r+25, c.r+30));
+    }
+    case 'river': {
+      const inside = [[625,415],[655,465],[640,520],[700,560],[765,585]];
+      const out = [[765,585],[800,650],[775,710],[830,750]];
+      const east = [[800,650],[960,612],[1100,585],[1160,540]];
+      const pi = smooth(inside, false);
+      return feat(id, `<path d="${smooth(east,false)}" class="rv-d"/><path d="${smooth(out,false)}" class="rv-d"/>` +
+        `<path d="${pi}" class="rv-o"/><path d="${pi}" class="rv-i"/><path id="gnpath" d="${smooth(out,false)}" fill="none"/>` +
+        `<text class="lbl sc" style="font-size:22px;letter-spacing:.3em;stroke-width:5"><textPath href="#gnpath" startOffset="52%" text-anchor="middle">GEONORGE</textPath></text>`,
+        `<path d="${pi}" fill="none" stroke="transparent" stroke-width="26"/><ellipse cx="795" cy="660" rx="55" ry="85" fill="transparent"/>`);
+    }
+    case 'region': {
+      const pts = [[150,330],[330,292],[560,282],[800,268],[1080,292],[1310,296],[1480,375],[1500,520],[1345,625],[1080,600],[900,585],[700,605],[450,612],[200,595],[125,470]];
+      const d = smooth(pts, true);
+      return feat(id, `<path d="${d}" class="reg pointer-none"/><path d="${d}" class="regline"/>` +
+        `<text class="lbl sea" x="800" y="312" style="font-size:22px;fill:var(--red);stroke:none">N O R G E  ·  D I G I T A L T</text>`,
+        `<path d="${d}" fill="none" stroke="transparent" stroke-width="22"/>${hitE(800,308,190,18)}`);
+    }
+    case 'sea': {
+      return feat(id, `<text class="lbl sea" x="${c.x}" y="${c.y}" style="font-size:34px">G E O V E K S T</text>` +
+        `<text class="lbl small" x="${c.x}" y="${c.y+30}" style="font-size:19px;stroke:none;fill:#41606A">felleskassen for kart og ortofoto${byId[id].verifiser?' ?':''}</text>`, hitE(c.x, c.y+6, 190, 34));
+    }
+  }
+  return '';
+}
+
+function routesSVG(){
+  if(!state.sel) return '';
+  let s = '<g class="routes" pointer-events="none">'; const seen = new Set(); let i = 0;
+  E.filter(e => e.fra===state.sel || e.til===state.sel).forEach(e => {
+    const a = A[e.fra], z = A[e.til]; if(!a || !z) return;
+    const key = e.fra+'>'+e.til, dup = seen.has(key); seen.add(key);
+    const dx = z[0]-a[0], dy = z[1]-a[1], len = Math.hypot(dx, dy) || 1, off = (dup ? -1 : 1)*.17*len;
+    const cx = (a[0]+z[0])/2 - dy/len*off, cy = (a[1]+z[1])/2 + dx/len*off;
+    s += `<path class="route" id="rt${i}" d="M${f(a[0])} ${f(a[1])}Q${f(cx)} ${f(cy)} ${f(z[0])} ${f(z[1])}" marker-end="url(#arr)"/>`;
+    s += `<g class="rtlab" data-rt="rt${i}" data-lab="${esc(T[e.type].split(' /')[0])}"></g>`;
+    i++;
+  });
+  return s + '</g>';
+}
+function placeShips(){
+  document.querySelectorAll('.rtlab').forEach(g => {
+    const p = document.getElementById(g.dataset.rt); if(!p) return;
+    const L2 = p.getTotalLength(), m = p.getPointAtLength(L2/2), m2 = p.getPointAtLength(L2/2+6);
+    const dir = m2.x >= m.x ? 1 : -1;
+    g.innerHTML = `<use href="#ship" width="32" height="30" x="-16" y="-26" transform="translate(${f(m.x)} ${f(m.y+8)}) scale(${1.25*dir} 1.25)"/>` +
+      `<text class="lbl rt" x="${f(m.x)}" y="${f(m.y-38)}">${esc(g.dataset.lab)}</text>`;
+  });
+}
+
+function decorations(){
+  const frame = `<rect x="22" y="22" width="1556" height="956" fill="none" stroke="var(--ink)" stroke-width="8" stroke-dasharray="14 14"/>
+    <rect x="14" y="14" width="1572" height="972" fill="none" stroke="var(--ink)" stroke-width="3"/>
+    <rect x="30" y="30" width="1540" height="940" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;
+  const cart = `<g transform="translate(60 838)">
+    <rect x="0" y="0" width="470" height="118" fill="var(--parch2)" stroke="var(--ink)" stroke-width="3"/>
+    <rect x="7" y="7" width="456" height="104" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+    <text class="lbl sc" x="235" y="42" style="font-size:22px;stroke:none;letter-spacing:.1em">KART OVER DET GEOGRAFISKE</text>
+    <text class="lbl sc" x="235" y="72" style="font-size:22px;stroke:none;letter-spacing:.1em">ØKOSYSTEMET I NORGE</text>
+    <text class="lbl" x="235" y="98" style="font-size:16px;stroke:none">tegnet efter offentlige kilder · Anno MMXXVI · uten målestokk</text></g>`;
+  return frame + compass(150, 690, 74) + serpent(400, 700) +
+    `<text class="lbl small" x="470" y="750" style="font-size:17px;stroke:none;fill:#41606A">Ukjent farvann. Her slutter dokumentasjonen.</text>` + cart;
+}
+
+function renderMap(){
+  state.rel = new Set();
+  if(state.sel) E.forEach(e => { if(e.fra===state.sel) state.rel.add(e.til); if(e.til===state.sel) state.rel.add(e.fra); });
+  const order = ['inspire','region','sea','kdd','geodataloven','matrikkelloven','pbl','geodatarad','kommuner','ks','dibk','kartverket','river','privat','entur','brreg','randsone-andre'];
+  const ids = [...new Set([...order.map(o => o==='region' ? 'norge-digitalt' : o==='sea' ? 'geovekst' : o==='river' ? 'geonorge' : o)])];
+  const body = ids.map(drawFeature).join('');
+  $('#map').innerHTML = `<defs>
+    <radialGradient id="vig" cx="50%" cy="50%" r="75%"><stop offset="55%" stop-color="#8a6a35" stop-opacity="0"/><stop offset="100%" stop-color="#6a4a1c" stop-opacity=".5"/></radialGradient>
+    <pattern id="stip" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".8" fill="#3A2818"/><circle cx="7" cy="8" r=".8" fill="#3A2818"/></pattern>
+    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix type="matrix" values="0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .08  1.1 0 0 0 -.42"/></filter>
+    <filter id="stain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".007" numOctaves="3" seed="9"/><feColorMatrix type="matrix" values="0 0 0 0 .55  0 0 0 0 .38  0 0 0 0 .15  0 0 0 1.3 -.5"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 1L10 5L0 9z" fill="#9A2F1F"/></marker>
+    <clipPath id="clip"><rect x="30" y="30" width="1540" height="940"/></clipPath></defs>
+    <rect width="1600" height="1000" fill="#E9DBB4"/>
+    <rect width="1600" height="1000" filter="url(#stain)" opacity=".55"/>
+    <rect width="1600" height="1000" filter="url(#grain)" opacity=".5"/>
+    <g clip-path="url(#clip)">${body}${routesSVG()}${decorations()}</g>
+    <rect width="1600" height="1000" fill="url(#vig)" pointer-events="none"/>`;
+  placeShips();
+}
+
+function renderPanel(){
+  const el = $('#panel');
+  if(!state.sel){
+    el.innerHTML = `<h3>Velg et sted</h3><p class="muted">${N.length} steder og ${E.length} forbindelser. Klikk på et fjell, en øy eller en elv for å se hvem det har seilingsrute til.</p>`;
+    return;
+  }
+  const n = byId[state.sel], s = S[n.sektor], k = K.find(x => x.id===n.kat);
+  const q = e => e.verifiser ? ' <span class="ty">?</span>' : '';
+  const note = e => e.merknad ? `<span class="nb">${esc(e.merknad)}</span>` : '';
+  const out = E.filter(e => e.fra===n.id).map(e =>
+    `<li><button class="lnk" data-id="${e.til}"><span class="ty">${esc(T[e.type])}</span> <b>${esc(byId[e.til].navn)}</b>${q(e)}</button>${note(e)}</li>`).join('');
+  const inn = E.filter(e => e.til===n.id).map(e =>
+    `<li><button class="lnk" data-id="${e.fra}"><b>${esc(byId[e.fra].navn)}</b> <span class="ty">${esc(T[e.type].toLowerCase())}</span>${q(e)}</button>${note(e)}</li>`).join('');
+  el.innerHTML = `<h3>${esc(n.navn)}</h3>
+    <div class="tag" style="--c:${wash(n)}"><i></i>${esc(s.navn)}${n.verifiser?' · bør faktasjekkes':''}</div>
+    <p>${esc(n.tekst)}</p>
+    ${n.lenke ? `<p style="margin-top:8px;font-size:14.5px"><a class="ext" href="${esc(n.lenke)}" target="_blank" rel="noopener noreferrer">Les mer: ${esc(linkTxt(n))} ↗</a></p>` : ''}
+    <p class="muted" style="margin-top:6px;font-size:14px">Område: ${esc(k.navn)}</p>
+    ${out ? `<h4>Denne aktøren …</h4><ul>${out}</ul>` : ''}
+    ${inn ? `<h4>… denne aktøren</h4><ul>${inn}</ul>` : ''}`;
+}
+function renderWashes(){
+  $('#washes').innerHTML = Object.entries(S).map(([k,v]) => `<span><i style="background:${PAL[k]||v.farge}"></i>${esc(v.navn)}</span>`).join('');
+}
+function render(){ renderMap(); renderPanel(); }
+
+document.addEventListener('click', ev => {
+  if(ev.target.closest('a')) return;
+  const t = ev.target.closest('[data-id]'); if(!t) return;
+  const id = t.dataset.id, inMap = !!t.closest('#map');
+  state.sel = (state.sel===id && inMap) ? null : id;
+  render();
+  if(inMap) document.querySelector(`#map [data-id="${id}"]`)?.focus({preventScroll:true});
+});
+document.addEventListener('keydown', ev => {
+  if((ev.key==='Enter' || ev.key===' ') && ev.target.classList?.contains('feat')){ ev.preventDefault(); ev.target.dispatchEvent(new MouseEvent('click', {bubbles:true})); }
+  if(ev.key==='Escape' && state.sel){ state.sel = null; render(); }
+});
+renderWashes(); render();
+</script>
+</body>
+</html>

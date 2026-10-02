@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Det geografiske økosystemet i Norge, oversikt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF1F2; --surface:#F9FBFB; --ink:#10242B; --muted:#526870; --line:#C5D1D5;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#0F1A1F; --surface:#172830; --ink:#E7EFF1; --muted:#98ABB2; --line:#2D434C; }
+}
+:root[data-theme="dark"]{ --bg:#0F1A1F; --surface:#172830; --ink:#E7EFF1; --muted:#98ABB2; --line:#2D434C; }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1360px;margin:0 auto;padding:28px 24px 56px}
+h1{font:400 clamp(1.9rem,4vw,2.9rem)/1.1 "Instrument Serif",Georgia,serif;margin:0 0 8px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:66ch;margin:0 0 20px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:24px}
+.lg{font:inherit;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;background:none;color:var(--ink);
+  border:1px solid var(--line);padding:3px 10px 3px 8px;cursor:pointer}
+.lg i{width:10px;height:10px;background:var(--c);display:inline-block}
+.lg[aria-pressed="false"]{opacity:.45;text-decoration:line-through}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:28px}
+@media (min-width:1100px){.layout{grid-template-columns:minmax(0,1fr) 300px}}
+
+.board{position:relative;display:grid;gap:26px 22px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){
+  .board{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr);
+    grid-template-areas:"styring styring styring" "samarbeid kjerne kommune" "privat randsone randsone"}
+  .z-styring{grid-area:styring} .z-samarbeid{grid-area:samarbeid} .z-kjerne{grid-area:kjerne}
+  .z-kommune{grid-area:kommune} .z-privat{grid-area:privat} .z-randsone{grid-area:randsone}
+  .z-styring .cards{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .z-randsone .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+.zone{position:relative;border:2px solid var(--z);background:color-mix(in srgb,var(--z) 8%,var(--surface));padding:40px 12px 12px}
+.zone h2{position:absolute;top:-2px;left:-2px;margin:0;padding:4px 13px;background:var(--z);color:#fff;
+  font:600 13.5px/1.25 "Instrument Sans",system-ui,sans-serif}
+.cards{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.card{display:flex;flex-direction:column;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:2px;width:100%}
+.cardbtn{display:flex;flex-direction:column;gap:2px;font:inherit;text-align:left;color:inherit;background:none;border:0;padding:9px 11px 4px;cursor:pointer;width:100%;flex:1}
+.src{display:inline-block;align-self:flex-start;margin:0 11px 9px;font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+.src:hover{color:var(--ink)}
+a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.ext{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.card .nm{font-weight:600;font-size:14.5px;line-height:1.25}
+.card .sk{font-size:11.5px;color:var(--muted)}
+.card .tx{font-size:12.5px;line-height:1.4;color:var(--muted);margin-top:3px}
+.card.big{border-left-width:7px;background:color-mix(in srgb,var(--c) 10%,var(--surface))}
+.card.big .cardbtn{padding:14px 15px 6px}
+.card.big .src{margin:0 15px 12px}
+.card.big .nm{font:400 1.7rem/1.1 "Instrument Serif",Georgia,serif}
+.card.big .tx{font-size:13px;color:var(--ink)}
+.card .q{font-style:normal;color:var(--muted);font-weight:600}
+.card.sel{outline:2px solid var(--ink);outline-offset:1px}
+.card.dim{opacity:.3}
+.card.hid{opacity:.12;pointer-events:none}
+.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;overflow:visible}
+
+#panel{align-self:start}
+@media (min-width:1100px){#panel{position:sticky;top:16px}}
+#panel h3{font:400 1.6rem/1.15 "Instrument Serif",Georgia,serif;margin:0 0 6px}
+.muted{color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.tag i{width:10px;height:10px;background:var(--c);display:inline-block}
+#panel h4{font-size:13px;font-weight:600;margin:16px 0 4px;color:var(--muted)}
+#panel ul{list-style:none;margin:0;padding:0}
+#panel li{border-top:1px solid var(--line);padding:5px 0}
+.lnk{font:inherit;font-size:14px;background:none;border:0;padding:0;text-align:left;cursor:pointer;color:var(--ink)}
+.lnk b{font-weight:600;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.ty{color:var(--muted)}
+.nb{display:block;font-size:12.5px;color:var(--muted)}
+.foot{margin-top:32px;font-size:12.5px;color:var(--muted);max-width:80ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Det geografiske økosystemet i Norge</h1>
+  <p class="lede">Fra politikk og regelverk øverst, via Kartverket i midten, til kommuner, privat sektor og randsoneaktører rundt. Klikk på et kort for å se hvem det henger sammen med.</p>
+  <div class="legend" id="legend" aria-label="Filtrer på sektor"></div>
+  <div class="layout">
+    <main><div class="board" id="board"></div></main>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+  <p class="foot">Aktører og relasjoner merket med «?» er ikke faktasjekket. Fargen på kortet viser sektor, fargen på området viser rolle i økosystemet. Lenken på kortet går til kilden som forklarer aktøren best.</p>
+</div>
+
+<script>
+const D = {"sektorer": {"stat": {"navn": "Stat", "farge": "#1D4E89"}, "regelverk": {"navn": "Lov og regelverk", "farge": "#B03A48"}, "kommune": {"navn": "Kommune", "farge": "#2E7D5B"}, "privat": {"navn": "Privat sektor", "farge": "#C7781B"}, "samarbeid": {"navn": "Samarbeid og fellestjenester", "farge": "#0E8C99"}, "randsone": {"navn": "Randsoneaktører", "farge": "#6B7B85"}}, "kategorier": [{"id": "styring", "navn": "Politikk og regelverk", "farge": "#B03A48"}, {"id": "kjerne", "navn": "Koordinator og fellestjenester", "farge": "#1D4E89"}, {"id": "samarbeid", "navn": "Samarbeid og rådgivning", "farge": "#0E7C89"}, {"id": "kommune", "navn": "Kommunene", "farge": "#2E7D5B"}, {"id": "privat", "navn": "Privat sektor", "farge": "#9A5A0C"}, {"id": "randsone", "navn": "Randsoneaktører", "farge": "#56656E"}], "relasjonstyper": {"regulerer": "Regulerer / pålegger", "finansierer": "Finansierer", "produserer": "Produserer / vedlikeholder", "forvalter": "Forvalter / drifter", "distribuerer": "Distribuerer til", "bruker": "Bruker data fra", "leverer": "Leverer til", "samarbeider": "Samarbeider i"}, "entiteter": [{"id": "kdd", "navn": "Kommunal- og distriktsdepartementet", "kort": "KDD", "kat": "styring", "sektor": "stat", "tekst": "Departementet med ansvar for den nasjonale kart- og geodatapolitikken og plan- og bygningsloven. Styrer Kartverket gjennom hovedinstruks og tildelingsbrev.", "lenke": "https://www.regjeringen.no/nb/dep/kmd/dep/id509/", "lenketekst": "regjeringen.no: KDDs ansvarsområder"}, {"id": "inspire", "navn": "INSPIRE-direktivet (EU)", "kort": "INSPIRE", "kat": "styring", "sektor": "regelverk", "tekst": "EU-direktiv om infrastruktur for geodata. Gjennomført i norsk rett gjennom geodataloven og geodataforskriften.", "lenke": "https://www.regjeringen.no/no/sub/eos-notatbasen/notatene/sl/inspire-direktivet/id2434417/", "lenketekst": "EØS-notatbasen: INSPIRE-direktivet"}, {"id": "geodataloven", "navn": "Geodataloven", "kat": "styring", "sektor": "regelverk", "tekst": "Lov om infrastruktur for geografisk informasjon (2010). Pålegger eiere av geodata å gjøre dem tilgjengelige. Forskriften gir Kartverket rollen som geodatakoordinator.", "lenke": "https://lovdata.no/dokument/NL/lov/2010-09-03-56", "lenketekst": "Lovdata: geodataloven"}, {"id": "matrikkelloven", "navn": "Matrikkelloven", "kat": "styring", "sektor": "regelverk", "tekst": "Lov om eigedomsregistrering. Regulerer matrikkelen, det offisielle eiendomsregisteret, og hvem som fører den.", "lenke": "https://lovdata.no/dokument/NL/lov/2005-06-17-101", "lenketekst": "Lovdata: matrikkelloven"}, {"id": "pbl", "navn": "Plan- og bygningsloven", "kort": "Plan- og bygningsl.", "kat": "styring", "sektor": "regelverk", "tekst": "Lov om planlegging og byggesaksbehandling. Rammer for arealplanlegging og byggesak.", "lenke": "https://lovdata.no/dokument/NL/lov/2008-06-27-71", "lenketekst": "Lovdata: plan- og bygningsloven"}, {"id": "kartverket", "navn": "Kartverket", "kat": "kjerne", "sektor": "stat", "stor": true, "tekst": "Statens fagorgan for kart, geodata og eiendomsinformasjon. Sentral matrikkel- og tinglysingsmyndighet og nasjonal geodatakoordinator. Sekretariat for Norge digitalt og Geodatarådet, leder Geovekst og driver Geonorge.", "lenke": "https://www.kartverket.no/geodataarbeid", "lenketekst": "Kartverket: geodataarbeid"}, {"id": "geonorge", "navn": "Geonorge", "kat": "kjerne", "sektor": "samarbeid", "tekst": "Det nasjonale nettstedet for kartdata og annen stedfestet informasjon. Her søker og laster brukere ned det som er tilgjengelig.", "lenke": "https://www.geonorge.no/", "lenketekst": "geonorge.no"}, {"id": "norge-digitalt", "navn": "Norge digitalt", "kat": "samarbeid", "sektor": "samarbeid", "tekst": "Samarbeid mellom virksomheter som skaffer eller bruker stedfestet informasjon. Nær 500 parter, blant dem kommuner, fylker og nasjonale etater, deler data etter geodataloven.", "lenke": "https://www.kartverket.no/geodataarbeid/norge-digitalt", "lenketekst": "Kartverket: Norge digitalt"}, {"id": "geovekst", "navn": "Geovekst", "kat": "samarbeid", "sektor": "samarbeid", "tekst": "Samarbeid om etablering, forvaltning og bruk av geografisk informasjon, blant annet felles finansiering av FKB og ortofoto. Kartverket leder. Parter: Statens vegvesen, NVE, Bane NOR, Fornybar Norge, Telenor, kommunene, fylkeskommunene og landbruksetatene.", "lenke": "https://www.kartverket.no/geodataarbeid/geovekst", "lenketekst": "Kartverket: Geovekst"}, {"id": "geodatarad", "navn": "Geodatarådet", "kat": "samarbeid", "sektor": "samarbeid", "tekst": "Nasjonalt geodataråd gir geofaglige råd til KDD og regjeringen om geodatapolitikk. 16 medlemmer fra offentlig og privat sektor.", "lenke": "https://www.kartverket.no/geodataarbeid/nasjonalt-geodatarad", "lenketekst": "Kartverket: Nasjonalt geodataråd"}, {"id": "kommuner", "navn": "Kommunene", "kat": "kommune", "sektor": "kommune", "tekst": "Planmyndighet, adressemyndighet og lokal matrikkelmyndighet. Er parter i Norge digitalt og Geovekst.", "lenke": "https://www.kartverket.no/geodataarbeid/felleslosningene/kommune-og-distrikt", "lenketekst": "Kartverket: kommune og distrikt"}, {"id": "ks", "navn": "KS", "kat": "kommune", "sektor": "kommune", "tekst": "Kommunesektorens organisasjon: interesse- og arbeidsgiverorganisasjon for kommuner og fylkeskommuner. Har sete i Geodatarådet.", "lenke": "https://www.ks.no/", "lenketekst": "ks.no"}, {"id": "dibk", "navn": "DiBK", "kat": "kommune", "sektor": "stat", "tekst": "Direktoratet for byggkvalitet: sentral myndighet for bygningsdelen av plan- og bygningsloven, med arbeid rettet mot kommunene og byggenæringen. Slås sammen med Husbanken til «Husbanken – Bolig og bygningsdirektoratet» 1. januar 2027.", "lenke": "https://www.dibk.no/", "lenketekst": "dibk.no"}, {"id": "privat", "navn": "Privat sektor", "kat": "privat", "sektor": "privat", "tekst": "Programvareleverandører, rådgivere, datafangstfirma og viderebrukere som lager produkter og tjenester på geodata.", "lenke": "https://www.kartverket.no/geodataarbeid/felleslosningene/innovasjon-og-naringsliv", "lenketekst": "Kartverket: innovasjon og næringsliv"}, {"id": "entur", "navn": "Entur", "kat": "randsone", "sektor": "randsone", "tekst": "Statlig eid selskap for kollektivtransport. Administrerer Nasjonalt stoppestedsregister (NSR). Enturs geocoder kombinerer NSR, matrikkelen, Kartverkets stedsnavn og OpenStreetMap.", "lenke": "https://developer.entur.org/pages-nsr-nsr", "lenketekst": "Entur: Nasjonalt stoppestedsregister"}, {"id": "brreg", "navn": "Brønnøysundregistrene", "kort": "Brreg", "kat": "randsone", "sektor": "randsone", "tekst": "Enhetsregisteret er ett av Norges tre basisregistre, sammen med matrikkelen og Folkeregisteret. Matrikkelen mottar adresser til foretak fra Brønnøysundregistrene.", "lenke": "https://www.brreg.no/", "lenketekst": "brreg.no"}, {"id": "randsone-andre", "navn": "Andre randsoneaktører", "kort": "Andre", "kat": "randsone", "sektor": "randsone", "tekst": "For eksempel Skatteetaten (Folkeregisteret) og aktører innen post- og budtjenester. De bruker offisielle adresser fra matrikkelen."}], "relasjoner": [{"fra": "kdd", "til": "kartverket", "type": "regulerer", "merknad": "Styrer gjennom hovedinstruks og tildelingsbrev", "verifiser": ""}, {"fra": "kdd", "til": "dibk", "type": "regulerer", "merknad": "Direktoratet er underlagt KDD", "verifiser": ""}, {"fra": "kdd", "til": "pbl", "type": "forvalter", "merknad": "Har ansvar for loven", "verifiser": ""}, {"fra": "kdd", "til": "geodataloven", "type": "forvalter", "merknad": "Har ansvar for loven", "verifiser": "ja"}, {"fra": "kdd", "til": "matrikkelloven", "type": "forvalter", "merknad": "Har ansvar for loven", "verifiser": "ja"}, {"fra": "inspire", "til": "geodataloven", "type": "regulerer", "merknad": "Direktivet gjennomføres i norsk rett", "verifiser": ""}, {"fra": "inspire", "til": "norge-digitalt", "type": "regulerer", "merknad": "Praktisk gjennomføring skjer i Norge digitalt", "verifiser": ""}, {"fra": "geodataloven", "til": "kartverket", "type": "regulerer", "merknad": "Forskriften til loven gir Kartverket rollen som geodatakoordinator", "verifiser": ""}, {"fra": "geodataloven", "til": "norge-digitalt", "type": "regulerer", "merknad": "Lovkravet om deling av geodata innfris gjennom samarbeidet", "verifiser": ""}, {"fra": "matrikkelloven", "til": "kartverket", "type": "regulerer", "merknad": "Kartverket er sentral matrikkelmyndighet", "verifiser": ""}, {"fra": "matrikkelloven", "til": "kommuner", "type": "regulerer", "merknad": "Kommunen er lokal matrikkelmyndighet", "verifiser": ""}, {"fra": "pbl", "til": "kommuner", "type": "regulerer", "merknad": "Kommunen er planmyndighet", "verifiser": ""}, {"fra": "dibk", "til": "pbl", "type": "forvalter", "merknad": "Sentral myndighet for bygningsdelen av loven", "verifiser": ""}, {"fra": "dibk", "til": "kommuner", "type": "leverer", "merknad": "Veiledning om byggeregler og byggesaksprosess", "verifiser": ""}, {"fra": "kartverket", "til": "geonorge", "type": "forvalter", "merknad": "Driver den nasjonale geoportalen", "verifiser": ""}, {"fra": "kartverket", "til": "norge-digitalt", "type": "forvalter", "merknad": "Sekretariat og nasjonal geodatakoordinator", "verifiser": ""}, {"fra": "kartverket", "til": "geovekst", "type": "forvalter", "merknad": "Leder Geovekst-samarbeidet", "verifiser": ""}, {"fra": "kartverket", "til": "geovekst", "type": "finansierer", "merknad": "Kartverket er selv part i Geovekst", "verifiser": ""}, {"fra": "kartverket", "til": "geodatarad", "type": "forvalter", "merknad": "Sekretariat for rådet", "verifiser": ""}, {"fra": "geodatarad", "til": "kdd", "type": "leverer", "merknad": "Gir geofaglige råd til departementet og regjeringen", "verifiser": ""}, {"fra": "ks", "til": "geodatarad", "type": "samarbeider", "merknad": "Har sete i rådet", "verifiser": ""}, {"fra": "kommuner", "til": "geodatarad", "type": "samarbeider", "merknad": "Har en kommunal representant i rådet", "verifiser": ""}, {"fra": "ks", "til": "kommuner", "type": "samarbeider", "merknad": "Interesse- og arbeidsgiverorganisasjon for kommunene", "verifiser": ""}, {"fra": "kommuner", "til": "geovekst", "type": "finansierer", "merknad": "Kommunal andel av FKB-finansiering", "verifiser": ""}, {"fra": "privat", "til": "geovekst", "type": "finansierer", "merknad": "Telenor og Fornybar Norge er parter", "verifiser": ""}, {"fra": "kommuner", "til": "norge-digitalt", "type": "samarbeider", "merknad": "Alle kommuner er parter regionalt", "verifiser": ""}, {"fra": "kommuner", "til": "kartverket", "type": "leverer", "merknad": "Matrikkel- og plandata", "verifiser": ""}, {"fra": "geovekst", "til": "privat", "type": "finansierer", "merknad": "Kjøper datafangst og kartproduksjon", "verifiser": "ja"}, {"fra": "geonorge", "til": "kommuner", "type": "distribuerer", "merknad": "", "verifiser": ""}, {"fra": "geonorge", "til": "privat", "type": "distribuerer", "merknad": "Åpne og lisensierte data til viderebruk", "verifiser": ""}, {"fra": "privat", "til": "kommuner", "type": "leverer", "merknad": "Systemer og rådgivning", "verifiser": ""}, {"fra": "kartverket", "til": "entur", "type": "leverer", "merknad": "Matrikkeladresser og stedsnavn til Enturs geocoder", "verifiser": ""}, {"fra": "kartverket", "til": "brreg", "type": "leverer", "merknad": "Offisielle adresser fra matrikkelen", "verifiser": ""}, {"fra": "brreg", "til": "kartverket", "type": "leverer", "merknad": "Foretaksadresser føres inn i matrikkelen", "verifiser": ""}, {"fra": "kartverket", "til": "randsone-andre", "type": "leverer", "merknad": "Offisielle adresser fra matrikkelen", "verifiser": ""}]};
+const S = D.sektorer, K = D.kategorier, T = D.relasjonstyper, N = D.entiteter, E = D.relasjoner;
+const byId = Object.fromEntries(N.map(n => [n.id, n]));
+const state = {sel: null, hidden: new Set()};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function relSet(){
+  const r = new Set();
+  if(!state.sel) return r;
+  E.forEach(e => { if(e.fra===state.sel) r.add(e.til); if(e.til===state.sel) r.add(e.fra); });
+  return r;
+}
+function cls(n, rel){
+  const c = [];
+  if(state.hidden.has(n.sektor)) c.push('hid');
+  else if(state.sel && n.id!==state.sel && !rel.has(n.id)) c.push('dim');
+  if(n.id===state.sel) c.push('sel');
+  return c.join(' ');
+}
+function renderLegend(){
+  $('#legend').innerHTML = Object.entries(S).map(([k,v]) =>
+    `<button class="lg" data-s="${k}" aria-pressed="${!state.hidden.has(k)}" style="--c:${v.farge}"><i></i>${esc(v.navn)}</button>`).join('');
+}
+const host = u => { try { return new URL(u).hostname.replace(/^www\./,''); } catch(e){ return u; } };
+const linkTxt = n => n.lenketekst || host(n.lenke);
+function card(n, rel){
+  const lk = n.lenke ? `<a class="src" href="${esc(n.lenke)}" target="_blank" rel="noopener noreferrer">${esc(linkTxt(n))} ↗</a>` : '';
+  return `<div class="card ${n.stor?'big':''} ${cls(n,rel)}" data-id="${n.id}" style="--c:${S[n.sektor].farge}">
+    <button class="cardbtn" type="button">
+      <span class="nm">${esc(n.navn)}${n.verifiser?' <i class="q">?</i>':''}</span>
+      <span class="sk">${esc(S[n.sektor].navn)}</span>
+      <span class="tx">${esc(n.tekst)}</span></button>${lk}</div>`;
+}
+function renderBoard(rel){
+  $('#board').innerHTML = `<svg class="wires" id="wires" aria-hidden="true"></svg>` + K.map(k => {
+    const items = N.filter(n => n.kat===k.id);
+    return `<section class="zone z-${k.id}" style="--z:${k.farge}"><h2>${esc(k.navn)}</h2><div class="cards">${items.map(n => card(n, rel)).join('')}</div></section>`;
+  }).join('');
+}
+function drawWires(){
+  const board = $('#board'), svg = $('#wires');
+  if(!board || !svg) return;
+  const b = board.getBoundingClientRect();
+  svg.setAttribute('viewBox', `0 0 ${b.width} ${b.height}`);
+  if(!state.sel){ svg.innerHTML = ''; return; }
+  const c = S[byId[state.sel].sektor].farge;
+  const box = id => { const r = board.querySelector(`.card[data-id="${id}"]`).getBoundingClientRect();
+    return {x:r.left-b.left, y:r.top-b.top, w:r.width, h:r.height}; };
+  let out = `<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="${c}"/></marker></defs>`;
+  const seen = new Set();
+  E.filter(e => e.fra===state.sel || e.til===state.sel).forEach(e => {
+    const key = e.fra+'>'+e.til; if(seen.has(key)) return; seen.add(key);
+    const a = box(e.fra), z = box(e.til);
+    const ac = {x:a.x+a.w/2, y:a.y+a.h/2}, zc = {x:z.x+z.w/2, y:z.y+z.h/2};
+    const dx = zc.x-ac.x, dy = zc.y-ac.y;
+    let p1, p2, c1, c2;
+    if(Math.abs(dy) >= Math.abs(dx)*0.6){
+      const s = Math.sign(dy) || 1;
+      p1 = {x:ac.x, y:a.y+(s>0?a.h:0)}; p2 = {x:zc.x, y:z.y+(s>0?0:z.h)};
+      c1 = {x:p1.x, y:p1.y+s*50}; c2 = {x:p2.x, y:p2.y-s*50};
+    } else {
+      const s = Math.sign(dx) || 1;
+      p1 = {x:a.x+(s>0?a.w:0), y:ac.y}; p2 = {x:z.x+(s>0?0:z.w), y:zc.y};
+      c1 = {x:p1.x+s*50, y:p1.y}; c2 = {x:p2.x-s*50, y:p2.y};
+    }
+    out += `<path d="M${p1.x} ${p1.y}C${c1.x} ${c1.y} ${c2.x} ${c2.y} ${p2.x} ${p2.y}" fill="none" stroke="${c}" stroke-width="2.2" marker-end="url(#ah)" opacity=".9"/>`;
+  });
+  svg.innerHTML = out;
+}
+function renderPanel(){
+  const el = $('#panel');
+  if(!state.sel){
+    el.innerHTML = `<h3>Velg en aktør</h3><p class="muted">${N.length} aktører og ${E.length} relasjoner. Klikk på et kort for å se relasjonene tegnet inn på kartet. Sektorene i listen øverst kan slås av og på.</p>`;
+    return;
+  }
+  const n = byId[state.sel], s = S[n.sektor], k = K.find(x => x.id===n.kat);
+  const q = e => e.verifiser ? ' <span class="ty">?</span>' : '';
+  const note = e => e.merknad ? `<span class="nb">${esc(e.merknad)}</span>` : '';
+  const out = E.filter(e => e.fra===n.id).map(e =>
+    `<li><button class="lnk" data-id="${e.til}"><span class="ty">${esc(T[e.type])}</span> <b>${esc(byId[e.til].navn)}</b>${q(e)}</button>${note(e)}</li>`).join('');
+  const inn = E.filter(e => e.til===n.id).map(e =>
+    `<li><button class="lnk" data-id="${e.fra}"><b>${esc(byId[e.fra].navn)}</b> <span class="ty">${esc(T[e.type].toLowerCase())}</span>${q(e)}</button>${note(e)}</li>`).join('');
+  el.innerHTML = `<h3>${esc(n.navn)}</h3>
+    <div class="tag" style="--c:${s.farge}"><i></i>${esc(s.navn)}${n.verifiser?' · bør faktasjekkes':''}</div>
+    <p style="margin:0">${esc(n.tekst)}</p>
+    ${n.lenke ? `<p style="margin:8px 0 0;font-size:13.5px"><a class="ext" href="${esc(n.lenke)}" target="_blank" rel="noopener noreferrer">Les mer: ${esc(linkTxt(n))} ↗</a></p>` : ''}
+    <p class="muted" style="margin:6px 0 0;font-size:13px">Område: ${esc(k.navn)}</p>
+    ${out ? `<h4>Denne aktøren …</h4><ul>${out}</ul>` : ''}
+    ${inn ? `<h4>… denne aktøren</h4><ul>${inn}</ul>` : ''}`;
+}
+function render(){
+  const rel = relSet();
+  renderLegend(); renderBoard(rel); renderPanel();
+  requestAnimationFrame(drawWires);
+}
+document.addEventListener('click', ev => {
+  if(ev.target.closest('a')) return;
+  const s = ev.target.closest('[data-s]');
+  if(s){ const k = s.dataset.s; state.hidden.has(k) ? state.hidden.delete(k) : state.hidden.add(k); render(); return; }
+  const t = ev.target.closest('[data-id]');
+  if(t){
+    const id = t.dataset.id, inBoard = !!t.closest('#board');
+    state.sel = (state.sel===id && inBoard) ? null : id;
+    render();
+    if(inBoard) document.querySelector(`#board [data-id="${id}"] .cardbtn`)?.focus({preventScroll:true});
+  }
+});
+document.addEventListener('keydown', ev => { if(ev.key==='Escape' && state.sel){ state.sel = null; render(); } });
+new ResizeObserver(() => drawWires()).observe($('#board'));
+render();
+</script>
+</body>
+</html>
