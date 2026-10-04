@@ -45,6 +45,17 @@ header.topp {
 }
 header.topp h1 { margin: 0 0 8px; font-size: 1.7rem; }
 header.topp p { margin: 0; color: var(--text-dim); max-width: 70ch; }
+header.topp .skill-banner {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  max-width: none;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-size: 0.92rem;
+}
+header.topp .skill-banner a { color: var(--accent); font-weight: 600; }
 header.topp .kilder-nevnt { margin-top: 10px; font-size: 0.9rem; color: var(--text-dim); }
 header.topp .kilder-nevnt strong { color: var(--text); }
 
@@ -257,6 +268,9 @@ footer a { color: var(--accent); }
 <body>
 
 <header class="topp">
+  <p class="skill-banner"><a href="fargeskalaer-tematiske-kart.zip" download>⬇ Last ned skill-pakken (.zip)</a> —
+  innholdet i denne siden som en Claude-skill: <a href="Skill.md">Skill.md</a>
+  med referansefiler i <code>references/</code>. Pakk ut mappen til skills-mappen din.</p>
   <h1>Fargeskalaer for tematiske kart</h1>
   <p>
     Et verktøy for å velge og forstå fargeskalaer i tematisk kartografi og
@@ -429,9 +443,6 @@ footer a { color: var(--accent); }
 </section>
 
 <footer>
-  <p><a href="fargeskalaer-tematiske-kart.zip" download>⬇ Last ned skill-pakken (.zip)</a> —
-  innholdet i denne siden som en Claude-skill: <a href="Skill.md">Skill.md</a>
-  med referansefiler i <code>references/</code>. Pakk ut mappen til skills-mappen din.</p>
   Laget for undervisning i tematisk kartografi (IS930). Alle fargeverdier er
   hentet direkte fra kildenes egne datasett, ikke anslått — se README for
   detaljer om hver kilde.
