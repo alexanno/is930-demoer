@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Arkitekturer</title></head>
+<body>
+<h1>Arkitekturer</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="ar01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="ar02">Arkitekturer</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="ar03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="ar04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="ar05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>Arkitektur handler om hvordan data, server og klient settes sammen. Samme kart kan bygges på mange måter, med store forskjeller i kostnad, drift, sikkerhet og fleksibilitet. Her er et utvalg vanlige patterns, bygget av verktøyene fra de foregående temaene. Hovedregelen er å velge det enkleste mønsteret som løser oppgaven.</p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ar06" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ar07" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ar08">
+<h3 class="mt-2 mb-2" id="ar09">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ar10">
+<h4>Fire patterns i oversikt</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Pattern</th>
+<th style="text-align: left;">Slik ser det ut</th>
+<th style="text-align: left;">Passer når</th>
+<th style="text-align: left;">Passer ikke når</th>
+<th style="text-align: left;">Eksempel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Frontend-only</strong></td>
+<td>Nettleser → andres tjenester eller egne statiske filer</td>
+<td>Åpne data, prototyper og enkel publisering uten drift.</td>
+<td>Du trenger å skrive data, holde noe hemmelig eller styre tilgang.</td>
+<td><a href="https://alexanno.github.io/is930-demoer/Frontend-only%20kartapp/index.html" target="_blank">Frontend-only kartapp</a></td>
+</tr>
+<tr>
+<td><strong>2. Frontend + backend-API (+ PostGIS)</strong></td>
+<td>Nettleser → API → database</td>
+<td>Data som endres, spørringer mot egen database, og når nøkler og passord må skjules.</td>
+<td>Statiske filer holder.</td>
+<td><a href="https://github.com/alexanno/postgis-sql-api" target="_blank">postgis-sql-api</a></td>
+</tr>
+<tr>
+<td><strong>3. 3-lags med kartserver</strong></td>
+<td>Klient → kartserver → database eller filer</td>
+<td>Mange ulike klienter skal bruke de samme dataene via standardtjenester (WMS, WFS, OGC API).</td>
+<td>Du lager en liten app for noen få brukere.</td>
+<td>Kartverkets og Geonorges tjenester, GeoServer + PostGIS</td>
+</tr>
+<tr>
+<td><strong>4. Caching og tile-pyramider</strong></td>
+<td>Forhåndslagde fliser, med cache eller CDN foran</td>
+<td>Mange brukere og tunge kart der dataene sjelden endres.</td>
+<td>Dataene endres hele tiden eller hver bruker spør om noe unikt.</td>
+<td>Kartverkets kartfliser, PMTiles</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4>1. Frontend-only</h4>
+<div style="overflow-x: auto; margin: 16px 0;">
+<table cellpadding="0" cellspacing="0" style="border-collapse: separate; margin: 0px auto; text-align: center; width: 47.0968%; height: 96px;">
+<tbody>
+<tr style="height: 96px;">
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); width: 32.7073%; height: 96px; border: 2px solid currentcolor;"><strong>Nettleser</strong><br/><span style="font-size: 0.85em;">HTML og JavaScript</span></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0px 6px; width: 8.6758%; height: 96px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); width: 58.1728%; height: 96px; border: 2px solid currentcolor;"><strong>Andres tjenester</strong><br/><span style="font-size: 0.85em;">Kartverket, Geonorge, OpenStreetMap</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: Variant a: appen bruker andres tjenester</em></p>
+</div>
+<div style="overflow-x: auto; margin: 16px 0;">
+<table cellpadding="0" cellspacing="0" style="border-collapse: separate; margin: 0 auto; text-align: center;">
+<tbody>
+<tr>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Nettleser</strong><br/><span style="font-size: 0.85em;">HTML og JavaScript</span></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Egne filer på statisk lagring</strong><br/><span style="font-size: 0.85em;">PMTiles, COG, GeoParquet</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: Variant b: cloud native, egne filer leses direkte</em></p>
+</div>
+<p>Appen har ingen egen server. I <strong>variant a</strong> er backend «andres problem»: nettleseren spør tjenester som Kartverket, Geonorge og OpenStreetMap, som selv har kartserver og database bak seg. Appen din er altså en klient i andres 3-lags arkitektur. Demoappen viser hvor mye du får til med én HTML-fil: bakgrunnskart som kartfliser, et WMS-lag, og oppslag på stedsnavn, kommune og høyde. <strong>Variant b</strong> er cloud native: du legger egne filer (PMTiles, COG eller GeoParquet) på statisk lagring og leser dem direkte.</p>
+<p>Pris du betaler: alt er offentlig, så nøkler i koden kan leses av alle. I variant a er du avhengig av at andre holder tjenestene oppe og beholder vilkårene sine. Bruk for eksempel <a href="https://operations.osmfoundation.org/policies/tiles/" target="_blank">OpenStreetMaps flisregler</a> og lisensen til hvert lag.</p>
+<h4>2. Frontend + backend-API + PostGIS</h4>
+<div style="overflow-x: auto; margin: 16px 0;">
+<table cellpadding="0" cellspacing="0" style="border-collapse: separate; margin: 0 auto; text-align: center;">
+<tbody>
+<tr>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Nettleser</strong></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>API</strong><br/><span style="font-size: 0.85em;">Node, Python eller edge function</span></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>PostGIS</strong><br/><span style="font-size: 0.85em;">database med geodata</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: backend mellom nettleser og database</em></p>
+</div>
+<p>Når dataene ligger i en database, må noe stå imellom: et API som tar imot forespørsler, spør PostGIS og returnerer for eksempel GeoJSON. Nettleseren får aldri databasepassordet. <a href="https://github.com/alexanno/postgis-sql-api" target="_blank">postgis-sql-api</a> er et lite eksempel på dette, og <a href="https://github.com/alexanno/GeografiskAI_UiA_IS-218/blob/main/V2025/07-Geografisk%20IT-utvikling/supabase_tutorial.md" target="_blank">Supabase-oppgaven fra IS-218</a> viser det samme som en «edge function».</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>GET /api/sqlapi?sql=select navn from skole order by geom &lt;-&gt; 'SRID=4326;POINT(8.0 58.15)' limit 3</code></pre>
+<p>Dette eksempelet sender fri SQL fra nettleseren og er kun egnet i undervisning, med en databasebruker som bare kan lese. I virkelige løsninger lager du faste endepunkter, for eksempel <code>/skoler?kommune=4204</code>, eller bruker ferdige verktøy som <a href="https://github.com/CrunchyData/pg_featureserv" target="_blank">pg_featureserv</a> eller Supabase.</p>
+<h4>3. 3-lags med kartserver</h4>
+<div style="overflow-x: auto; margin: 16px 0;">
+<table cellpadding="0" cellspacing="0" style="border-collapse: separate; margin: 0 auto; text-align: center;">
+<tbody>
+<tr>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Klient</strong><br/><span style="font-size: 0.85em;">nettleser, QGIS, andre systemer</span></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Kartserver</strong><br/><span style="font-size: 0.85em;">GeoServer, MapServer, pygeoapi</span></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Database eller filer</strong><br/><span style="font-size: 0.85em;">PostGIS, GeoPackage</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: presentasjon, logikk og data i hver sin del</em></p>
+</div>
+<p>Klient, tjeneste og data er hvert sitt lag. Ved å publisere data som standardtjenester (WMS, WFS, OGC API, se <a data-api-endpoint="https://uia.instructure.com/api/v1/courses/21461/pages/api-standarder" data-api-returntype="Page" href="api-standarder.html" target="_blank">API-standarder</a>) kan mange ulike klienter bruke samme tjeneste: nettleseren, QGIS og andre systemer. Slik er de nasjonale tjenestene på Geonorge bygget. Kostnaden er at du selv må drifte, oppdatere og sikre serveren. Programvaren står i <a data-api-endpoint="https://uia.instructure.com/api/v1/courses/21461/pages/desktop-web-og-serverprogramvare" data-api-returntype="Page" href="desktop-web-og-serverprogramvare.html" target="_blank">Desktop, web og serverprogramvare</a>.</p>
+<h4>4. Caching og tile-pyramider</h4>
+<div style="overflow-x: auto; margin: 16px 0;">
+<table cellpadding="0" cellspacing="0" style="border-collapse: separate; margin: 0 auto; text-align: center;">
+<tbody>
+<tr>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Nettleser</strong></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Cache eller CDN</strong><br/><span style="font-size: 0.85em;">MapProxy, nettleser-cache</span></td>
+<td style="font-size: 1.5em; vertical-align: middle; padding: 0 6px;">→</td>
+<td style="vertical-align: middle; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Kartserver eller fliser</strong></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: cache foran tjenesten</em></p>
+</div>
+<p>Ved å lage ferdige fliser for alle zoomnivåer (en <em>pyramide</em>) og legge dem i en cache eller et CDN slipper serveren å tegne kartet på nytt for hver bruker. Resultatet er raskt og billig, men fungerer best når dataene sjelden endres. PMTiles er en hel flispyramide i én fil. Oppdateringer betyr at fliser må lages om og cachen tømmes. Dette mønsteret legges som regel til oppå mønster 2 eller 3.</p>
+<h4>Velg arkitektur</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Spørsmål</th>
+<th style="text-align: left;">Peker mot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Er dataene åpne, og endres de sjelden?</td>
+<td>Frontend-only (eventuelt cloud native)</td>
+</tr>
+<tr>
+<td>Må noen kunne endre data, eller må noe holdes hemmelig?</td>
+<td>Frontend + backend-API</td>
+</tr>
+<tr>
+<td>Skal mange ulike systemer bruke tjenesten din?</td>
+<td>3-lags med standardtjenester</td>
+</tr>
+<tr>
+<td>Mange brukere eller tunge kart?</td>
+<td>Legg til caching</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>De ulike patterns kan kombineres, for eksempel frontend + API + PostGIS bak, med cache foran.</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="ar11">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="ar12">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="ar13" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="ar14" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="ar15" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="ar16">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="ar17" style="position: relative;"><span id="ar18">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="ar19">
+<p id="ar20">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul>
+<li>Hva skjer med en frontend-only-app hvis en av tjenestene den bruker går ned eller endrer vilkår? Hva kan du gjøre for å redusere risikoen?</li>
+<li>Tegn arkitekturen for en case fra din virksomhet, for eksempel «kunder på kart». Hvilket mønster velger du, og hvorfor ikke de andre?</li>
+<li>Be en KI-agent legge et nytt WMS-lag fra <a href="https://kartkatalog.geonorge.no/" target="_blank">Geonorge kartkatalog</a> til demoappen. Hva måtte endres?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="ar21">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="ar22" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="ar23" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="ar24" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="ar25">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="ar26" style="position: relative;"><span id="ar27">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="ar28" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="ar29" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="ar30"><span id="ar31">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="ar32">
+<ul>
+<li><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a></li>
+<li><a href="https://maplibre.org/maplibre-gl-js/docs/examples/add-a-wms-source/" target="_blank">MapLibre: Add a WMS source</a></li>
+<li><a href="https://guide.cloudnativegeo.org/" target="_blank">Cloud-Native Geospatial: guide</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="ar33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="ar34"><strong id="ar35"><span id="ar36">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="ar37">
+<ul>
+<li><a href="https://github.com/alexanno/postgis-sql-api" target="_blank">postgis-sql-api (GitHub)</a></li>
+<li><a href="https://github.com/alexanno/supabase_geojson_sqlapi" target="_blank">supabase_geojson_sqlapi (GitHub)</a></li>
+<li><a href="https://cache.kartverket.no/v1/wmts/1.0.0/WMTSCapabilities.xml" target="_blank">Kartverkets kartfliser: WMTS GetCapabilities</a></li>
+<li><a href="https://docs.protomaps.com/pmtiles/" target="_blank">PMTiles: dokumentasjon</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

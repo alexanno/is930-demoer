@@ -2,77 +2,140 @@
   {
     "slug": "introduksjon-og-praktisk-informasjon",
     "title": "Introduksjon og praktisk informasjon",
-    "updated_at": "2026-10-01T05:13:23Z",
+    "updated_at": "2026-10-09T11:26:47Z",
     "published": true,
     "front_page": false
   },
   {
     "slug": "forside",
     "title": "Forside",
-    "updated_at": "2026-10-05T07:20:01Z",
+    "updated_at": "2026-10-06T11:50:04Z",
     "published": true,
     "front_page": true
   },
   {
     "slug": "modul-1-geografisk-data-og-standarder",
     "title": "Modul 1: Geografisk data og standarder",
-    "updated_at": "2026-10-03T07:42:03Z",
-    "published": false,
+    "updated_at": "2026-10-22T17:01:02Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "hvorfor-geografiske-data-og-visualisering",
     "title": "Hvorfor geografiske data og visualisering?",
-    "updated_at": "2026-10-02T07:03:40Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:08Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "norges-geografiske-okosystem",
     "title": "Norges geografiske økosystem",
-    "updated_at": "2026-10-02T07:36:54Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:09Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "projeksjoner-kartografi-og-visualiseringsmetoder",
     "title": "Projeksjoner, Kartografi og visualiseringsmetoder",
-    "updated_at": "2026-10-02T07:45:19Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:10Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "lagringsformater",
     "title": "Lagringsformater",
-    "updated_at": "2026-10-02T07:57:25Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:11Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "api-standarder",
     "title": "API-standarder",
-    "updated_at": "2026-10-02T08:03:34Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:12Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "datakilder",
     "title": "Datakilder",
-    "updated_at": "2026-10-02T08:19:29Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:13Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "ki-agenter-og-geografisk-it",
     "title": "KI-agenter og geografisk IT",
-    "updated_at": "2026-10-03T07:19:12Z",
-    "published": false,
+    "updated_at": "2026-10-06T11:45:14Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "innholdsmal",
     "title": "innholdsmal",
     "updated_at": "2026-10-02T06:39:21Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "modul-2-geografisk-databehandling-og-teknologi-kladd",
+    "title": "Modul 2: Geografisk databehandling og teknologi (KLADD)",
+    "updated_at": "2026-10-28T20:49:27Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "verktoylandskapet",
+    "title": "Verktøylandskapet",
+    "updated_at": "2026-10-28T20:57:05Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "geografiske-operasjoner",
+    "title": "Geografiske operasjoner ",
+    "updated_at": "2026-10-28T21:10:21Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "desktop-web-og-serverprogramvare",
+    "title": "Desktop, web og serverprogramvare",
+    "updated_at": "2026-10-28T21:12:00Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "databaser-og-lagring",
+    "title": "Databaser og lagring",
+    "updated_at": "2026-10-28T21:14:53Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "cli-og-biblioteker-kladd",
+    "title": "CLI og biblioteker (KLADD)",
+    "updated_at": "2026-10-28T21:20:07Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "arkitekturer",
+    "title": "Arkitekturer",
+    "updated_at": "2026-10-28T21:17:54Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "datakvalitet-og-metadata",
+    "title": "Datakvalitet og metadata",
+    "updated_at": "2026-10-28T21:21:39Z",
+    "published": false,
+    "front_page": false
+  },
+  {
+    "slug": "ki-agenter-og-stack-valg",
+    "title": "KI-agenter og stack-valg",
+    "updated_at": "2026-10-28T21:24:24Z",
     "published": false,
     "front_page": false
   }
