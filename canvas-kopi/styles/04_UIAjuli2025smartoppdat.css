@@ -1,0 +1,69 @@
+@import 'https://uia.evaluationkit.eu/canvas/css';
+
+/* Smartdesigner */
+@import url("https://cdn.smartdesigner.visiarc.com/dist/preflight.css");
+@import url("https://cdn.smartdesigner.visiarc.com/dist/output.css");
+@import url("https://cdn.smartdesigner.visiarc.com/dist/clbal3q8s0025wq50r2t1fxha/variables.css");
+
+/*utdrag av w3.css, bare om tabeller */
+.w3-table,.w3-table-all{border-collapse:collapse;border-spacing:0;width:100%;display:table}.w3-table-all{border:1px solid #ccc}
+.w3-bordered tr,.w3-table-all tr{border-bottom:1px solid #ddd}.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}
+.w3-table-all tr:nth-child(odd){background-color:#fff}.w3-table-all tr:nth-child(even){background-color:#f1f1f1}
+.w3-hoverable tbody tr:hover,.w3-ul.w3-hoverable li:hover{background-color:#ccc}.w3-centered tr th,.w3-centered tr td{text-align:center}
+.w3-table td,.w3-table th,.w3-table-all td,.w3-table-all th{padding:8px 8px;display:table-cell;text-align:left;vertical-align:top}
+.w3-table th:first-child,.w3-table td:first-child,.w3-table-all th:first-child,.w3-table-all td:first-child{padding-left:16px}
+
+
+/* tillegg - kopierte klasser men som har sitt eget uia- navn  */
+.uia-table,.uia-table-all{border-collapse:collapse;border-spacing:0;width:100%;display:table}.uia-table-all{border:1px solid #ccc}
+.uia-bordered tr,.uia-table-all tr{border-bottom:1px solid #ddd}.uia-striped tbody tr:nth-child(even){background-color:#f1f1f1}
+.uia-table-all tr:nth-child(odd){background-color:#fff}.uia-table-all tr:nth-child(even){background-color:#f1f1f1}
+.uia-hoverable tbody tr:hover,.uia-ul.uia-hoverable li:hover{background-color:#ccc}.uia-centered tr th,.uia-centered tr td{text-align:center}
+.uia-table td,.uia-table th,.uia-table-all td,.uia-table-all th{padding:8px 8px;display:table-cell;text-align:left;vertical-align:top}
+.uia-table th:first-child,.uia-table td:first-child,.uia-table-all th:first-child,.uia-table-all td:first-child{padding-left:16px}
+
+
+/* tillegg - statped meny. ref Mauricio */
+.statpedmeny a {
+margin: 5px; 
+padding-top: 20px;
+ 
+height: 45px; 
+width: 125px; 
+float: left; 
+text-align: center; 
+text-decoration: none;
+cursor: pointer; 
+font-size: 1.4em; 
+color: white;
+font-weight: lighter;
+line-height: 1.5em;
+}
+/* fjerner GÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬ ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¥ til i dag - lenke */
+.jump_to_today_link {
+    display: none;
+}
+/*  FullfÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬ ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸rt / Ikke sett siden statped UU - lesbarhet */
+.icon-mark-as-read {
+    opacity: 1 !important;
+}
+
+ 
+.introduksjon { background-color: #988e8b; border: 1px solid #988e8b; }
+.introduksjon:hover {background-color: #736b68;color: white;}
+.introduksjon:active {background-color: #595351;color: white;}
+ 
+.samhandling { background-color: #5c6670; border: 1px solid #5c6670; }
+.samhandling:hover {background-color: #495159;color: white;}
+.samhandling:active {background-color: #343a40;color: white;}
+ 
+.multimedia { background-color: #698787; border: 1px solid #698787; }
+.multimedia:hover {background-color: #5a7373;color: white;}
+.multimedia:active {background-color: #465959;color: white;}
+ 
+.sikkerhet { background-color: #79878f; border: 1px solid #79878b; }
+.sikkerhet:hover {background-color: #647073;color: white;}
+.sikkerhet:active {background-color: #4e5759;color: white;}
+ 
+@import url('https://fonts.googleapis.com/css?family=Bonbon');
+.bonbon {font-family: 'Bonbon', cursive;}
