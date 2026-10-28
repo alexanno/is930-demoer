@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>API-standarder</title></head>
+<body>
+<h1>API-standarder</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="ap5a01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="ap5a02">API-standarder</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="ap5a03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="ap5a04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="ap5a05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p id="ap5a06">Geografiske data deles stadig oftere som tjenester på nett i stedet for som filer. API-standarder gjør at ulike klienter, som QGIS, nettkart og Python-skript, kan hente data fra ulike servere på samme måte. Her får du en rask oversikt over de vanligste standardene og praksisene, med fokus på når du bruker hva.</p>
+<p id="ap5a07"></p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ap5a08" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ap5a09" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ap5a10">
+<h3 class="mt-2 mb-2" id="ap5a11">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ap5a12">
+<h4 id="ap5a13">Hva trenger du?</h4>
+<ul id="ap5a14">
+<li id="ap5a15"><strong>Vise et kart:</strong> kartbilder (WMS, OGC API Maps) eller tiles (WMTS, XYZ, OGC API Tiles).</li>
+<li id="ap5a16"><strong>Hente selve dataene:</strong> vektorobjekter med attributter (WFS, OGC API Features) eller rasterdata (WCS, OGC API Coverages).</li>
+<li id="ap5a17"><strong>Finne data:</strong> kataloger og metadata (CSW, OGC API Records, STAC).</li>
+<li id="ap5a18"><strong>Kjøre analyser på serveren:</strong> prosesseringstjenester (OGC API Processes).</li>
+</ul>
+<h4 id="ap5a19">OGC-standarder: de klassiske og mest brukte</h4>
+<p id="ap5a20">Disse har vært i bruk i mange år, og du finner dem hos de fleste offentlige dataeiere. Oversikten er ikke uttømmende.</p>
+<div id="ap5a21" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="ap5a22" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Standard</th>
+<th style="text-align: left;">Hva gir den deg?</th>
+<th style="text-align: left;">Bruk når</th>
+<th style="text-align: left;">Mer info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WMS</strong><br/>Web Map Service</td>
+<td>Ferdige kartbilder (for eksempel PNG eller JPEG) for et utsnitt. Du kan også spørre om informasjon om et objekt med GetFeatureInfo.</td>
+<td>Du bare skal vise et kartlag, for eksempel et temakart eller en fagdatabase, og ikke trenger selve dataene.</td>
+<td><a href="https://www.ogc.org/standards/wms/" target="_blank">OGC: WMS</a></td>
+</tr>
+<tr>
+<td><strong>WMTS</strong><br/>Web Map Tile Service</td>
+<td>Forhåndslagde kartfliser (tiles) i faste målestokknivåer.</td>
+<td>Bakgrunnskart og andre lag mange skal bruke raskt. Geonorge tilbyr for eksempel Topografisk Norgeskart som WMTS.</td>
+<td><a href="https://www.ogc.org/standards/wmts/" target="_blank">OGC: WMTS</a></td>
+</tr>
+<tr>
+<td><strong>WFS</strong><br/>Web Feature Service</td>
+<td>Selve vektorobjektene med geometri og attributter, for eksempel som GML.</td>
+<td>Du vil gjøre analyser, filtrere eller lage din egen visualisering. Statens vegvesen og Geonorge tilbyr data som WFS.</td>
+<td><a href="https://www.ogc.org/standards/wfs/" target="_blank">OGC: WFS</a></td>
+</tr>
+<tr>
+<td><strong>WCS</strong><br/>Web Coverage Service</td>
+<td>Selve rasterdataene (coverages), med mulighet for å hente ut deler av dem.</td>
+<td>Du trenger rå rasterverdier, for eksempel høydedata, og ikke bare et bilde.</td>
+<td><a href="https://www.ogc.org/standards/wcs/" target="_blank">OGC: WCS</a></td>
+</tr>
+<tr>
+<td><strong>CSW</strong><br/>Catalogue Service for the Web</td>
+<td>Søk i metadatakataloger.</td>
+<td>Du skal finne ut hvilke datasett og tjenester som finnes.</td>
+<td><a href="https://www.ogc.org/standards/cat/" target="_blank">OGC: CSW</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p id="ap5a23">Tjenestene spørres med URL-parametere, for eksempel <code>?service=WMS&amp;request=GetCapabilities</code>, som returnerer en beskrivelse av hva tjenesten tilbyr. Geonorge tilbyr i tillegg nedlasting via Atom-feed, som ikke er en OGC-standard. Du finner tjenestene i <a href="https://kartkatalog.geonorge.no/" target="_blank">Geonorges kartkatalog</a>.</p>
+<h4 id="ap5a24">Nyere OGC API-standarder</h4>
+<p id="ap5a25">OGC API-ene er moderne etterfølgere til de klassiske tjenestene. De bruker REST, JSON og OpenAPI, og er bygget opp av gjenbrukbare byggeklosser.</p>
+<div id="ap5a26" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="ap5a27" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Standard</th>
+<th style="text-align: left;">Etterfølger til</th>
+<th style="text-align: left;">Hva gir den deg?</th>
+<th style="text-align: left;">Bruk når</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OGC API - Features</strong></td>
+<td>WFS</td>
+<td>Vektorobjekter som GeoJSON via enkle URL-er, for eksempel <code>/collections/lag/items</code>.</td>
+<td>Du skal hente vektordata til web-apper eller skript, og vil ha et enkelt, moderne grensesnitt.</td>
+</tr>
+<tr>
+<td><strong>OGC API - Tiles</strong></td>
+<td>WMTS</td>
+<td>Alle typer tiles: vektortiler, karttiles og coverage-tiles.</td>
+<td>Du skal levere eller bruke tiler, særlig vektortiler.</td>
+</tr>
+<tr>
+<td><strong>OGC API - Maps</strong></td>
+<td>WMS</td>
+<td>Kartbilder og rasterinnhold.</td>
+<td>Du vil ha ferdig tegnede kart fra et moderne API.</td>
+</tr>
+<tr>
+<td><strong>OGC API - Coverages</strong></td>
+<td>WCS</td>
+<td>Rasterdata, for eksempel som GeoTIFF.</td>
+<td>Du trenger rasterverdier eller utsnitt av dem.</td>
+</tr>
+<tr>
+<td><strong>OGC API - Processes</strong></td>
+<td>WPS</td>
+<td>Prosesseringsverktøy som kan kalles og kombineres via API.</td>
+<td>Du vil kjøre analyser på serveren i stedet for lokalt.</td>
+</tr>
+<tr>
+<td><strong>OGC API - Records</strong></td>
+<td>CSW</td>
+<td>Søk og tilgang til metadata om geografiske ressurser.</td>
+<td>Du skal bygge eller bruke et søkbart datakatalog.</td>
+</tr>
+<tr>
+<td><strong>OGC API - EDR</strong><br/>Environmental Data Retrieval</td>
+<td>(ny)</td>
+<td>Definerte spørringsmønstre for miljødata, for eksempel posisjon eller område.</td>
+<td>Du skal hente ut miljø- og værdata for en posisjon eller et område.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p id="ap5a28">Oversikt og status for hver standard finner du på <a href="https://ogcapi.ogc.org/" target="_blank">ogcapi.ogc.org</a>.</p>
+<h4 id="ap5a29">De-facto-standarder</h4>
+<p id="ap5a30">Disse er ikke formelt standardisert av OGC, men har blitt standard gjennom bred bruk.</p>
+<div id="ap5a31" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="ap5a32" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Praksis</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Bruk når</th>
+<th style="text-align: left;">Mer info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>XYZ-tiles / TMS</strong></td>
+<td>Enkle URL-maler for kartfliser, for eksempel <code>/{z}/{x}/{y}.png</code>.</td>
+<td>Bakgrunnskart i nettkart som Leaflet, OpenLayers og MapLibre. Enkelt å sette opp og bruke.</td>
+<td><a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames" target="_blank">OSM: Slippy map tilenames</a></td>
+</tr>
+<tr>
+<td><strong>TileJSON</strong></td>
+<td>En enkel JSON-beskrivelse av et tilesett.</td>
+<td>Du skal peke en kartklient til et tilesett og trenger metadata om det.</td>
+<td><a href="https://github.com/mapbox/tilejson-spec" target="_blank">TileJSON-spesifikasjonen</a></td>
+</tr>
+<tr>
+<td><strong>Mapbox Vector Tiles (MVT)</strong></td>
+<td>Det mest brukte formatet for vektortiler.</td>
+<td>Du vil ha raske, stilbare vektorkart i nettleseren.</td>
+<td><a href="https://github.com/mapbox/vector-tile-spec" target="_blank">MVT-spesifikasjonen</a></td>
+</tr>
+<tr>
+<td><strong>ArcGIS REST API</strong></td>
+<td>Esris REST-grensesnitt for kart- og objekttjenester.</td>
+<td>Dataene ligger i ArcGIS Online eller ArcGIS Enterprise, eller du skal integrere med Esri-produkter.</td>
+<td><a href="https://developers.arcgis.com/rest/" target="_blank">ArcGIS REST API</a></td>
+</tr>
+<tr>
+<td><strong>STAC</strong><br/>SpatioTemporal Asset Catalog</td>
+<td>Felles måte å katalogisere satellitt- og jordobservasjonsdata på.</td>
+<td>Du skal finne og hente satellittbilder og andre rasterdata fra katalog. Mer om dette i neste tema.</td>
+<td><a href="https://stacspec.org/" target="_blank">stacspec.org</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="ap5a33">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="ap5a34">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="ap5a35" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="ap5a36" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="ap5a37" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="ap5a38">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="ap5a39" style="position: relative;"><span id="ap5a40">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="ap5a41">
+<p id="ap5a42">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul id="ap5a43">
+<li id="ap5a44">Åpne <code>https://wms.geonorge.no/skwms1/wms.norges_grunnkart?service=wms&amp;request=getcapabilities</code> i nettleseren og se hva en GetCapabilities-respons inneholder. Legg deretter tjenesten til som WMS-lag i QGIS.</li>
+<li id="ap5a45">Legg Statens vegvesens WFS (<code>https://ogckart-sn1.atlas.vegvesen.no/wfs?service=wfs&amp;version=1.1.0&amp;request=GetCapabilities</code>) til i QGIS. Hva kan du gjøre med WFS-lagene som du ikke kan med et WMS-lag?</li>
+<li id="ap5a46">Velg tre scenarier (bakgrunnskart i en nettapp, analyse av vegdata, søk etter satellittbilder) og begrunn hvilken standard du ville brukt.</li>
+<li id="ap5a47">For viderekomne: hent data fra en WFS med Python og OWSLib, for eksempel med <code>uv run --with owslib python</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="ap5a48">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="ap5a49" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="ap5a50" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="ap5a51" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="ap5a52">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="ap5a53" style="position: relative;"><span id="ap5a54">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="ap5a55" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="ap5a56" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="ap5a57"><span id="ap5a58">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="ap5a59">
+<ul id="ap5a60">
+<li id="ap5a61"><a href="https://ogcapi.ogc.org/" target="_blank">OGC API: oversikt over standardene</a></li>
+<li id="ap5a62"><a href="https://www.ogc.org/standards/" target="_blank">OGC: Standards</a></li>
+<li id="ap5a63"><a href="https://kartkatalog.geonorge.no/" target="_blank">Geonorge kartkatalog</a> (finn WMS-, WFS- og WMTS-tjenester)</li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="ap5a64" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="ap5a65"><strong id="ap5a66"><span id="ap5a67">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="ap5a68">
+<ul id="ap5a69">
+<li id="ap5a70"><a href="https://ogcapi-workshop.ogc.org/overview-and-main-concepts/" target="_blank">OGC API Workshop: Overview and main concepts</a></li>
+<li id="ap5a71"><a href="https://tiles.developer.ogc.org/" target="_blank">OGC API - Tiles: utviklerside</a></li>
+<li id="ap5a72"><a href="https://atlas.co/courses/gis-basics/ogc-services-wms-wfs-wmts/" target="_blank">GIS Basics: OGC Services (WMS, WFS, WMTS, WCS)</a></li>
+<li id="ap5a73"><a href="https://thalesgroup.github.io/PharoOWS/OGC.html" target="_blank">Geospatial services: OGC Standards and de facto protocols</a></li>
+<li id="ap5a74"><a href="https://pygeoapi.io/" target="_blank">pygeoapi: Python-server for OGC API</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

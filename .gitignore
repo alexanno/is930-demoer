@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 .venv/
 AIS-eksempel/.DS_Store
+admin/

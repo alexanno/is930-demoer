@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Lagringsformater</title></head>
+<body>
+<h1>Lagringsformater</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="lf4a01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="lf4a02">Lagringsformater</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="lf4a03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="lf4a04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="lf4a05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p id="lf4a06">Geografiske data kan lagres på mange måter, og valget påvirker hvem som kan åpne dataene, hvor store datasett du kan håndtere og hvor raskt de kan leses. Her får du en rask oversikt over de vanligste formatene og standardene, med fokus på når du bør bruke hvilket.</p>
+<p id="lf4a07"></p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="lf4a08" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="lf4a09" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="lf4a10">
+<h3 class="mt-2 mb-2" id="lf4a11">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="lf4a12">
+<h4 id="lf4a13">Vektor og raster</h4>
+<ul id="lf4a14">
+<li id="lf4a15"><strong>Vektor:</strong> punkter, linjer og flater med attributter. Passer for objekter med klare grenser, som bygninger, veier og eiendommer.</li>
+<li id="lf4a16"><strong>Raster:</strong> et rutenett av celler med verdier. Passer for kontinuerlige fenomener som satellittbilder, flyfoto og høydemodeller. Vanlige rasterformater er GeoTIFF og Cloud Optimized GeoTIFF (COG).</li>
+</ul>
+<p id="lf4a17">Tabellene under gjelder vektordata.</p>
+<h4 id="lf4a18">Rene filformater</h4>
+<div id="lf4a19" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="lf4a20" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left; width: 8.21918%;">Format</th>
+<th style="text-align: left; width: 24.0183%;">Hva er det?</th>
+<th style="text-align: left; width: 32.4201%;">Bruk når</th>
+<th style="text-align: left; width: 26.3927%;">Vær oppmerksom på</th>
+<th style="text-align: left; width: 8.94977%;">Mer info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 8.21918%;"><strong>GeoJSON</strong><br/>(.geojson)</td>
+<td style="width: 24.0183%;">Tekstbasert JSON-format. Åpen standard (RFC 7946).</td>
+<td style="width: 32.4201%;">Webkart, API-er, utveksling og mindre datasett.</td>
+<td style="width: 26.3927%;">Ingen spatial indeks. Store datasett blir tunge å lese. Koordinater er lengde/bredde (WGS 84).</td>
+<td style="width: 8.94977%;"><a href="https://datatracker.ietf.org/doc/html/rfc7946" target="_blank">RFC 7946</a></td>
+</tr>
+<tr>
+<td style="width: 8.21918%;"><strong>Shapefile</strong><br/>(.shp, .shx, .dbf, .prj)</td>
+<td style="width: 24.0183%;">ESRIs klassiske vektorformat. Én «fil» består av flere filer.</td>
+<td style="width: 32.4201%;">Mottaker eller programvare krever det, eller du trenger eldre kompatibilitet.</td>
+<td style="width: 26.3927%;">Maks 2 GB per delfil, korte feltnavn (maks 10 tegn) og flere filer som må henge sammen. Unngå i nye prosjekter hvis du kan.</td>
+<td style="width: 8.94977%;"><a href="https://en.wikipedia.org/wiki/Shapefile" target="_blank">Wikipedia: Shapefile</a></td>
+</tr>
+<tr>
+<td style="width: 8.21918%;"><strong>SOSI</strong><br/>(.sos)</td>
+<td style="width: 24.0183%;">Norsk tekstbasert utvekslingsformat fra Kartverket (1987). Standarden definerer geometri, topologi, kvalitet, koordinatsystem, attributter og metadata.</td>
+<td style="width: 32.4201%;">Norsk offentlig forvaltning, for eksempel levering av reguleringsplaner og arealplandata til kommunen.</td>
+<td style="width: 26.3927%;">Norsk spesifikt. Krever riktig SOSI-versjon og objektkatalog. Har også en GML-realisering.</td>
+<td style="width: 8.94977%;"><a href="https://www.kartverket.no/geodataarbeid/Standarder/SOSI/" target="_blank">Kartverket: SOSI</a><br/><a href="https://en.wikipedia.org/wiki/SOSI" target="_blank">Wikipedia: SOSI</a></td>
+</tr>
+<tr>
+<td style="width: 8.21918%;"><strong>GML</strong><br/>(.gml)</td>
+<td style="width: 24.0183%;">XML-basert OGC-standard for geografiske data.</td>
+<td style="width: 32.4201%;">Utveksling mellom ulike systemer og i OGC-baserte tjenester.</td>
+<td style="width: 26.3927%;">Omstendelig XML, som gir store filer.</td>
+<td style="width: 8.94977%;"><a href="https://www.ogc.org/standards/gml/" target="_blank">OGC: GML</a></td>
+</tr>
+<tr>
+<td style="width: 8.21918%;"><strong>KML</strong><br/>(.kml, .kmz)</td>
+<td style="width: 24.0183%;">XML-format for visning, kjent fra Google Earth. OGC-standard.</td>
+<td style="width: 32.4201%;">Dele enkle visninger og stedsmarkeringer.</td>
+<td style="width: 26.3927%;">Laget for visualisering, ikke for analyse eller store datamengder.</td>
+<td style="width: 8.94977%;"><a href="https://www.ogc.org/standards/kml/" target="_blank">OGC: KML</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="lf4a21">Fildatabaser</h4>
+<div id="lf4a22" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="lf4a23" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Bruk når</th>
+<th style="text-align: left;">Vær oppmerksom på</th>
+<th style="text-align: left;">Mer info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GeoPackage</strong><br/>(.gpkg)</td>
+<td>OGC-standard bygget på SQLite. Én fil kan inneholde flere lag med vektordata, rastertiles og tabeller.</td>
+<td>Standardvalget for nye prosjekter. Passer for QGIS, feltarbeid og mobile enheter, og når du vil ha én fil å dele.</td>
+<td>SQLite tillater mange samtidige lesere, men bare én som skriver om gangen.</td>
+<td><a href="https://www.geopackage.org/" target="_blank">geopackage.org</a><br/><a href="https://www.ogc.org/standards/geopackage/" target="_blank">OGC: GeoPackage</a></td>
+</tr>
+<tr>
+<td><strong>File Geodatabase</strong><br/>(.gdb-mappe)</td>
+<td>Esris fildatabase, lagret som en mappe. Støtter avanserte datamodeller, for eksempel domener og relasjonsklasser.</td>
+<td>Du jobber i ArcGIS Pro og trenger Esris datamodell-funksjoner.</td>
+<td>Esri-eid format og ikke en åpen standard. Kan leses og skrives av GDAL (OpenFileGDB-driveren).</td>
+<td><a href="https://gdal.org/en/stable/drivers/vector/openfilegdb.html" target="_blank">GDAL: OpenFileGDB</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="lf4a24">Cloud Native Geospatial: vektor</h4>
+<p id="lf4a25">Cloud native-formater er laget for å ligge på objektlagring i skyen og leses via forespørsler om bare de delene av filen du trenger, i stedet for å laste ned alt. Vi kommer tilbake til dette i neste tema. Her er de tre viktigste vektorformatene:</p>
+<div id="lf4a26" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="lf4a27" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Bruk når</th>
+<th style="text-align: left;">Mer info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FlatGeobuf</strong><br/>(.fgb)</td>
+<td>Binært vektorformat med innebygd spatial indeks.</td>
+<td>Du vil distribuere vektordata fra skylagring og lese bare utsnittet du trenger, for eksempel i web-apper.</td>
+<td><a href="https://flatgeobuf.org/" target="_blank">flatgeobuf.org</a></td>
+</tr>
+<tr>
+<td><strong>GeoParquet</strong><br/>(.parquet)</td>
+<td>Kolonnebasert format bygget på Apache Parquet.</td>
+<td>Analyse av store datasett, for eksempel med DuckDB og moderne dataplattformer.</td>
+<td><a href="https://geoparquet.org/" target="_blank">geoparquet.org</a></td>
+</tr>
+<tr>
+<td><strong>PMTiles</strong><br/>(.pmtiles)</td>
+<td>Én fil med vektortiler, laget for visualisering.</td>
+<td>Du skal vise store kartdatasett i nettleseren fra statisk hosting, uten kartserver.</td>
+<td><a href="https://docs.protomaps.com/pmtiles/" target="_blank">Protomaps: PMTiles</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p id="lf4a28">FlatGeobuf og GeoParquet egner seg best for analyse, mens PMTiles er laget for visualisering. De er ment som supplement til hverandre. Les mer i <a href="https://cloudnativegeo.org/blog/2023/10/where-is-cog-for-vector/" target="_blank">Where is COG for Vector?</a> fra Cloud-Native Geospatial Foundation.</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="lf4a29">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="lf4a30">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="lf4a31" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="lf4a32" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="lf4a33" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="lf4a34">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="lf4a35" style="position: relative;"><span id="lf4a36">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="lf4a37">
+<p id="lf4a38">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul id="lf4a39">
+<li id="lf4a40">Last ned et lite vektordatasett og lagre det som Shapefile, GeoJSON og GeoPackage i QGIS. Sammenlign filstørrelse, antall filer og hvordan feltnavnene ser ut.</li>
+<li id="lf4a41">Prøv å konvertere med kommandolinjeverktøyet <code>ogr2ogr</code>, for eksempel fra GeoPackage til FlatGeobuf.</li>
+<li id="lf4a42">Velg tre scenarier (levere en reguleringsplan til kommunen, vise et kart på nett, analysere et stort datasett) og begrunn hvilket format du ville brukt.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="lf4a43">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="lf4a44" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="lf4a45" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="lf4a46" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="lf4a47">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="lf4a48" style="position: relative;"><span id="lf4a49">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="lf4a50" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="lf4a51" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="lf4a52"><span id="lf4a53">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="lf4a54">
+<ul id="lf4a55">
+<li id="lf4a56"><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a>
+<ul id="lf4a57">
+<li id="lf4a58">Kapittel 2.1</li>
+<li id="lf4a59">Kapittel 7</li>
+</ul>
+</li>
+<li id="lf4a60"><a href="https://gdal.org/drivers/vector/" target="_blank">GDAL: Vector drivers</a> (oversikt over vektorformater GDAL støtter)</li>
+<li id="lf4a61"><a href="https://mapscaping.com/shapefiles-vs-geopackage/" target="_blank">Mapscaping: Shapefiles vs. GeoPackage</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="lf4a62" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="lf4a63"><strong id="lf4a64"><span id="lf4a65">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="lf4a66">
+<ul id="lf4a67">
+<li id="lf4a68"><a href="https://docs.ogc.org/is/12-128r19/12-128r19.html" target="_blank">OGC GeoPackage Encoding Standard (1.4)</a></li>
+<li id="lf4a69"><a href="https://datatracker.ietf.org/doc/html/rfc7946" target="_blank">RFC 7946: The GeoJSON Format</a></li>
+<li id="lf4a70"><a href="https://www.kartverket.no/geodataarbeid/Standarder/SOSI/" target="_blank">Kartverket: SOSI-standarden</a></li>
+<li id="lf4a71"><a href="https://cloudnativegeo.org/blog/2023/10/where-is-cog-for-vector/" target="_blank">Cloud-Native Geospatial: Where is COG for Vector?</a></li>
+<li id="lf4a72"><a href="https://cogeo.org/" target="_blank">Cloud Optimized GeoTIFF (COG)</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

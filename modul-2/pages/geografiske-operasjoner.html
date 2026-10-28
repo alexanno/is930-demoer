@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Geografiske operasjoner</title></head>
+<body>
+<h1>Geografiske operasjoner</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="go01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="go02">Geografiske operasjoner</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="go03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="go04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="go05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>Nesten all geografisk analyse er satt sammen av noen få byggeklosser. Når du kjenner de seks operasjonene under, gjenkjenner du dem i ethvert verktøy, fra QGIS-menyer til SQL og kode. Siden er bevisst kort: forklaring først, et lite utvalg tekniske eksempler nederst, og lenker til manualene for resten.</p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="go06" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="go07" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="go08">
+<h3 class="mt-2 mb-2" id="go09">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="go10">
+<h4>Før du begynner: bruk et koordinatsystem i meter</h4>
+<p>Avstander og arealer regnes i koordinatsystemets enhet. En buffer på «100» i EPSG:4326 betyr 100 <em>grader</em>, ikke 100 meter. For norske data bruker du et projisert system i meter, for eksempel EPSG:25832 eller 25833 (se <a href="https://uia.instructure.com/courses/21461/pages/projeksjoner-kartografi-og-visualiseringsmetoder" target="_blank">Projeksjoner, kartografi og visualiseringsmetoder</a>). Sjekk alltid koordinatsystemet før du måler.</p>
+<h4>Seks operasjoner steg for steg</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Operasjon</th>
+<th style="text-align: left;">Spørsmålet den svarer på</th>
+<th style="text-align: left;">Eksempel fra norsk forvaltning og næringsliv</th>
+<th style="text-align: left;">Pass opp</th>
+<th style="text-align: left;">QGIS</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>1. Buffer</strong></td><td>Hva ligger innenfor en viss avstand fra et objekt?</td><td>Sonen på 100 m langs sjø og vassdrag der byggeforbudet i plan- og bygningsloven § 1-8 gjelder.</td><td>Enheten er koordinatsystemets enhet. Overlappende buffere kan slås sammen eller beholdes hver for seg.</td><td><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html#buffer" target="_blank">Buffer</a></td></tr>
+<tr><td><strong>2. Klipp (clip)</strong></td><td>Gi meg bare den delen av laget som ligger innenfor dette området.</td><td>Vegnett eller bygg klippet til én kommune.</td><td>Du beholder bare attributtene til laget du klipper. Klippeområdet tilfører ingenting.</td><td><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html#clip" target="_blank">Clip</a></td></tr>
+<tr><td><strong>3. Romlig kobling</strong></td><td>Hvilke egenskaper har stedet objektet ligger på?</td><td>Hvilken kommune, grunnkrets eller reguleringsplan ligger hvert bygg i?</td><td>Et objekt kan treffe flere områder og gi flere rader. Velg riktig relasjon: innenfor, krysser eller berører.</td><td><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeneral.html#join-attributes-by-location" target="_blank">Join attributes by location</a></td></tr>
+<tr><td><strong>4. Nærhet</strong></td><td>Hva er nærmest, og hva ligger innenfor X meter?</td><td>Nærmeste brannstasjon fra en bolig, eller skoler innenfor 1 km fra en vei.</td><td>Luftlinje er ikke veilengde (se ruteberegning under). Store datasett trenger romlig indeks.</td><td><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeneral.html#join-attributes-by-nearest" target="_blank">Join attributes by nearest</a></td></tr>
+<tr><td><strong>5. Aggregering</strong></td><td>Hvor mange eller hvor mye finnes i hvert område? Og kan områder slås sammen?</td><td>Antall bygg og samlet bruksareal per grunnkrets. Grunnkretser slått sammen til kommuner (dissolve).</td><td>Objekter må kobles til riktig område før de telles. Objekter som krysser en grense kan telles flere ganger.</td><td><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoranalysis.html#count-points-in-polygon" target="_blank">Count points in polygon</a>, <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html#dissolve" target="_blank">Dissolve</a></td></tr>
+<tr><td><strong>6. Overlay</strong></td><td>Hvordan overlapper to lag, og hva er felles eller ulikt?</td><td>Hvilke deler av hver eiendom ligger i en flomsone eller faresone.</td><td>Resultatet får attributter fra begge lag og deles opp i mindre biter. Regn ut areal på nytt etterpå.</td><td><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html#intersection" target="_blank">Intersection</a></td></tr>
+</tbody>
+</table>
+</div>
+<h4>Klipp, intersect eller overlay?</h4>
+<p>Disse blandes ofte sammen. Forskjellen er hva du får tilbake:</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Operasjon</th>
+<th style="text-align: left;">Du får</th>
+<th style="text-align: left;">Attributter fra</th>
+<th style="text-align: left;">Bruk når</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Clip</strong></td><td>Delene av lag A som ligger innenfor B</td><td>Bare A</td><td>Du vil ha et utsnitt av A.</td></tr>
+<tr><td><strong>Intersection</strong></td><td>Områder der A og B overlapper</td><td>A og B</td><td>Du vil vite hvor og hvor mye de overlapper.</td></tr>
+<tr><td><strong>Union</strong></td><td>Alt fra A og B, delt opp der de overlapper</td><td>A og B</td><td>Du vil samle to områdelag til ett.</td></tr>
+<tr><td><strong>Difference</strong></td><td>Delene av A som ikke ligger i B</td><td>Bare A</td><td>Du vil ha det som ligger utenfor, for eksempel bygg utenfor en faresone.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Alle fire finnes som verktøy i QGIS under <em>Vector → Geoprocessing Tools</em>: <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html#clip" target="_blank">Clip</a>, <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html#intersection" target="_blank">Intersection</a>, <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html#union" target="_blank">Union</a> og <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html#difference" target="_blank">Difference</a>.</p>
+<h4>Tekniske eksempler</h4>
+<p>Samme operasjoner som kode. Eksemplene bruker små syntetiske datasett i EPSG:25833 (meter) rundt Kristiansand: <code>bygg</code> (punkter), <code>vassdrag</code> (linjer), <code>kommuner</code> og <code>grunnkrets</code> (flater), <code>brannstasjon</code> (punkter), <code>eiendom</code> og <code>faresone</code> (flater). Du finner dem i <a href="https://github.com/alexanno/is930-demoer/tree/main/modul-2/eksempeldata" target="_blank">eksempeldata</a>, eller bytter ut filnavn og kolonner med dine egne data. Hvordan du kjører kode uten oppsett, står på siden <a href="https://uia.instructure.com/courses/21461/pages/cli-og-biblioteker" target="_blank">CLI og biblioteker</a>.</p>
+<p><strong>SQL med DuckDB</strong> (samme <code>ST_</code>-funksjoner finnes i PostGIS og de fleste databaser):</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>INSTALL spatial; LOAD spatial;   -- én gang per økt
+
+-- 1 Buffer: 100 m rundt vassdrag
+SELECT navn, ST_Buffer(geom, 100) AS geom FROM st_read('vassdrag.gpkg');
+
+-- 2 Klipp: vassdrag innenfor Kristiansand kommune
+SELECT v.navn, ST_Intersection(v.geom, k.geom) AS geom
+FROM st_read('vassdrag.gpkg') v, st_read('kommuner.gpkg') k
+WHERE k.kommunenavn = 'Kristiansand' AND ST_Intersects(v.geom, k.geom);
+
+-- 3 Romlig kobling: hvilken kommune ligger hvert bygg i?
+SELECT b.bygg_id, k.kommunenavn
+FROM st_read('bygg.gpkg') b JOIN st_read('kommuner.gpkg') k ON ST_Within(b.geom, k.geom);
+
+-- 4 Nærhet: nærmeste brannstasjon og avstand i meter for hvert bygg
+SELECT b.bygg_id, s.navn, ST_Distance(b.geom, s.geom) AS meter
+FROM st_read('bygg.gpkg') b,
+     LATERAL (SELECT navn, geom FROM st_read('brannstasjon.gpkg') s
+              ORDER BY ST_Distance(b.geom, s.geom) LIMIT 1) s;
+-- bare bygg innen 100 m fra vassdrag: ... WHERE ST_DWithin(b.geom, v.geom, 100)
+
+-- 5 Aggregering: antall bygg og samlet bruksareal per grunnkrets
+SELECT g.grunnkretsnummer, count(*) AS antall_bygg, sum(b.bruksareal) AS sum_areal
+FROM st_read('bygg.gpkg') b JOIN st_read('grunnkrets.gpkg') g ON ST_Within(b.geom, g.geom)
+GROUP BY g.grunnkretsnummer;
+-- ...og dissolve: grunnkretser slått sammen til kommuner
+SELECT kommunenummer, ST_Union_Agg(geom) AS geom FROM st_read('grunnkrets.gpkg') GROUP BY kommunenummer;
+
+-- 6 Overlay: hvor stor andel av hver eiendom ligger i faresonen?
+SELECT e.gnr_bnr, ST_Area(ST_Intersection(e.geom, f.geom)) / ST_Area(e.geom) AS andel
+FROM st_read('eiendom.gpkg') e JOIN st_read('faresone.gpkg') f ON ST_Intersects(e.geom, f.geom);</code></pre>
+<p><strong>Python med geopandas:</strong></p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>import geopandas as gpd
+
+bygg = gpd.read_file("bygg.gpkg")
+vassdrag = gpd.read_file("vassdrag.gpkg")
+kommuner = gpd.read_file("kommuner.gpkg")
+brann = gpd.read_file("brannstasjon.gpkg")
+grunnkrets = gpd.read_file("grunnkrets.gpkg")
+eiendom = gpd.read_file("eiendom.gpkg")
+faresone = gpd.read_file("faresone.gpkg")
+print(bygg.crs)  # sjekk koordinatsystemet først
+
+buffer = vassdrag.buffer(100)                                                  # 1 buffer
+klipp = gpd.clip(vassdrag, kommuner[kommuner.kommunenavn == "Kristiansand"])  # 2 klipp
+kobling = gpd.sjoin(bygg, kommuner[["kommunenavn", "geometry"]], predicate="within")      # 3 kobling
+naermeste = gpd.sjoin_nearest(bygg, brann[["navn", "geometry"]], distance_col="meter")  # 4 nærhet
+per_krets = (gpd.sjoin(bygg, grunnkrets, predicate="within")                   # 5 aggregering
+             .groupby("grunnkretsnummer")
+             .agg(antall_bygg=("bygg_id", "size"), sum_areal=("bruksareal", "sum")))
+kommuner_av_krets = grunnkrets.dissolve(by="kommunenummer")                    # 5 dissolve
+overlay = gpd.overlay(eiendom, faresone, how="intersection")                   # 6 overlay</code></pre>
+<p><strong>Kommandolinje med ogr2ogr</strong> (egner seg best til buffer, klipp og dissolve. Romlig kobling og overlay er enklere i SQL eller geopandas):</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Finn navnet på geometrikolonnen (her «geom») og koordinatsystemet
+ogrinfo -so kommuner.gpkg kommuner
+
+# 1 Buffer: 100 m rundt vassdrag (SQLite-dialekten gir tilgang til ST_-funksjoner)
+ogr2ogr -f GPKG buffer.gpkg vassdrag.gpkg -dialect sqlite -sql "SELECT navn, ST_Buffer(geom, 100) AS geom FROM vassdrag"
+
+# 2 Klipp: vassdrag innenfor Kristiansand kommune
+ogr2ogr -f GPKG klippet.gpkg vassdrag.gpkg -clipsrc kommuner.gpkg -clipsrclayer kommuner -clipsrcwhere "kommunenavn = 'Kristiansand'"
+
+# 5 Dissolve: grunnkretser slått sammen til kommuner
+ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite -sql "SELECT kommunenummer, ST_Union(geom) AS geom FROM grunnkrets GROUP BY kommunenummer"</code></pre>
+<h4>Fordypning: ruteberegning</h4>
+<p>Nærhet i luftlinje er ofte ikke nok. Hvor lang tid tar det faktisk å kjøre fra brannstasjonen til huset? Da trenger du <em>ruteberegning</em>, som regner på et nettverk i stedet for på flaten.</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Begrep</th>
+<th style="text-align: left;">Betyr</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Graf</strong></td><td>Vegnettet som noder (kryss) og kanter (veistrekninger). Hver kant har en kostnad, for eksempel tid eller lengde.</td></tr>
+<tr><td><strong>Korteste vei</strong></td><td>Den ruten med lavest samlet kostnad. Algoritmene heter blant annet Dijkstra og A*. Raskeste og korteste rute er ikke alltid den samme ruten.</td></tr>
+<tr><td><strong>Isokron</strong></td><td>Området du rekker innen for eksempel 15 minutter fra et punkt.</td></tr>
+<tr><td><strong>Avstandsmatrise</strong></td><td>Reisetid eller avstand mellom mange punkter på én gang.</td></tr>
+<tr><td><strong>Ruteoptimalisering (VRP)</strong></td><td>Beste rekkefølge på stoppene for ett eller flere kjøretøy, kjent fra distribusjon og hjemmetjeneste.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Norske vegnettsdata kommer fra Nasjonal vegdatabank (NVDB): se <a href="https://data.norge.no/en/datasets/a6e26415-8cd5-30af-a39d-b545aed5bbea/forenklet-elveg-20" target="_blank">Forenklet Elveg 2.0</a> og <a href="https://data.norge.no/en/datasets/cbf42df2-e109-3412-9176-8d8d4d030645/nvdb-rutedatasett" target="_blank">NVDB rutedatasett</a>. De fleste åpne rutemotorer bruker OpenStreetMap.</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Tjeneste eller bibliotek</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Kostnad og lisens</th>
+<th style="text-align: left;">Passer til</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong><a href="https://openrouteservice.org/" target="_blank">OpenRouteService</a></strong></td><td>Åpen web-API fra HeiGIT. Kan også driftes selv.</td><td>Gratis plan med API-nøkkel og kvoter (<a href="https://openrouteservice.org/dev/#/signup" target="_blank">se planer</a>). Åpen kildekode.</td><td>Ruter, isokroner, avstandsmatriser og optimalisering. Har <a href="https://plugins.qgis.org/plugins/ORStools/" target="_blank">QGIS-plugin (ORS Tools)</a> og klienter for <a href="https://github.com/GIScience/openrouteservice-py" target="_blank">Python</a> og JavaScript.</td></tr>
+<tr><td><strong><a href="https://project-osrm.org/" target="_blank">OSRM</a></strong></td><td>Rask rutemotor for egen drift.</td><td>Åpen kildekode</td><td>Mange raske ruter og matriser på OSM-data.</td></tr>
+<tr><td><strong><a href="https://valhalla.github.io/valhalla/" target="_blank">Valhalla</a></strong></td><td>Rutemotor med mange transportmåter.</td><td>Åpen kildekode</td><td>Fleksible profiler og isokroner i egen drift.</td></tr>
+<tr><td><strong><a href="https://www.graphhopper.com/" target="_blank">GraphHopper</a></strong></td><td>Rutemotor og kommersiell tjeneste.</td><td>Åpen kjerne og betalt tjeneste</td><td>Ruter og optimalisering, også som ferdig tjeneste.</td></tr>
+<tr><td><strong><a href="https://pgrouting.org/" target="_blank">pgRouting</a></strong></td><td>Utvidelse til PostGIS.</td><td>Åpen kildekode</td><td>Ruteberegning med SQL på eget vegnett i databasen.</td></tr>
+<tr><td><strong><a href="https://osmnx.readthedocs.io/" target="_blank">OSMnx</a></strong> og NetworkX</td><td>Python-biblioteker.</td><td>Åpen kildekode</td><td>Analyse av vegnett i notebooks og undervisning.</td></tr>
+<tr><td><strong>QGIS nettverksanalyse</strong></td><td>Innebygde algoritmer (korteste vei, serviceområde).</td><td>Åpen kildekode</td><td>Engangsanalyser på eget vegnett. Se <a href="https://docs.qgis.org/latest/en/docs/training_manual/vector_analysis/network_analysis.html" target="_blank">QGIS Training Manual</a>.</td></tr>
+<tr><td><strong><a href="https://www.opentripplanner.org/" target="_blank">OpenTripPlanner</a></strong></td><td>Reiseplanlegger for kollektivtransport.</td><td>Åpen kildekode</td><td>Kollektivreiser fra rutedata (GTFS) og OSM. <a href="https://developer.entur.no/docs/open-services/journey-planner" target="_blank">Entur</a> tilbyr åpent API for norske kollektivreiser.</td></tr>
+<tr><td><strong>Google, Mapbox, HERE, Esri</strong></td><td>Kommersielle rutetjenester.</td><td>Betaling per forespørsel, ofte med gratisnivå</td><td>Produksjon med trafikkdata, kundestøtte og avtalt driftsnivå.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Start gjerne med <a href="https://openrouteservice.org/" target="_blank">OpenRouteService</a>: du kan teste i nettleseren på <a href="https://maps.openrouteservice.org/" target="_blank">maps.openrouteservice.org</a>, bruke QGIS-pluginen, og senere kalle API-et fra Python eller JavaScript med en gratis nøkkel.</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="go11">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="go12">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="go13" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="go14" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="go15" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="go16">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="go17" style="position: relative;"><span id="go18">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="go19">
+<p id="go20">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul>
+<li>Last inn kommuner og et vassdragslag i QGIS. Lag en buffer på 100 m. Gjør det først på laget i EPSG:4326 og deretter etter at du har reprojisert til EPSG:25833. Hva ser du, og hvorfor?</li>
+<li>Finn en av de seks operasjonene i QGIS sin <em>Processing Toolbox</em>. Hvilke parametere trenger den, og hva er resultatet?</li>
+<li>Kjør én av DuckDB-spørringene på eksempeldataene. Endre bufferavstanden eller faresonen, og se hvordan svaret endres.</li>
+<li>Åpne <a href="https://maps.openrouteservice.org/" target="_blank">maps.openrouteservice.org</a> og beregn en isokron på 15 minutter fra arbeidsplassen din, først med bil og deretter med sykkel. Hvorfor ser områdene så forskjellige ut?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="go21">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="go22" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="go23" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="go24" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="go25">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="go26" style="position: relative;"><span id="go27">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="go28" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="go29" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="go30"><span id="go31">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="go32">
+<ul>
+<li><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a></li>
+<li><a href="https://docs.qgis.org/latest/en/docs/training_manual/vector_analysis/index.html" target="_blank">QGIS Training Manual: Vector Analysis</a></li>
+<li><a href="https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/s11-geospatial-analysis-i-vector-o.html" target="_blank">Essentials of Geographic Information Systems: Geospatial Analysis I, vector operations</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="go33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="go34"><strong id="go35"><span id="go36">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="go37">
+<ul>
+<li><a href="https://github.com/alexanno/GeografiskAI_UiA_IS-218/blob/main/V2025/10-KI%20og%20GIScience/vektoranalyse.md" target="_blank">IS-218: Vektoranalyse (forelesningsnotater med flere eksempler)</a></li>
+<li><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html" target="_blank">QGIS: Vector overlay-verktøy</a></li>
+<li><a href="https://duckdb.org/docs/stable/core_extensions/spatial/functions.html" target="_blank">DuckDB spatial: funksjoner</a></li>
+<li><a href="https://geopandas.org/en/stable/docs/user_guide/set_operations.html" target="_blank">GeoPandas: set operations med overlay</a></li>
+<li><a href="https://giscience.github.io/openrouteservice/" target="_blank">OpenRouteService: dokumentasjon</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

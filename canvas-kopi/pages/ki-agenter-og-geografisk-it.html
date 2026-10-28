@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>KI-agenter og geografisk IT</title></head>
+<body>
+<h1>KI-agenter og geografisk IT</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="ki8a01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="ki8a02">KI-agenter og geografisk IT</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="ki8a03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="ki8a04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="ki8a05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p id="ki8a06">KI-agenter kan lese data, kjøre kode og lage kart på oppdrag fra deg. Det høres nesten for godt ut til å være sant, og uten riktig kunnskap og verktøy kan de gjøre feil som ser riktige ut. Her får du en første, enkel introduksjon til hva som skal til for at en agent faktisk fungerer på geografiske data. Vi går dypere inn i KI-agenter i modulene fremover.</p>
+<p id="ki8a07"></p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ki8a08" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ki8a09" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ki8a10">
+<h3 class="mt-2 mb-2" id="ki8a11">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ki8a12">
+<h4 id="ki8a13">Hva er en KI-agent?</h4>
+<p id="ki8a14">En KI-agent er en språkmodell (LLM) som kan resonnere, bruke verktøy og jobbe i en løkke: planlegge, utføre en handling, se resultatet og justere. For geografiske data kan en handling for eksempel være å hente data fra en tjeneste, kjøre en romlig analyse eller tegne et kart.</p>
+<div id="ki8a15" style="overflow-x: auto; margin: 16px 0;">
+<table cellpadding="0" cellspacing="0" style="border-collapse: collapse; margin: 0 auto; text-align: center;">
+<tbody>
+<tr>
+<td style="padding: 0 0 2px 0;">
+<div style="display: inline-block; padding: 6px 16px; border-radius: 999px; border: 2px solid currentcolor;"><strong>Oppgave</strong> fra deg</div>
+</td>
+</tr>
+<tr>
+<td style="font-size: 1.5em; line-height: 1.3;">↓</td>
+</tr>
+<tr>
+<td>
+<div style="border-radius: 14px; padding: 12px; border: 2px dashed currentcolor;">
+<div style="margin-bottom: 8px;">Agent-løkken</div>
+<table style="border-collapse: separate; margin: 0px auto; text-align: center;">
+<tbody>
+<tr>
+<td style="width: 180px; vertical-align: top; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>1. LLM + resonnering</strong><br/><span style="font-size: 0.85em;">Hva trenger jeg? Hva er neste steg?</span></td>
+<td style="font-size: 1.5em; vertical-align: middle;">→</td>
+<td style="width: 180px; vertical-align: top; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>2. Verktøykall</strong><br/><span style="font-size: 0.85em;">Kjør kode, kall en API eller en MCP-server</span></td>
+<td style="font-size: 1.5em; vertical-align: middle;">→</td>
+<td style="width: 180px; vertical-align: top; padding: 10px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>3. Observasjon</strong><br/><span style="font-size: 0.85em;">Resultat eller feilmelding</span></td>
+</tr>
+<tr>
+<td colspan="5" style="padding-top: 6px; font-size: 0.95em;">↺ Resultatet går tilbake til modellen, og løkken gjentas til oppgaven er løst</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td style="font-size: 1.5em; line-height: 1.3;">↓</td>
+</tr>
+<tr>
+<td>
+<div style="display: inline-block; padding: 6px 16px; border-radius: 999px; border: 2px solid currentcolor;"><strong>Svar</strong> til deg</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: Agent-løkken, fra oppgave til svar.</em></p>
+</div>
+<p id="ki8a16">Hver runde gir modellen ny informasjon fra verktøyene, og det er slik agenter kan oppdage og rette egne feil. Det betyr også at en feil tidlig i løkken kan forplante seg gjennom resten.</p>
+<p id="ki8a17"><em>Eksempel med geodata: 1) «Jeg trenger kommunegrensene.» 2) Agenten henter dem fra Geonorge og leser dem inn med geopandas. 3) Resultatet viser at koordinatsystemet mangler. Neste runde: sjekk og sett CRS.</em></p>
+<h4 id="ki8a18">KI-agenter kan lite på egen hånd</h4>
+<p id="ki8a19">Modellen har bred, men grunn kunnskap. Den kan være utdatert, den kjenner ikke norske registre og standarder godt, og den kan finne opp svar som høres overbevisende ut. Geografiske data har i tillegg egne fallgruver som er lette å overse:</p>
+<ul id="ki8a20">
+<li id="ki8a21"><strong>Koordinatsystem:</strong> en feil i koordinatsystem (CRS) ugyldiggjør stille alle avstander, arealer og skjæringer som beregnes etterpå.</li>
+<li id="ki8a22"><strong>Lange kjeder:</strong> en feil tidlig i en analyse forplanter seg gjennom alle stegene som følger.</li>
+<li id="ki8a23"><strong>Hallusinering:</strong> modellene kan finne opp datasett, URL-er, lagnavn og fakta om steder.</li>
+</ul>
+<p id="ki8a24">Forskere har laget egne tester for dette. <a href="https://arxiv.org/abs/2503.18129" target="_blank">GeoBenchX</a> tester språkmodeller (blant annet Haiku 3.5, Sonnet og GPT-4o) på GIS-oppgaver med flere steg, inkludert oppgaver som bevisst ikke kan løses, for å se om modellen finner opp et svar. Typiske feil var misforståtte geometriske forhold, utdatert kunnskap og ineffektiv databehandling. <a href="https://arxiv.org/html/2507.19586v1" target="_blank">GeoHaluBench</a> måler geografiske hallusinasjoner hos 20 språkmodeller, og <a href="https://arxiv.org/pdf/2608.01645" target="_blank">GISAgentBench</a> bruker oppgaver fra praktisk GIS-arbeid.</p>
+<h4 id="ki8a25">Fra prompt til MCP: hva kan du gi agenten?</h4>
+<p id="ki8a26">Det finnes fire hovednivåer for å gi en agent mer kunnskap og flere muligheter. Start nederst, og bygg oppover når oppgaven krever det.</p>
+<div id="ki8a27" style="max-width: 640px; margin: 16px auto; text-align: center;">
+<div id="ki8a28" style="width: 40%; margin: 0px auto 6px; padding: 10px 6px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.3); border: 2px solid currentcolor;"><strong>MCP</strong><br/><span style="font-size: 0.85em;">tilgang til verktøy og live data</span></div>
+<div id="ki8a29" style="width: 60%; margin: 0px auto 6px; padding: 10px 6px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.22); border: 2px solid currentcolor;"><strong>Skills</strong><br/><span style="font-size: 0.85em;">fagkunnskap og arbeidsflyt</span></div>
+<div id="ki8a30" style="width: 80%; margin: 0px auto 6px; padding: 10px 6px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.15); border: 2px solid currentcolor;"><strong>Instruksjoner</strong><br/><span style="font-size: 0.85em;">faste regler og kontekst</span></div>
+<div id="ki8a31" style="width: 100%; margin: 0px auto; padding: 10px 6px; border-radius: 10px; background-color: rgba(128, 128, 128, 0.08); border: 2px solid currentcolor;"><strong>Prompt engineering</strong><br/><span style="font-size: 0.85em;">oppgaven du ber om her og nå</span></div>
+</div>
+<div id="ki8a32" style="overflow-x: auto;">
+<table border="1" cellpadding="6" id="ki8a33" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Nivå</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Geo-eksempel</th>
+<th style="text-align: left;">Bruk når</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prompt engineering</strong></td>
+<td>Hvordan du formulerer oppgaven: rolle, kontekst, krav til format og eksempler.</td>
+<td>«Lag et GeoJSON-punkt for Kristiansand i [lengdegrad, breddegrad] og forklar hvilket koordinatsystem du bruker.»</td>
+<td>Enkeltoppgaver og utforsking.</td>
+</tr>
+<tr>
+<td><strong>Instruksjoner</strong></td>
+<td>Faste regler som gjelder i hver samtale, for eksempel systemprompt eller prosjektinstruksjoner.</td>
+<td>«Svar på norsk. Bruk EPSG:25832 eller 25833 for norske data. Si fra hvis du er usikker.»</td>
+<td>Du gjentar de samme reglene i hver samtale.</td>
+</tr>
+<tr>
+<td><strong>Skills</strong></td>
+<td>En mappe med en SKILL.md-fil (og eventuelt skript og referanser) som agenten leser når oppgaven passer til beskrivelsen. Agenten ser først bare navn og beskrivelse, og laster resten ved behov. Formatet er åpent: <a href="https://agentskills.io/" target="_blank">agentskills.io</a> | <a href="https://agentskills.io/specification" target="_blank">spesifikasjonen</a>.</td>
+<td>Demoen <a class="inline_disabled" href="https://alexanno.github.io/is930-demoer/Fargeskalaer%20for%20tematiske%20kart/index.html" target="_blank">Tematisk Fargebruk</a> har en <a class="inline_disabled" href="https://alexanno.github.io/is930-demoer/Fargeskalaer%20for%20tematiske%20kart/fargeskalaer-tematiske-kart.zip" target="_blank" title="Lenke">nedlastbar Skill.md</a>(zip-pakke) lagd for KI-agenter</td>
+<td>Du trenger fagkunnskap og arbeidsmetoder modellen mangler, eller som den gjør feil på.</td>
+</tr>
+<tr>
+<td><strong>MCP</strong><br/>Model Context Protocol</td>
+<td>Åpen protokoll som kobler agenten til eksterne verktøy og data via servere.</td>
+<td>Allemannsdata.com sin MCP server for geografi og natur</td>
+<td>Agenten må hente live data eller utføre handlinger i andre systemer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p id="ki8a34"></p>
+<h4 id="ki8a35">Hvordan kan et Skill se ut?</h4>
+<p id="ki8a36">Et skill er en vanlig mappe med en SKILL.md-fil. Beskrivelsen i toppen forteller agenten når skillen skal brukes. Resten er reglene agenten skal følge:</p>
+<pre id="ki8a37" style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>---
+name: norsk-geodata
+description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
+  Geonorge-tjenester eller tematiske kart.
+---
+# Regler
+- GeoJSON bruker alltid [lengdegrad, breddegrad].
+- Beregn avstand og areal i et projisert system (EPSG:25832/25833)
+  eller geodetisk. Aldri i grader.
+- Hent lagnavn og parametere fra GetCapabilities. Gjett aldri URL-er.
+- Hvis et datasett ikke finnes: si det, ikke finn på et svar.
+- Tematiske kart: normaliser verdiene og bruk en sekvensiell fargeskala.</code></pre>
+<p id="ki8a38">Skills er et åpent format som opprinnelig ble utviklet av Anthropic og som flere agentverktøy støtter. Les mer på <a href="https://agentskills.io/" target="_blank">agentskills.io</a>, i <a href="https://agentskills.io/specification" target="_blank">spesifikasjonen</a> og i <a href="https://agentskills.io/clients" target="_blank">oversikten over verktøy som støtter skills</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="ki8a39">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="ki8a40">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="ki8a41" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="ki8a42" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="ki8a43" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="ki8a44">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="ki8a45" style="position: relative;"><span id="ki8a46">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="ki8a47">
+<p id="ki8a48">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul id="ki8a49">
+<li id="ki8a50">Prøv ideene til utforskning under med en liten og en stor modell, og noter om agenten slår opp, spør deg eller gjetter. Skriv deretter en egen liten skill eller instruksjon som retter eventuelle feil, og kjør dem på nytt. Hva ble bedre, og hva ble ikke bedre?</li>
+<li id="ki8a51">Hvilke feil er «stille», altså ser riktige ut på kartet men er feil? Hvem har ansvaret for å oppdage dem?</li>
+<li id="ki8a52">For hver prompt: ville du løst problemet med prompt, instruksjoner, skill eller MCP, og hvorfor?</li>
+</ul>
+<p id="ki8a53"><strong>Ideer til utforskning:</strong></p>
+<ul id="ki8a54">
+<li id="ki8a55">«Hvor mange datasett har det offentlige kartgrunnlaget?»</li>
+<li id="ki8a56">«Hvilke kommuner grenser til Kristiansand?»</li>
+<li id="ki8a57">«Finn alle bygninger i postnummeret 4630.»</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="ki8a59">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="ki8a60" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="ki8a61" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="ki8a62" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="ki8a63">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="ki8a64" style="position: relative;"><span id="ki8a65">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="ki8a66" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="ki8a67" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="ki8a68"><span id="ki8a69">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="ki8a70">
+<ul id="ki8a71">
+<li id="ki8a72"><a href="https://agentskills.io/" target="_blank">Agent Skills: åpent format (agentskills.io)</a></li>
+<li id="ki8a73"><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview" target="_blank">Anthropic: Agent Skills (oversikt)</a></li>
+<li id="ki8a74"><a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a></li>
+<li id="ki8a75"><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank">Anthropic: Prompt engineering (oversikt)</a></li>
+<li id="ki8a76"><a href="https://arxiv.org/abs/2503.18129" target="_blank">GeoBenchX: Benchmarking LLMs for Multistep Geospatial Tasks</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="ki8a77" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="ki8a78"><strong id="ki8a79"><span id="ki8a80">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="ki8a81">
+<ul id="ki8a82">
+<li id="ki8a83"><a href="https://agentskills.io/specification" target="_blank">Agent Skills: spesifikasjon</a></li>
+<li id="ki8a84"><a href="https://arxiv.org/pdf/2608.01645" target="_blank">GISAgentBench: Evaluating LLM Agents on GIS Tasks</a></li>
+<li id="ki8a85"><a href="https://arxiv.org/html/2507.19586v1" target="_blank">GeoHaluBench: Mitigating Geospatial Knowledge Hallucination in LLMs</a></li>
+<li id="ki8a86"><a href="https://developers.arcgis.com/ai/mcp-arcgis-location-services/" target="_blank">Esri: MCP for ArcGIS Location Services</a></li>
+<li id="ki8a87"><a href="https://www.developersdigest.tech/blog/mcp-vs-agent-skills" target="_blank">Developers Digest: MCP vs. Agent Skills</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

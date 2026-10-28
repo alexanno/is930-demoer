@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Databaser og lagring</title></head>
+<body>
+<h1>Databaser og lagring</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="db01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="db02">Databaser og lagring</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="db03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="db04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="db05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>SQL er et av de kraftigste verktøyene i geografisk analyse: du beskriver hva du vil ha, og databasen finner raskeste måte å regne det ut på, også for millioner av objekter. Her ser du hvorfor spatial SQL er verdt å lære, hvilke databaser som finnes, hvordan data kan lagres, og hvordan cloud native-formater kan brukes som en skrivebeskyttet «database».</p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="db06" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="db07" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="db08">
+<h3 class="mt-2 mb-2" id="db09">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="db10">
+<h4>Hvorfor spatial SQL?</h4>
+<ul>
+<li><strong>Deklarativt:</strong> du sier hva du vil ha, ikke hvordan du får det. Spørringen er samtidig dokumentasjonen av analysen.</li>
+<li><strong>Skalerer:</strong> databasen bruker romlig indeks og spørreoptimalisering, så «hva ligger her?» slipper å sjekke alle objekter.</li>
+<li><strong>Overførbart:</strong> <code>ST_</code>-funksjonene bygger på standarden OGC Simple Features og er nesten like i PostGIS, DuckDB, BigQuery, Databricks og SQL Server. KI-agenter er også gode på SQL, noe vi kommer tilbake til i siste tema.</li>
+</ul>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>-- PostGIS: bygg innen 100 m fra vassdrag
+SELECT b.* FROM bygg b JOIN vassdrag v ON ST_DWithin(b.geom, v.geom, 100);
+
+-- PostGIS: nærmeste brannstasjon til et punkt (&lt;-&gt; bruker den romlige indeksen)
+SELECT navn FROM brannstasjon ORDER BY geom &lt;-&gt; ST_SetSRID(ST_MakePoint(88423, 6466808), 25833) LIMIT 1;
+
+-- Antall bygg per kommune
+SELECT k.kommunenavn, count(*) FROM bygg b JOIN kommuner k ON ST_Within(b.geom, k.geom) GROUP BY k.kommunenavn;</code></pre>
+<p>Flere eksempler står i <a href="https://uia.instructure.com/courses/21461/pages/geografiske-operasjoner" target="_blank">Geografiske operasjoner</a>. Vil du øve, er <a href="https://postgis.net/workshops/postgis-intro/" target="_blank">PostGIS-introduksjonen</a> et godt sted å begynne.</p>
+<h4>Databaser med geografisk støtte</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Database</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Skalerer til</th>
+<th style="text-align: left;">Lisens</th>
+<th style="text-align: left;">Bruk når</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong><a href="https://postgis.net/" target="_blank">PostgreSQL + PostGIS</a></strong></td><td>Databaseserver</td><td>Store datamengder og mange samtidige brukere</td><td>Åpen kildekode</td><td>Standardvalget for delte geodatabaser med flere brukere og oppdateringer.</td></tr>
+<tr><td><strong><a href="https://duckdb.org/docs/stable/core_extensions/spatial/overview.html" target="_blank">DuckDB</a> (spatial)</strong></td><td>Innebygd, kjører i prosessen din. Ingen server.</td><td>Millioner til milliarder rader på én maskin</td><td>Åpen kildekode (MIT)</td><td>Rask analyse direkte på GeoParquet- og GeoPackage-filer, lokalt eller mot skylagring.</td></tr>
+<tr><td><strong><a href="https://www.geopackage.org/" target="_blank">SQLite/SpatiaLite + GeoPackage</a></strong></td><td>Innebygd fildatabase</td><td>Opptil noen gigabyte</td><td>Åpen kildekode</td><td>Én fil å dele, til feltarbeid og mindre prosjekter.</td></tr>
+<tr><td><strong><a href="https://learn.microsoft.com/en-us/sql/relational-databases/spatial/spatial-data-sql-server" target="_blank">SQL Server (spatial)</a></strong></td><td>Databaseserver (Microsoft)</td><td>Store datamengder</td><td>Kommersiell</td><td>Organisasjoner som allerede har Microsoft-plattformen.</td></tr>
+<tr><td><strong><a href="https://cloud.google.com/bigquery/docs/geospatial-intro" target="_blank">BigQuery GIS</a></strong></td><td>Skybasert datavarehus (Google)</td><td>Svært store datamengder</td><td>Betaling per spørring</td><td>Analyse av store datasett uten å drifte en server.</td></tr>
+<tr><td><strong><a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions.html" target="_blank">Databricks</a></strong></td><td>Skybasert dataplattform</td><td>Svært store datamengder</td><td>Kommersiell</td><td>Virksomheter som har Databricks som felles dataplattform. Støtter geometrityper og <code>ST_</code>-funksjoner.</td></tr>
+<tr><td><strong><a href="https://learn.microsoft.com/en-us/fabric/real-time-intelligence/map/about-fabric-maps" target="_blank">Microsoft Fabric</a></strong></td><td>Skybasert dataplattform (Microsoft)</td><td>Svært store datamengder</td><td>Kommersiell</td><td>Virksomheter som bruker Microsoft og Azure. Geografiske funksjoner og kartvisning (Maps in Fabric).</td></tr>
+</tbody>
+</table>
+</div>
+<p>Databricks og Fabric brukes av mange norske virksomheter som felles dataplattform, og geodata er der et tillegg. Sjekk hvilke romlige funksjoner plattformen har før dere planlegger analysene dit. Se også tabellen over verktøykategorier i <a href="https://uia.instructure.com/courses/21461/pages/verktoylandskapet" target="_blank">Verktøylandskapet</a>.</p>
+<h4>Lagringsstrukturer: fil, database eller objektlagring?</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Struktur</th>
+<th style="text-align: left;">Eksempler</th>
+<th style="text-align: left;">Egenskaper</th>
+<th style="text-align: left;">Passer når</th>
+<th style="text-align: left;">Vær oppmerksom på</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Fil</strong></td><td>GeoPackage, GeoParquet, Shapefile</td><td>Enkel å dele og kopiere. Ingen server.</td><td>Dele, arkivere og analysere på én maskin.</td><td>Vanskelig med flere som skriver samtidig. Tilgang styres bare med filrettigheter.</td></tr>
+<tr><td><strong>Database</strong></td><td>PostGIS, SQL Server</td><td>Flere brukere samtidig, transaksjoner, tilgangsstyring og romlig indeks.</td><td>Data som endres og brukes av mange.</td><td>Må driftes, sikres og sikkerhetskopieres.</td></tr>
+<tr><td><strong>Objektlagring i sky</strong></td><td>S3, Azure Blob og Google Cloud Storage med COG, GeoParquet eller PMTiles</td><td>Billig og svært skalerbar. Leses via HTTP.</td><td>Store datasett som sjelden endres og deles bredt.</td><td>Ingen transaksjoner. Tilgang styres per fil eller URL.</td></tr>
+</tbody>
+</table>
+</div>
+<p>To begreper forklarer mye av ytelsen. En <strong>romlig indeks</strong> (for eksempel R-tre eller GiST) gjør at databasen raskt finner objekter i et område uten å lese alt. <strong>Kolonnebasert lagring</strong> (som i Parquet) leser bare kolonnene du spør etter, som gir rask analyse av brede tabeller. Formatene er beskrevet i <a href="https://uia.instructure.com/courses/21461/pages/lagringsformater" target="_blank">Lagringsformater</a>.</p>
+<h4>Cloud native som skrivebeskyttet «database»</h4>
+<p>Cloud native-formater er laget slik at klienten kan hente bare delene av en fil den trenger, med HTTP range requests. En fil på objektlagring oppfører seg da som en skrivebeskyttet database: du spør, og får tilbake bare det du trenger, uten at noen server kjører.</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>-- DuckDB leser en GeoParquet-fil direkte fra web. Ingen nedlasting, ingen server.
+INSTALL httpfs; LOAD httpfs;
+SELECT name, ST_Area(geometry) AS areal
+FROM read_parquet('https://raw.githubusercontent.com/opengeospatial/geoparquet/main/examples/example.parquet')
+ORDER BY areal DESC;</code></pre>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Leser bare …</th>
+<th style="text-align: left;">Typisk «spørring»</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>COG</strong> (raster)</td><td>…utsnittet og oppløsningen du ber om</td><td>Vis et satellittbilde i nettleseren.</td></tr>
+<tr><td><strong>PMTiles</strong> (vektorfliser)</td><td>…flisene som vises i kartvinduet</td><td>Vis store kartdatasett fra statisk hosting.</td></tr>
+<tr><td><strong>FlatGeobuf</strong> (vektor)</td><td>…objektene innenfor et utsnitt</td><td>Hent bygg i et område.</td></tr>
+<tr><td><strong>GeoParquet</strong> (vektor)</td><td>…kolonnene og radgruppene spørringen trenger</td><td>Tell, summer og filtrer store datasett med DuckDB.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Begrensninger du må kjenne til: det går ikke an å skrive eller oppdatere, det finnes ingen transaksjoner, og tilgangsstyring skjer per fil eller URL (for eksempel med tidsbegrensede, signerte lenker). Ytelsen avhenger også av hvordan filen er bygget opp. <a href="https://docs.overturemaps.org/getting-data/duckdb/" target="_blank">Overture Maps</a> viser hvordan du spør hele verdens bygg- og stedsdata med DuckDB. Mer finner du i <a href="https://guide.cloudnativegeo.org/" target="_blank">Cloud-Native Geospatial: guide</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="db11">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="db12">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="db13" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="db14" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="db15" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="db16">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="db17" style="position: relative;"><span id="db18">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="db19">
+<p id="db20">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul>
+<li>Kjør DuckDB-spørringen over (<code>uv run --with duckdb python</code>, se CLI og biblioteker). Endre den til å velge kontinent eller land du er interessert i. Hva leste DuckDB egentlig fra nettet?</li>
+<li>Åpne <a href="https://geolibre.app/tutorials/spatial-sql/" target="_blank">GeoLibre-tutorialen om Spatial SQL</a> og kjør en spørring. Hva er likt og ulikt PostGIS-eksemplene?</li>
+<li>Velg tre datasett fra din virksomhet. Ville du lagret dem som fil, i database eller på objektlagring? Begrunn.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="db21">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="db22" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="db23" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="db24" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="db25">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="db26" style="position: relative;"><span id="db27">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="db28" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="db29" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="db30"><span id="db31">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="db32">
+<ul>
+<li><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a></li>
+<li><a href="https://guide.cloudnativegeo.org/" target="_blank">Cloud-Native Geospatial: guide</a></li>
+<li><a href="https://postgis.net/workshops/postgis-intro/" target="_blank">PostGIS: Introduction (workshop)</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="db33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="db34"><strong id="db35"><span id="db36">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="db37">
+<ul>
+<li><a href="https://duckdb.org/docs/stable/core_extensions/spatial/overview.html" target="_blank">DuckDB: spatial extension</a></li>
+<li><a href="https://docs.overturemaps.org/getting-data/duckdb/" target="_blank">Overture Maps: hente data med DuckDB</a></li>
+<li><a href="https://geoparquet.org/" target="_blank">GeoParquet-spesifikasjonen</a></li>
+<li><a href="https://postgis.net/documentation/" target="_blank">PostGIS: dokumentasjon</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

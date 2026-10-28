@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>CLI og biblioteker</title></head>
+<body>
+<h1>CLI og biblioteker</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="cb01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="cb02">CLI og biblioteker</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="cb03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="cb04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="cb05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>Kommandolinje og kode gjør arbeid repeterbart: det du gjør én gang kan kjøres på neste datasett, deles med andre og kvalitetssikres. Det er også her KI-agenter er mest nyttige, fordi de kan skrive og kjøre koden for deg. Siden gir et oversiktskart over verktøyene, ikke en kodeopplæring.</p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="cb06" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="cb07" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="cb08">
+<h3 class="mt-2 mb-2" id="cb09">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="cb10">
+<h4>GDAL og ogr2ogr: sveitsisk lommekniv for geodata</h4>
+<p><a href="https://gdal.org/" target="_blank">GDAL</a> er biblioteket under motorhjelmen i nesten alle GIS-verktøy, også QGIS og geopandas. Kommandolinjeverktøyene kan lese og skrive over hundre formater. <code>ogr2ogr</code> brukes på vektordata, <code>gdal_translate</code> og <code>gdalwarp</code> på raster. På Windows bruker du <em>OSGeo4W Shell</em> som følger med QGIS, på Mac installerer du med <code>brew install gdal</code>.</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Oppgave</th>
+<th style="text-align: left;">Kommando</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Se hva som ligger i en fil</td><td><code>ogrinfo -so -al kommuner.gpkg</code></td></tr>
+<tr><td>Konvertere format (filendelsen styrer)</td><td><code>ogr2ogr kommuner.geojson kommuner.gpkg</code></td></tr>
+<tr><td>Reprojisere til lengde/bredde</td><td><code>ogr2ogr -t_srs EPSG:4326 bygg_4326.gpkg bygg.gpkg</code></td></tr>
+<tr><td>Filtrere på attributt</td><td><code>ogr2ogr -where "bruksareal &gt; 300" store_bygg.gpkg bygg.gpkg</code></td></tr>
+<tr><td>Hente et rektangulært utsnitt</td><td><code>ogr2ogr -spat 80000 6460000 90000 6470000 utsnitt.gpkg bygg.gpkg</code></td></tr>
+<tr><td>Lage FlatGeobuf for web</td><td><code>ogr2ogr bygg.fgb bygg.gpkg</code></td></tr>
+<tr><td>Laste inn i PostGIS</td><td><code>ogr2ogr -f PostgreSQL PG:"dbname=gis user=bruker" bygg.gpkg -nln bygg</code></td></tr>
+<tr><td>Raster: gjøre om til COG</td><td><code>gdal_translate -of COG inn.tif ut.tif</code></td></tr>
+<tr><td>Raster: reprojisere</td><td><code>gdalwarp -t_srs EPSG:25833 inn.tif ut.tif</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Buffer, klipp og dissolve med <code>ogr2ogr</code> står under <a href="https://uia.instructure.com/courses/21461/pages/geografiske-operasjoner" target="_blank">Geografiske operasjoner</a>. Fra GDAL 3.11 finnes også én samlet kommando, for eksempel <code>gdal vector convert</code> og <code>gdal raster info</code>. De klassiske kommandoene over fungerer i alle versjoner. Flere oppgaver finnes i <a href="https://github.com/alexanno/GeografiskAI_UiA_IS-218/blob/main/V2025/03-Geografiske%20informasjonssystemer/tutorials.md#gdal-og-ogr2ogr" target="_blank">IS-218-oppgavene</a>.</p>
+<h4>Flere kommandolinjeverktøy</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Verktøy</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Typisk oppgave</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong><a href="https://proj.org/" target="_blank">PROJ</a></strong> (<code>projinfo</code>, <code>cs2cs</code>)</td><td>Verktøy for koordinatsystemer</td><td>Slå opp og transformere mellom koordinatsystemer.</td></tr>
+<tr><td><strong><a href="https://duckdb.org/" target="_blank">DuckDB</a></strong></td><td>SQL på filer, som kommandolinje eller bibliotek</td><td>Spørre i GeoParquet og GeoPackage uten server.</td></tr>
+<tr><td><strong><a href="https://osm2pgsql.org/" target="_blank">osm2pgsql</a></strong></td><td>Importerer OpenStreetMap til PostGIS</td><td>Bygge en lokal database av OSM-data.</td></tr>
+<tr><td><strong><a href="https://osmcode.org/osmium-tool/" target="_blank">osmium</a></strong></td><td>Filtrerer og klipper OSM-filer</td><td>Hente ut for eksempel alle veier i en kommune.</td></tr>
+<tr><td><strong><a href="https://github.com/felt/tippecanoe" target="_blank">tippecanoe</a></strong> og <strong><a href="https://docs.protomaps.com/pmtiles/cli" target="_blank">pmtiles</a></strong></td><td>Lager vektorfliser og PMTiles</td><td>Gjøre store datasett om til én fil for statiske kart.</td></tr>
+<tr><td><strong><a href="https://docs.qgis.org/latest/en/docs/user_manual/processing/standalone.html" target="_blank">qgis_process</a></strong></td><td>Kjører QGIS sine analyseverktøy fra terminalen</td><td>Automatisere en QGIS-analyse uten å åpne programmet.</td></tr>
+</tbody>
+</table>
+</div>
+<h4>Python-biblioteker</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Bibliotek</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Typisk bruk</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong><a href="https://geopandas.org/" target="_blank">geopandas</a></strong></td><td>Tabeller med geometri, bygget på pandas</td><td>Lese, analysere og skrive vektordata. Dekker alle seks operasjoner.</td></tr>
+<tr><td><strong><a href="https://shapely.readthedocs.io/" target="_blank">shapely</a></strong></td><td>Geometrier og geometrioperasjoner</td><td>Buffer, skjæring og avstand på enkeltgeometrier.</td></tr>
+<tr><td><strong><a href="https://pyproj4.github.io/pyproj/" target="_blank">pyproj</a></strong></td><td>Koordinatsystemer og transformasjoner</td><td>Reprojisere koordinater.</td></tr>
+<tr><td><strong><a href="https://pyogrio.readthedocs.io/" target="_blank">pyogrio</a></strong></td><td>Rask lesing og skriving av vektorfiler via GDAL</td><td>Lese store filer raskt (brukes av geopandas).</td></tr>
+<tr><td><strong><a href="https://rasterio.readthedocs.io/" target="_blank">rasterio</a></strong></td><td>Lesing og skriving av raster</td><td>Arbeide med GeoTIFF, COG og høydemodeller.</td></tr>
+<tr><td><strong><a href="https://duckdb.org/docs/stable/clients/python/overview.html" target="_blank">duckdb</a></strong></td><td>SQL på geodata fra Python</td><td>Analysere GeoParquet og GeoPackage med SQL.</td></tr>
+<tr><td><strong><a href="https://uber.github.io/h3-py/" target="_blank">h3</a></strong></td><td>Heksagonalt rutenett (H3)</td><td>Aggregere punktdata til like store celler.</td></tr>
+<tr><td><strong><a href="https://osmnx.readthedocs.io/" target="_blank">osmnx</a></strong></td><td>Henter vegnett og bygg fra OpenStreetMap</td><td>Nettverksanalyse og ruting i notebooks.</td></tr>
+<tr><td><strong><a href="https://leafmap.org/" target="_blank">leafmap</a></strong></td><td>Interaktive kart i notebooks</td><td>Vise data på kart mens du analyserer.</td></tr>
+</tbody>
+</table>
+</div>
+<h4>JavaScript-biblioteker</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Bibliotek</th>
+<th style="text-align: left;">Hva er det?</th>
+<th style="text-align: left;">Typisk bruk</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong><a href="https://maplibre.org/" target="_blank">MapLibre GL JS</a></strong></td><td>Åpen kildekode-bibliotek for vektorkart med WebGL</td><td>Moderne, raske kartapper med vektorfliser.</td></tr>
+<tr><td><strong><a href="https://openlayers.org/" target="_blank">OpenLayers</a></strong></td><td>Fullverdig kartbibliotek</td><td>Avanserte kart med WMS, WMTS, WFS og mange koordinatsystemer.</td></tr>
+<tr><td><strong><a href="https://leafletjs.com/" target="_blank">Leaflet</a></strong></td><td>Enkelt og lett kartbibliotek</td><td>Raske og enkle kart med markører og GeoJSON.</td></tr>
+<tr><td><strong><a href="https://turfjs.org/" target="_blank">Turf.js</a></strong></td><td>Geografisk analyse i nettleseren</td><td>Buffer, skjæring og nærmeste punkt direkte i JavaScript.</td></tr>
+<tr><td><strong><a href="http://proj4js.org/" target="_blank">proj4js</a></strong></td><td>Koordinatomregning</td><td>Konvertere mellom koordinatsystemer i nettleseren.</td></tr>
+<tr><td><strong><a href="https://deck.gl/" target="_blank">deck.gl</a></strong></td><td>Visualisering av store datasett med WebGL</td><td>Vise millioner av punkter eller bevegelser.</td></tr>
+<tr><td><strong><a href="https://duckdb.org/docs/stable/clients/wasm/overview.html" target="_blank">DuckDB-WASM</a></strong></td><td>DuckDB som kjører i nettleseren</td><td>SQL på GeoParquet uten backend.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Nettleseren laster ikke moduler fra <code>file://</code>, så kartsider med <code>import</code> må åpnes via en lokal server: <code>uv run python -m http.server 8000</code>, og deretter <code>http://localhost:8000</code>.</p>
+<h4>Kom i gang uten oppsett: uv</h4>
+<p>Python-eksemplene i dette kurset kan kjøres uten å sette opp et miljø på forhånd. Med <a href="https://docs.astral.sh/uv/" target="_blank">uv</a> henter kommandoen pakkene den trenger hver gang:</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>uv run --with geopandas --with pyogrio python eksempel.py
+uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').show()"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="cb11">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="cb12">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="cb13" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="cb14" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="cb15" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="cb16">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="cb17" style="position: relative;"><span id="cb18">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="cb19">
+<p id="cb20">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul>
+<li>Kjør <code>ogrinfo -so -al</code> på en geofil du har. Hva forteller den om koordinatsystem, geometritype og antall objekter? Konverter filen til et annet format med <code>ogr2ogr</code>.</li>
+<li>Kjør et av geopandas-eksemplene fra <a href="https://uia.instructure.com/courses/21461/pages/geografiske-operasjoner" target="_blank">Geografiske operasjoner</a> med <code>uv run</code>. Bytt ut en av filene med egne data.</li>
+<li>Be en KI-agent om å lage en <code>ogr2ogr</code>-kommando som klipper et lag til én kommune. Sjekk at kommandoen virker, og at koordinatsystemet stemmer.</li>
+<li>Gå inn på <a href="https://turfjs.org/" target="_blank">Turf.js</a> og finn funksjonen for buffer. Hvilke av de seks operasjonene finnes i biblioteket?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="cb21">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="cb22" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="cb23" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="cb24" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="cb25">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="cb26" style="position: relative;"><span id="cb27">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="cb28" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="cb29" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="cb30"><span id="cb31">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="cb32">
+<ul>
+<li><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a></li>
+<li><a href="https://gdal.org/en/stable/programs/ogr2ogr.html" target="_blank">GDAL: ogr2ogr</a></li>
+<li><a href="https://geopandas.org/en/stable/getting_started.html" target="_blank">GeoPandas: Getting started</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="cb33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="cb34"><strong id="cb35"><span id="cb36">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="cb37">
+<ul>
+<li><a href="https://geographicdata.science/book/" target="_blank">Geographic Data Science with Python (Rey, Arribas-Bel og Wolf)</a></li>
+<li><a href="https://docs.astral.sh/uv/" target="_blank">uv: dokumentasjon</a></li>
+<li><a href="https://maplibre.org/maplibre-gl-js/docs/" target="_blank">MapLibre GL JS: dokumentasjon</a></li>
+<li><a href="https://github.com/alexanno/GeografiskAI_UiA_IS-218/blob/main/V2025/03-Geografiske%20informasjonssystemer/tutorials.md#gdal-og-ogr2ogr" target="_blank">IS-218: oppgaver med GDAL og ogr2ogr</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

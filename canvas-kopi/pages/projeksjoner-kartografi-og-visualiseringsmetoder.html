@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Projeksjoner, Kartografi og visualiseringsmetoder</title></head>
+<body>
+<h1>Projeksjoner, Kartografi og visualiseringsmetoder</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="pk3a01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="pk3a02">Projeksjoner, kartografi og visualisering</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="pk3a03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="pk3a04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="pk3a05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p id="pk3a06">Jorden er en kule, men kartene våre er flate. Å flytte posisjoner fra kule til flate krever en kartprojeksjon, og ingen projeksjon kan bevare både vinkler og areal samtidig. Når dataene først er på kartet, må vi også velge visualiseringsmetode, klasser og farger. Hvert av disse valgene endrer hva kartet faktisk forteller. Derfor er det viktig å forstå hva som skjer før kartet er ferdig tegnet.</p>
+<p id="pk3a07"></p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="pk3a08" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="pk3a09" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="pk3a10">
+<h3 class="mt-2 mb-2" id="pk3a11">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="pk3a12">
+<p id="pk3a13">Tre interaktive verktøy hjelper deg å utforske temaet selv.</p>
+<h4 id="pk3a14">1. Projeksjonsinstrumentet</h4>
+<p id="pk3a15">Samme landegrenser vist i ulike kartprojeksjoner. Bla gjennom katalogen, søk på en EPSG- eller ESRI-kode, og slå på Tissots indikatriks for å se hvordan hver projeksjon forvrenger form og areal. Ingen av dem er «riktigere» enn de andre, bare ulike kompromisser.</p>
+<p id="pk3a16"><a href="https://alexanno.github.io/Projeksjonsinstrumentet/" target="_blank">Åpne Projeksjonsinstrumentet</a> | <a href="https://alexanno.github.io/Projeksjonsinstrumentet/epsg-guessr.html" target="_blank">Spill EPSG-guessr</a></p>
+<h4 id="pk3a17">2. Tematiske kartmetoder</h4>
+<p id="pk3a18">Samme type fenomen, i hovedsak befolkning, vist på fem ulike måter. Poenget er ikke hvilken metode som er «riktig», men at metoden bestemmer hva kartet kommuniserer. Hver metode har et bruksområde og en typisk fallgruve:</p>
+<ul id="pk3a19">
+<li id="pk3a20"><strong>Choropleth:</strong> arealer farget etter klasser. Passer for rater og tettheter, ikke for absolutte totaler.</li>
+<li id="pk3a21"><strong>Proporsjonale sirkler:</strong> sirkelens areal viser verdien. Passer for totaler og mengder.</li>
+<li id="pk3a22"><strong>Dot density:</strong> hver prikk representerer et fast antall enheter. Viser konsentrasjon og spredning.</li>
+<li id="pk3a23"><strong>Kartogram (Dorling):</strong> geografien forlates, og størrelsen viser verdien.</li>
+<li id="pk3a24"><strong>Heatmap:</strong> en glatt tetthetsflate beregnet fra punkter.</li>
+</ul>
+<p id="pk3a25"><a href="https://alexanno.github.io/is930-demoer/Tematisk%20kartografi/index.html" target="_blank">Åpne Tematisk kartografi: visualiseringsmetoder</a></p>
+<h4 id="pk3a26">3. Fargebruk</h4>
+<p id="pk3a27">Et verktøy for å velge og forstå fargeskalaer, med live forhåndsvisning på et kart og simulering av fargesynsavvik. Fargene må passe til dataene:</p>
+<ul id="pk3a28">
+<li id="pk3a29"><strong>Sekvensiell:</strong> ordnede verdier fra lav til høy.</li>
+<li id="pk3a30"><strong>Divergerende:</strong> avvik fra et meningsfullt midtpunkt.</li>
+<li id="pk3a31"><strong>Kvalitativ:</strong> kategorier uten rekkefølge.</li>
+</ul>
+<p id="pk3a32">Verktøyet tar også opp hvor mange klasser leseren klarer å skille, hvorfor «regnbuen» er et dårlig valg, og hvordan du lager kart som også fungerer for dem med fargesynsavvik.</p>
+<p id="pk3a33"><a href="https://alexanno.github.io/is930-demoer/Fargeskalaer%20for%20tematiske%20kart/index.html" target="_blank">Åpne Fargeskalaer for tematiske kart</a></p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="pk3a34">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="pk3a35">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="pk3a36" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="pk3a37" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="pk3a38" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="pk3a39">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="pk3a40" style="position: relative;"><span id="pk3a41">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="pk3a42">
+<p id="pk3a43">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul id="pk3a44">
+<li id="pk3a45">Spill EPSG-guessr og se om du kjenner igjen projeksjonene. Slå på Tissots indikatriks og forklar hva sirklene viser.</li>
+<li id="pk3a46">Velg to projeksjoner i Projeksjonsinstrumentet og sammenlign hvordan Norge og Afrika endrer størrelse og form.</li>
+<li id="pk3a47">Se på choropleth-kartet og vurder: Hvorfor ville klassene sett annerledes ut med Jenks natural breaks enn med kvantiler?</li>
+<li id="pk3a48">Velg en fargeskala og test den med simulering av fargesynsavvik. Hvilke skalaer fungerer for alle?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="pk3a49">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="pk3a50" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="pk3a51" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="pk3a52" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="pk3a53">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="pk3a54" style="position: relative;"><span id="pk3a55">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="pk3a56" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="pk3a57" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="pk3a58"><span id="pk3a59">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="pk3a60">
+<ul id="pk3a61">
+<li id="pk3a62"><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a>
+<ul id="pk3a63">
+<li id="pk3a64">Kapittel 4</li>
+<li id="pk3a65">Kapittel 16</li>
+<li id="pk3a66">Kapittel 17</li>
+</ul>
+</li>
+<li id="pk3a67"><a href="https://colorbrewer2.org" target="_blank">ColorBrewer 2.0</a> (Brewer og Harrower, Pennsylvania State University)</li>
+<li id="pk3a68"><a href="https://www.axismaps.com/guide/data-classification" target="_blank">Axis Maps: Data Classification</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="pk3a69" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="pk3a70"><strong id="pk3a71"><span id="pk3a72">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="pk3a73">
+<ul id="pk3a74">
+<li id="pk3a75"><a href="https://epsg.io/" target="_blank">EPSG.io: søk og slå opp koordinatsystemer og projeksjoner</a></li>
+<li id="pk3a76"><a href="https://snl.no/NGO_1948" target="_blank">Store norske leksikon: NGO 1948</a> (historisk norsk koordinatsystem, i dag erstattet av EUREF89 og UTM)</li>
+<li id="pk3a77"><a href="https://www.axismaps.com/guide/choropleth" target="_blank">Axis Maps: Choropleth Maps</a></li>
+<li id="pk3a78"><a href="https://www.axismaps.com/guide/proportional-symbols" target="_blank">Axis Maps: Proportional Symbols</a></li>
+<li id="pk3a79"><a href="https://www.axismaps.com/guide/cartograms" target="_blank">Axis Maps: Cartograms</a></li>
+<li id="pk3a80"><a href="https://carto.com/carto-colors" target="_blank">CARTOColors</a></li>
+<li id="pk3a81"><a href="https://bids.github.io/colormap/" target="_blank">Viridis / BIDS colormap-prosjektet</a></li>
+<li id="pk3a82"><a href="https://www.fabiocrameri.ch/colourmaps/" target="_blank">Fabio Crameris vitenskapelige fargekart</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>
