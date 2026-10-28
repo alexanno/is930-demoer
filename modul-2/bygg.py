@@ -61,8 +61,8 @@ def inline(s):
 
     def link(m):
         url = m.group(2)
-        if url.startswith("side:"):  # intern lenke til en Canvas-side (slug)
-            url = CANVAS + url[len("side:"):]
+        if url.startswith("side:"):  # intern Canvas-side: ingen lenke, bare tekst
+            return m.group(1)
         url = re.sub(r"&(?!amp;)", "&amp;", url)
         target = ' target="_blank"' if url.startswith("http") else ""
         return f'<a href="{url}"{target}>{m.group(1)}</a>'
@@ -315,7 +315,7 @@ def modulside():
         a, b, c = a.strip(), b.strip(), c.strip()
         blokker.append(f"""<h3 id="{a}">{n}. {b}</h3>
 <p>{inline(c)}</p>
-<p><a href="{CANVAS}{a}">Åpne temasiden: {b}</a> · <a href="#toc">↑ Tilbake til innholdsfortegnelsen</a></p>""")
+<p><a href="#toc">↑ Tilbake til innholdsfortegnelsen</a></p>""")
     blokker.append(f"""<h3 id="oppsummering">Oppsummering og videre lesing</h3>
 {markdown(s["oppsummering"])}
 <p><a href="#toc">↑ Tilbake til innholdsfortegnelsen</a></p>""")

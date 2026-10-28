@@ -52,7 +52,7 @@
 </table>
 <p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: Variant b: cloud native, egne filer leses direkte</em></p>
 </div>
-<p>Appen har ingen egen server. I <strong>variant a</strong> er backend «andres problem»: nettleseren spør tjenester som Kartverket, Geonorge og OpenStreetMap, som selv har kartserver og database bak seg. Appen din er altså en klient i andres 3-lags arkitektur. Demoappen viser hvor mye du får til med én HTML-fil: bakgrunnskart som kartfliser, et WMS-lag, og oppslag på stedsnavn, kommune og høyde. <strong>Variant b</strong> er cloud native: du legger egne filer (PMTiles, COG eller GeoParquet) på statisk lagring og leser dem direkte, slik beskrevet i <a href="https://uia.instructure.com/courses/21461/pages/databaser-og-lagring" target="_blank">Databaser og lagring</a>.</p>
+<p>Appen har ingen egen server. I <strong>variant a</strong> er backend «andres problem»: nettleseren spør tjenester som Kartverket, Geonorge og OpenStreetMap, som selv har kartserver og database bak seg. Appen din er altså en klient i andres 3-lags arkitektur. Demoappen viser hvor mye du får til med én HTML-fil: bakgrunnskart som kartfliser, et WMS-lag, og oppslag på stedsnavn, kommune og høyde. <strong>Variant b</strong> er cloud native: du legger egne filer (PMTiles, COG eller GeoParquet) på statisk lagring og leser dem direkte, slik beskrevet i Databaser og lagring.</p>
 <p>Pris du betaler: alt er offentlig, så nøkler i koden kan leses av alle. I variant a er du avhengig av at andre holder tjenestene oppe og beholder vilkårene sine. Bruk for eksempel <a href="https://operations.osmfoundation.org/policies/tiles/" target="_blank">OpenStreetMaps flisregler</a> og lisensen til hvert lag.</p>
 <h4>2. Frontend + backend-API + PostGIS</h4>
 <div style="overflow-x: auto; margin: 16px 0;">
@@ -71,7 +71,7 @@
 </table>
 <p style="text-align: center; font-size: 0.9em; margin-top: 8px;"><em>Figur: presentasjon, logikk og data i hver sin del</em></p>
 </div>
-<p>Klient, tjeneste og data er hvert sitt lag. Ved å publisere data som standardtjenester (WMS, WFS, OGC API, se <a href="https://uia.instructure.com/courses/21461/pages/api-standarder" target="_blank">API-standarder</a>) kan mange ulike klienter bruke samme tjeneste: nettleseren, QGIS og andre systemer. Slik er de nasjonale tjenestene på Geonorge bygget. Kostnaden er at du selv må drifte, oppdatere og sikre serveren. Programvaren står i <a href="https://uia.instructure.com/courses/21461/pages/desktop-web-og-serverprogramvare" target="_blank">Desktop, web og serverprogramvare</a>.</p>
+<p>Klient, tjeneste og data er hvert sitt lag. Ved å publisere data som standardtjenester (WMS, WFS, OGC API, se API-standarder) kan mange ulike klienter bruke samme tjeneste: nettleseren, QGIS og andre systemer. Slik er de nasjonale tjenestene på Geonorge bygget. Kostnaden er at du selv må drifte, oppdatere og sikre serveren. Programvaren står i Desktop, web og serverprogramvare.</p>
 <h4>4. Caching og tile-pyramider</h4>
 <div style="overflow-x: auto; margin: 16px 0;">
 <table cellpadding="0" cellspacing="0" style="border-collapse: separate; margin: 0 auto; text-align: center;">

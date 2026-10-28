@@ -33,7 +33,7 @@ SELECT navn FROM brannstasjon ORDER BY geom &lt;-&gt; ST_SetSRID(ST_MakePoint(88
 
 -- Antall bygg per kommune
 SELECT k.kommunenavn, count(*) FROM bygg b JOIN kommuner k ON ST_Within(b.geom, k.geom) GROUP BY k.kommunenavn;</code></pre>
-<p>Flere eksempler står i <a href="https://uia.instructure.com/courses/21461/pages/geografiske-operasjoner" target="_blank">Geografiske operasjoner</a>. Vil du øve, er <a href="https://postgis.net/workshops/postgis-intro/" target="_blank">PostGIS-introduksjonen</a> et godt sted å begynne.</p>
+<p>Flere eksempler står i Geografiske operasjoner. Vil du øve, er <a href="https://postgis.net/workshops/postgis-intro/" target="_blank">PostGIS-introduksjonen</a> et godt sted å begynne.</p>
 <h4>Databaser med geografisk støtte</h4>
 <div style="overflow-x: auto;">
 <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
@@ -57,7 +57,7 @@ SELECT k.kommunenavn, count(*) FROM bygg b JOIN kommuner k ON ST_Within(b.geom, 
 </tbody>
 </table>
 </div>
-<p>Databricks og Fabric brukes av mange norske virksomheter som felles dataplattform, og geodata er der et tillegg. Sjekk hvilke romlige funksjoner plattformen har før dere planlegger analysene dit. Se også tabellen over verktøykategorier i <a href="https://uia.instructure.com/courses/21461/pages/verktoylandskapet" target="_blank">Verktøylandskapet</a>.</p>
+<p>Databricks og Fabric brukes av mange norske virksomheter som felles dataplattform, og geodata er der et tillegg. Sjekk hvilke romlige funksjoner plattformen har før dere planlegger analysene dit. Se også tabellen over verktøykategorier i Verktøylandskapet.</p>
 <h4>Lagringsstrukturer: fil, database eller objektlagring?</h4>
 <div style="overflow-x: auto;">
 <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
@@ -77,7 +77,7 @@ SELECT k.kommunenavn, count(*) FROM bygg b JOIN kommuner k ON ST_Within(b.geom, 
 </tbody>
 </table>
 </div>
-<p>To begreper forklarer mye av ytelsen. En <strong>romlig indeks</strong> (for eksempel R-tre eller GiST) gjør at databasen raskt finner objekter i et område uten å lese alt. <strong>Kolonnebasert lagring</strong> (som i Parquet) leser bare kolonnene du spør etter, som gir rask analyse av brede tabeller. Formatene er beskrevet i <a href="https://uia.instructure.com/courses/21461/pages/lagringsformater" target="_blank">Lagringsformater</a>.</p>
+<p>To begreper forklarer mye av ytelsen. En <strong>romlig indeks</strong> (for eksempel R-tre eller GiST) gjør at databasen raskt finner objekter i et område uten å lese alt. <strong>Kolonnebasert lagring</strong> (som i Parquet) leser bare kolonnene du spør etter, som gir rask analyse av brede tabeller. Formatene er beskrevet i Lagringsformater.</p>
 <h4>Cloud native som skrivebeskyttet «database»</h4>
 <p>Cloud native-formater er laget slik at klienten kan hente bare delene av en fil den trenger, med HTTP range requests. En fil på objektlagring oppfører seg da som en skrivebeskyttet database: du spør, og får tilbake bare det du trenger, uten at noen server kjører.</p>
 <pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>-- DuckDB leser en GeoParquet-fil direkte fra web. Ingen nedlasting, ingen server.

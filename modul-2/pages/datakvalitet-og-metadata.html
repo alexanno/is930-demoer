@@ -82,7 +82,7 @@ SELECT bygg_id, count(*) FROM st_read('bygg.gpkg') GROUP BY bygg_id HAVING count
 
 -- Utstrekning: ligger koordinatene der de skal? (for punktdata)
 SELECT min(ST_X(geom)), max(ST_X(geom)), min(ST_Y(geom)), max(ST_Y(geom)) FROM st_read('bygg.gpkg');</code></pre>
-<p>I QGIS finnes tilsvarende verktøy, for eksempel <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html#check-validity" target="_blank">Check validity</a>. Og husk koordinatsystemet: en feil her gir stille feil i alle senere beregninger, som vi så i <a href="https://uia.instructure.com/courses/21461/pages/geografiske-operasjoner" target="_blank">Geografiske operasjoner</a>.</p>
+<p>I QGIS finnes tilsvarende verktøy, for eksempel <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html#check-validity" target="_blank">Check validity</a>. Og husk koordinatsystemet: en feil her gir stille feil i alle senere beregninger, som vi så i Geografiske operasjoner.</p>
 </div>
 </div>
 </div>
