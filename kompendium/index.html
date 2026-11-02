@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kompendium IS-930: Geografisk IT og KI</title>
+<style>
+  :root {
+    --bg: #fdfcfa; --fg: #1f2933; --muted: #5b6770; --accent: #0b5c7a; --accent-soft: #e6f2f6;
+    --line: #d9dee2; --box: #f3f6f8; --web: #fff6e0; --web-line: #e2b84a; --code: #f0f2f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14191d; --fg: #e4e8eb; --muted: #9aa5ad; --accent: #6bc1de; --accent-soft: #1a2c34;
+      --line: #2e373d; --box: #1c2328; --web: #2b2614; --web-line: #8a7020; --code: #20282d; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+    font: 17px/1.6 Georgia, "Iowan Old Style", "Times New Roman", serif; }
+  .layout { display: flex; max-width: 1180px; margin: 0 auto; }
+  nav#toc { position: sticky; top: 0; align-self: flex-start; height: 100vh; overflow-y: auto;
+    width: 280px; flex: none; padding: 24px 16px 24px 24px; border-right: 1px solid var(--line);
+    font: 14px/1.4 system-ui, sans-serif; }
+  nav#toc strong { display: block; margin-bottom: 10px; font-size: 15px; }
+  nav#toc ol { list-style: none; margin: 0; padding: 0; }
+  nav#toc li { margin: 5px 0; }
+  nav#toc a { color: var(--fg); text-decoration: none; }
+  nav#toc a:hover { color: var(--accent); }
+  main { flex: 1; min-width: 0; padding: 32px 32px 80px; max-width: 820px; }
+  h1, h2, h3, h4 { font-family: system-ui, sans-serif; line-height: 1.25; }
+  h1 { font-size: 2.1rem; margin: 0 0 .3em; }
+  h2 { font-size: 1.65rem; margin: 2.4em 0 .6em; padding-top: .6em; border-top: 2px solid var(--accent); }
+  h3 { font-size: 1.2rem; margin: 1.8em 0 .4em; color: var(--accent); }
+  h4 { font-size: 1rem; margin: 1.3em 0 .3em; }
+  a { color: var(--accent); }
+  p { margin: .7em 0; }
+  code, pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .86em; }
+  code { background: var(--code); padding: .1em .35em; border-radius: 3px; }
+  pre { background: var(--code); padding: 12px 14px; border-radius: 6px; overflow-x: auto; line-height: 1.45; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font: 14.5px/1.45 system-ui, sans-serif; }
+  th, td { border: 1px solid var(--line); padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: var(--box); }
+  .tablewrap { overflow-x: auto; }
+  .sammendrag { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 12px 18px;
+    border-radius: 4px; margin: 1.2em 0; font-family: system-ui, sans-serif; font-size: 15.5px; }
+  .sammendrag strong.t { display: block; margin-bottom: 4px; color: var(--accent); }
+  .sammendrag ul { margin: .3em 0 0; padding-left: 1.2em; }
+  .web { background: var(--web); border-left: 4px solid var(--web-line); padding: 10px 16px;
+    border-radius: 4px; margin: 1.2em 0; font-size: 16px; }
+  .web .t { display: block; font: 700 12px system-ui, sans-serif; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .demo { background: var(--box); border: 1px solid var(--line); padding: 10px 16px; border-radius: 4px;
+    margin: 1.2em 0; font-size: 16px; }
+  .demo .t { display: block; font: 700 12px system-ui, sans-serif; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .kilder { font: 14px/1.5 system-ui, sans-serif; color: var(--muted); border-top: 1px solid var(--line);
+    margin-top: 2em; padding-top: .6em; }
+  .kilder ul { padding-left: 1.2em; margin: .3em 0; }
+  dl.gloss dt { font: 700 15px system-ui, sans-serif; margin-top: .9em; }
+  dl.gloss dd { margin: .1em 0 0 0; }
+  .forside { padding: 28px 0 10px; }
+  .forside .sub { font: 16px system-ui, sans-serif; color: var(--muted); }
+
+  figure { margin: 1.4em 0; padding: 0; }
+  figure img, figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px; }
+  figure img.ramme { border: 1px solid var(--line); }
+  figcaption { font: 13.5px/1.45 system-ui, sans-serif; color: var(--muted); margin-top: .5em; text-align: left; }
+  figcaption b { color: var(--fg); }
+  .figrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; align-items: start; }
+  .figrow > div { margin: 0; }
+  .sc { font: 13.5px/1.45 system-ui, sans-serif; color: var(--muted); margin: .4em 0 0; }
+  svg.fig text { font: 13px system-ui, sans-serif; fill: var(--fg); }
+  svg.fig text.m { fill: var(--muted); font-size: 12px; }
+  svg.fig text.h { font-weight: 700; }
+  svg.fig .box { fill: var(--box); stroke: var(--line); stroke-width: 1.3; }
+  svg.fig .acc { fill: var(--accent); }
+  svg.fig .accs { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.3; }
+  svg.fig .ln { stroke: var(--fg); fill: none; stroke-width: 1.6; }
+  svg.fig .lm { stroke: var(--muted); fill: none; stroke-width: 1.2; }
+  svg.fig .ar { stroke: var(--accent); fill: none; stroke-width: 2; marker-end: url(#pil); }
+  svg.fig .hot { fill: #e8590c; }
+  svg.fig .hots { fill: #e8590c; fill-opacity: .35; stroke: #e8590c; stroke-width: 1.5; }
+  svg.fig .blu { fill: #3b82c4; fill-opacity: .35; stroke: #3b82c4; stroke-width: 1.5; }
+  svg.fig .grn { fill: #4a9d5b; fill-opacity: .35; stroke: #4a9d5b; stroke-width: 1.5; }
+  svg.fig .dash { stroke-dasharray: 5 4; }
+  @media print { figure { page-break-inside: avoid; } }
+  @media (max-width: 860px) {
+    .layout { display: block; }
+    nav#toc { position: static; height: auto; width: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+    main { padding: 20px 16px 60px; }
+  }
+  @media print {
+    nav#toc { display: none; }
+    body { font-size: 11pt; background: #fff; color: #000; }
+    main { max-width: none; padding: 0; }
+    h2 { page-break-before: always; border-top: 0; }
+    .forside + h2, h2.nobreak { page-break-before: avoid; }
+    pre, table, .sammendrag, .web, .demo { page-break-inside: avoid; }
+    a { color: #000; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="toc">
+  <strong>Innhold</strong>
+  <ol>
+    <li><a href="#forord">Forord og slik bruker du kompendiet</a></li>
+    <li><a href="#k1">1. Hvorfor geografiske data og visualisering?</a></li>
+    <li><a href="#k2">2. Grunnbegreper: koordinater, projeksjoner og datamodeller</a></li>
+    <li><a href="#k3">3. Kartografi og visualiseringsmetoder</a></li>
+    <li><a href="#k4">4. Norges geografiske økosystem</a></li>
+    <li><a href="#k5">5. Datakilder</a></li>
+    <li><a href="#k6">6. Datakvalitet, metadata og lisens</a></li>
+    <li><a href="#k7">7. Lagringsformater</a></li>
+    <li><a href="#k8">8. Databaser og lagringsstrukturer</a></li>
+    <li><a href="#k9">9. API-standarder og tjenester</a></li>
+    <li><a href="#k10">10. Geografiske operasjoner</a></li>
+    <li><a href="#k11">11. Ruteberegning</a></li>
+    <li><a href="#k12">12. Verktøylandskapet</a></li>
+    <li><a href="#k13">13. Kommandolinje og biblioteker</a></li>
+    <li><a href="#k14">14. Arkitekturer og stack-valg</a></li>
+    <li><a href="#k15">15. KI-agenter og geografisk IT</a></li>
+    <li><a href="#glossar">Ordliste</a></li>
+    <li><a href="#litteratur">Litteratur og kilder</a></li>
+    <li><a href="#kurs">Vedlegg: om kurset</a></li>
+  </ol>
+</nav>
+<main>
+
+<header class="forside">
+  <h1>Kompendium: Geografisk IT og kunstig intelligens</h1>
+  <p class="sub">IS-930 Introduksjon til Geografisk IT og Kunstig Intelligens · Universitetet i Agder · høst 2026</p>
+</header>
+
+<h2 id="forord" class="nobreak">Forord og slik bruker du kompendiet</h2>
+<p>Dette kompendiet samler stoffet fra emnets Canvas-sider (Modul 0–2) i én sammenhengende tekst. Der Canvas følger samlingene, er kompendiet ordnet <em>etter tema</em>: først hvorfor og hva geografiske data er, så hvordan de visualiseres, hvor de kommer fra, hvordan de lagres og deles, hvordan de behandles, og til slutt hvordan verktøy, arkitektur og KI-agenter settes sammen til løsninger.</p>
+<p>Hovedkilden er Canvas-sidene. Der kompendiet går utover dem, er teksten merket slik:</p>
+<div class="web"><span class="t">Utdypning fra nett</span>Gult felt som dette inneholder stoff som <strong>ikke</strong> står på Canvas-sidene, hentet fra eksterne kilder. Kildene står i bunnen av kapittelet.</div>
+<p>Grå <em>demo</em>-bokser peker til de interaktive demoene i dette repoet. Blå <em>kort sagt</em>-bokser oppsummerer hvert kapittel. Til slutt finnes en <a href="#glossar">ordliste</a> og en <a href="#litteratur">samlet litteraturliste</a>. Kompendiet dekker modul 0–2; modul 3 (Analyse og KI, 17. november) har ikke innhold i Canvas-kopien ennå og er derfor ikke med, bortsett fra det som allerede står om KI-agenter.</p>
+<p>Siden er laget for å kunne skrives ut (Ctrl/Cmd+P): innholdsfortegnelsen skjules og hvert kapittel starter på ny side. Lærebok i emnet er Rød, J. K. (2023): <em>GIS – Verktøy for å forstå verden</em>, 2. utgave, Fagbokforlaget.</p>
+
+<!-- ======================================================= -->
+<h2 id="k1">1. Hvorfor geografiske data og visualisering?</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Nesten alt vi måler skjer et sted. Med posisjon blir mønstre, sammenhenger og avvik synlige som tabeller skjuler.</li>
+<li>Samme data kan se helt ulike ut avhengig av representasjonen, og kartet kan avsløre mer enn tiltenkt (personvern, sikkerhet).</li>
+<li>Fravær av data er også informasjon, men først når data vises i tid og rom.</li>
+</ul></div>
+
+<p>Kartvisualisering gjør data tilgjengelig for visuell og umiddelbar analyse. Fire eksempler fra undervisningen viser hvorfor:</p>
+
+<h3>1.1 Data versus kartvisualisering</h3>
+<p>Et datasett med 59 punkter vist som tabell er nesten umulig å tolke: koordinatene er bare tekst og tall. Vist på kart danner punktene tydelig en smiley. Ingenting i dataene er endret, bare representasjonen. Lærdommen er at tabeller skjuler romlige mønstre, mens kartet utnytter det menneskelige synet.</p>
+<div class="demo"><span class="t">Demo i repoet</span><a href="../Tabell eller kart/index.html">Tabell eller kart?</a> viser smiley-datasettet (<code>smiley.geojson</code>) som WKT-tabell som kan «snus» til kart.</div>
+
+
+<figure><div class="figrow"><div><img class="ramme" src="bilder/demo-tabell.png" alt="Tabell med 59 punkter som WKT-tekst"><p class="sc"><b>a)</b> Som tabell: koordinater som tekst.</p></div><div><img class="ramme" src="bilder/demo-kart.png" alt="De samme 59 punktene på kart danner en smiley"><p class="sc"><b>b)</b> Som kart: punktene danner en smiley.</p></div></div><figcaption><b>Figur 1.</b> Samme datasett, to representasjoner (skjermbilder fra demoen «Tabell eller kart?»). Ingenting i dataene er endret.</figcaption></figure>
+<h3>1.2 New York Times: The Privacy Project</h3>
+<p>Journalister fikk en datafil med over 50 milliarder posisjonsmålinger fra mer enn 12 millioner amerikanske mobiltelefoner. Dataene var «anonyme», men når de vises som bevegelige prikker er det enkelt å knytte bevegelsesmønstre til enkeltpersoner. Presis posisjon er sensitiv informasjon, og kart gjør dette tydelig.</p>
+
+
+<figure><img class="ramme" src="bilder/nyt-pentagon.jpg" alt="Satellittbilde av Pentagon med grønne prikker fra mobilposisjoner"><figcaption><b>Figur 2.</b> Mobilposisjoner rundt og inne i Pentagon, fra New York Times’ Privacy Project. Skjermbilde brukt i undervisningen; opphavsrett: The New York Times. Se <em>Twelve Million Phones, One Dataset, Zero Privacy</em>.</figcaption></figure>
+<h3>1.3 Strava og militærbaser</h3>
+<p>Strava publiserte et globalt «heatmap» over brukernes løpe- og sykkelruter. I områder der få bruker appen, som Syria og Afghanistan, lyste utenlandske militærbaser opp, og man kunne se ruter inne på basene. Dataene var aggregerte og anonymiserte, men visualiseringen avslørte likevel sensitiv informasjon. Spørsmål å diskutere: hvem eier dataene, hvem kan se dem, og hvem har ansvaret når en visualisering avslører mer enn tiltenkt?</p>
+
+<h3>1.4 AIS-data: fiskebåt som slår av AIS</h3>
+<p>AIS er sendere skip bruker til å melde posisjon, fart og kurs. I en animasjon av signalene time for time vises det som et hull i sporet når en fiskebåt slår av AIS. Fraværet av data forteller noe, men først når data vises i tid og rom.</p>
+<div class="demo"><span class="t">Demo i repoet</span><a href="../AIS-eksempel/ais_animasjon.html">AIS-animasjon</a> (data i <code>ais_points.geojson</code> og <code>ais_hourly.geojson</code>).</div>
+
+
+<figure><img class="ramme" src="bilder/demo-ais.png" alt="AIS-animasjon med kart og søylediagram over mottatte signaler per time"><figcaption><b>Figur 3.</b> AIS-animasjonen. Søylene nederst viser antall mottatte signaler per time; de grå strekene uten søyle er timer uten signal – hullet i sporet.</figcaption></figure>
+<h3>Refleksjon</h3>
+<ul>
+<li>Hvilke data i din virksomhet egner seg for visualisering?</li>
+<li>Spill av AIS-animasjonen: når og hvor forsvinner signalet, og hva kan årsaken være?</li>
+<li>Hvem har ansvaret når en visualisering avslører mer enn tiltenkt?</li>
+</ul>
+<div class="kilder"><strong>Litteratur:</strong> Rød (2023), kap. 1, 2.1, 3, 4, 7.1–7.2 og 16.</div>
+
+<!-- ======================================================= -->
+<h2 id="k2">2. Grunnbegreper: koordinater, projeksjoner og datamodeller</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Jorden er en kule (nærmere en ellipsoide), kartet er flatt. En kartprojeksjon flytter posisjoner fra kule til flate, og ingen projeksjon bevarer både vinkler og areal.</li>
+<li>Et koordinatsystem (CRS) bestemmer hva tallene betyr. Feil CRS gir stille feil i alle senere beregninger.</li>
+<li>Vektor = punkter, linjer og flater med attributter. Raster = rutenett av celler med verdier.</li>
+<li>For norske data: bruk EUREF89 UTM (EPSG:25832/25833) når du måler i meter.</li>
+</ul></div>
+
+<h3>2.1 Projeksjoner og forvrengning</h3>
+<p>Å flytte posisjoner fra en kule til en flate gir uunngåelig forvrengning. Ingen projeksjon er «riktigere» enn andre, bare ulike kompromisser. Tissots indikatriks (små sirkler tegnet på kartet) viser hvordan en projeksjon forvrenger form og areal: sirkler som blir ellipser viser vinkel- og formforvrengning, sirkler som skifter størrelse viser arealforvrengning.</p>
+<div class="demo"><span class="t">Verktøy (eksternt til dette repoet)</span>Canvas-siden peker til <em>Projeksjonsinstrumentet</em> (katalog over projeksjoner, søk på EPSG-/ESRI-kode, Tissot) og spillet <em>EPSG-guessr</em>.</div>
+
+<div class="web"><span class="t">Utdypning fra nett</span>
+<p><strong>Egenskaper.</strong> Projeksjoner grupperes etter hva de bevarer: <em>konforme</em> (vinkler og lokale former, f.eks. Mercator), <em>flatetro/likearealsprojeksjoner</em> (areal, f.eks. Albers, Mollweide, Equal Earth) og <em>kompromiss</em>-projeksjoner (Robinson). Mercator forstørrer areal mot polene: Grønland ser større ut enn Sør-Amerika selv om det er omtrent en åttedel av størrelsen.</p>
+<p><strong>Web Mercator (EPSG:3857).</strong> Brukes av nesten alle nettkart og fliser (Google, OSM, Kartverkets fliser m.fl.). Den er en sfærisk variant som behandler WGS 84-koordinater som om de lå på en kule, og er dermed ikke strengt konform. Den dekker bare ca. ±85° bredde. Egner seg til visning, men ikke til arealberegning eller tematiske verdenskart. For arealbaserte tematiske kart (f.eks. folketall per km²) bør du bruke en flatetro projeksjon, og for verdenskart f.eks. Equal Earth eller Mollweide.</p></div>
+
+
+<figure><svg class="fig" viewBox="0 0 720 285" role="img" aria-label="<b>Forvrengning.</b> En projeksjon kan ikke bevare både form og areal. Mercator " xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="10" width="340" height="240" rx="6"/><text class="h" x="22" y="32">Mercator (konform)</text><text class="m" x="22" y="49">Former bevares, areal vokser mot polene</text><circle class="blu" cx="50" cy="205" r="9"/><circle class="blu" cx="106" cy="205" r="9"/><circle class="blu" cx="162" cy="205" r="9"/><circle class="blu" cx="218" cy="205" r="9"/><circle class="blu" cx="274" cy="205" r="9"/><text class="m" x="344" y="209" text-anchor="end">0°</text><circle class="blu" cx="50" cy="150" r="10.4"/><circle class="blu" cx="106" cy="150" r="10.4"/><circle class="blu" cx="162" cy="150" r="10.4"/><circle class="blu" cx="218" cy="150" r="10.4"/><circle class="blu" cx="274" cy="150" r="10.4"/><text class="m" x="344" y="154" text-anchor="end">30°</text><circle class="blu" cx="50" cy="91" r="18"/><circle class="blu" cx="106" cy="91" r="18"/><circle class="blu" cx="162" cy="91" r="18"/><circle class="blu" cx="218" cy="91" r="18"/><circle class="blu" cx="274" cy="91" r="18"/><text class="m" x="344" y="99" text-anchor="end">60°</text><line class="lm dash" x1="30" x2="310" y1="205" y2="205"/><rect class="box" x="370" y="10" width="340" height="240" rx="6"/><text class="h" x="382" y="32">Likearealsprojeksjon</text><text class="m" x="382" y="49">Areal bevares, former forvrenges</text><ellipse class="grn" cx="410" cy="205" rx="9" ry="9"/><ellipse class="grn" cx="466" cy="205" rx="9" ry="9"/><ellipse class="grn" cx="522" cy="205" rx="9" ry="9"/><ellipse class="grn" cx="578" cy="205" rx="9" ry="9"/><ellipse class="grn" cx="634" cy="205" rx="9" ry="9"/><text class="m" x="704" y="209" text-anchor="end">0°</text><ellipse class="grn" cx="410" cy="150" rx="10.5" ry="7.8"/><ellipse class="grn" cx="466" cy="150" rx="10.5" ry="7.8"/><ellipse class="grn" cx="522" cy="150" rx="10.5" ry="7.8"/><ellipse class="grn" cx="578" cy="150" rx="10.5" ry="7.8"/><ellipse class="grn" cx="634" cy="150" rx="10.5" ry="7.8"/><text class="m" x="704" y="154" text-anchor="end">30°</text><ellipse class="grn" cx="410" cy="95" rx="16" ry="5.1"/><ellipse class="grn" cx="466" cy="95" rx="16" ry="5.1"/><ellipse class="grn" cx="522" cy="95" rx="16" ry="5.1"/><ellipse class="grn" cx="578" cy="95" rx="16" ry="5.1"/><ellipse class="grn" cx="634" cy="95" rx="16" ry="5.1"/><text class="m" x="704" y="99" text-anchor="end">60°</text><line class="lm dash" x1="390" x2="670" y1="205" y2="205"/><text class="m" x="360" y="274" text-anchor="middle">Skjematisk: Tissots indikatriks, lik sirkel på kulen tegnet inn på kartet i tre breddegrader</text></svg><figcaption><b>Figur 4.</b> <b>Forvrengning.</b> En projeksjon kan ikke bevare både form og areal. Mercator holder vinklene (sirklene forblir sirkler) men blåser opp arealet mot polene; en likearealsprojeksjon holder arealet men trykker sirklene sammen til ellipser.</figcaption></figure>
+<h3>2.2 Koordinatsystemer</h3>
+<p>Et koordinatsystem (CRS, <em>Coordinate Reference System</em>) består av et datum (hvordan koordinatene er festet til jorden) og enten geografiske koordinater (grader) eller en projeksjon (meter). Viktige koder:</p>
+<div class="tablewrap"><table>
+<tr><th>EPSG</th><th>Navn</th><th>Enhet</th><th>Bruk</th></tr>
+<tr><td>4326</td><td>WGS 84, lengde/bredde</td><td>grader</td><td>GPS, GeoJSON, utveksling. <em>Ikke</em> for avstand/areal.</td></tr>
+<tr><td>3857</td><td>Web Mercator</td><td>meter</td><td>Visning i nettkart og fliser.</td></tr>
+<tr><td>25832</td><td>EUREF89 UTM sone 32</td><td>meter</td><td>Norske data, vest/sør (Agder ligger her).</td></tr>
+<tr><td>25833</td><td>EUREF89 UTM sone 33</td><td>meter</td><td>Norske data, brukt i emnets eksempeldata.</td></tr>
+</table></div>
+<p>Regelen fra operasjonskapittelet: <strong>avstander og arealer regnes i koordinatsystemets enhet.</strong> En buffer på «100» i EPSG:4326 betyr 100 grader, ikke 100 meter. Sjekk alltid CRS før du måler, og husk at GeoJSON bruker rekkefølgen [lengdegrad, breddegrad]. Blandet rekkefølge (x/y mot lat/lon) er en klassisk kilde til stille feil. Det gamle norske systemet NGO 1948 er erstattet av EUREF89 og UTM.</p>
+<div class="web"><span class="t">Utdypning fra nett</span>
+<p>Kartverkets kodeliste bekrefter at EUREF89 UTM sone 32 er EPSG:25832 og sone 33 er EPSG:25833. For høyder brukes i dag høydesystemet NN2000, og det finnes sammensatte (compound) koder som kombinerer UTM og NN2000 (EPSG:5972 for sone 32 og 5973 for sone 33). EPSG-registeret har også norske varianter (ETRS89-NOR, f.eks. EPSG:11023) som kan avvike fra de generiske kodene med noen centimeter. For oppmåling bør du følge Kartverkets egne anbefalinger.</p></div>
+
+<h3>2.3 Geometritypene og datamodellen</h3>
+<p>Vektordata beskriver objekter med klare grenser som <strong>punkter</strong> (en bygning som posisjon), <strong>linjer</strong> (veier, vassdrag) og <strong>flater/polygoner</strong> (kommuner, eiendommer), alle med tilhørende attributter i en tabell. Raster er et rutenett av celler (piksler) med en verdi hver, og passer for kontinuerlige fenomener som satellittbilder, flyfoto og høydemodeller. Vanlige rasterformater er GeoTIFF og Cloud Optimized GeoTIFF (COG).</p>
+<div class="web"><span class="t">Utdypning fra nett</span>
+<p>Geometritypene er definert i OGC-standarden <em>Simple Features</em>: Point, LineString, Polygon, samt samlingstypene MultiPoint, MultiLineString, MultiPolygon og GeometryCollection. Det er denne modellen ST_-funksjonene i spatial SQL bygger på. En <em>gyldig</em> polygon har bl.a. lukket ytre ring og ingen selvkryss; ugyldige geometrier (se kapittel 6) kan gi feil i operasjoner. For raster er <em>oppløsning</em> (cellestørrelse i meter) og antall bånd sentrale egenskaper.</p></div>
+
+
+<figure><svg class="fig" viewBox="0 0 720 300" role="img" aria-label="<b>Vektor og raster</b> viser samme scene på to måter. Vektor passer for objekte" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="10" width="340" height="280" rx="6"/><rect class="box" x="370" y="10" width="340" height="280" rx="6"/><text class="h" x="22" y="32">Vektor</text><text class="m" x="22" y="48">punkt, linje, flate + attributter</text><text class="h" x="382" y="32">Raster</text><text class="m" x="382" y="48">rutenett av celler med verdi</text><polygon class="hots" points="97,113 193,113 193,137 175,185 97,185"/><polyline class="ln" points="25,215 75,205 125,200 175,215 225,175 275,165" /><circle class="blu" cx="245" cy="91" r="8"/><text class="m" x="135" y="157" text-anchor="middle">flate: bygg</text><text class="m" x="85" y="237">linje: vei</text><text class="m" x="260" y="95">punkt</text><text class="m" x="22" y="270">Hver form kan ha en attributtrad: type, areal, navn …</text><rect x="385" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="385" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="385" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="385" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="385" y="161" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="385" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="385" y="209" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="409" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="409" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="409" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="409" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="409" y="161" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="409" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="409" y="209" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="433" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="433" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="433" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="433" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="433" y="161" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="433" y="185" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="433" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="457" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="457" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="457" y="113" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="457" y="137" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="457" y="161" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="457" y="185" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="457" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="481" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="481" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="481" y="113" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="481" y="137" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="481" y="161" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="481" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="481" y="209" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="505" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="505" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="505" y="113" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="505" y="137" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="505" y="161" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="505" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="505" y="209" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="529" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="529" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="529" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="529" y="137" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="529" y="161" width="24" height="24" style="fill:#e8590c;fill-opacity:.45" stroke="var(--line)" stroke-width="1"/><rect x="529" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="529" y="209" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="553" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="553" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="553" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="553" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="553" y="161" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="553" y="185" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="553" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="577" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="577" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="577" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="577" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="577" y="161" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="577" y="185" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="577" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="601" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="601" y="89" width="24" height="24" style="fill:#3b82c4;fill-opacity:.6" stroke="var(--line)" stroke-width="1"/><rect x="601" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="601" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="601" y="161" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="601" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="601" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="625" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="625" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="625" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="625" y="137" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="625" y="161" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="625" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="625" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="649" y="65" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="649" y="89" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="649" y="113" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="649" y="137" width="24" height="24" style="fill:var(--fg);fill-opacity:.55" stroke="var(--line)" stroke-width="1"/><rect x="649" y="161" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="649" y="185" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><rect x="649" y="209" width="24" height="24" fill="none" stroke="var(--line)" stroke-width="1"/><text class="m" x="382" y="262">Samme scene som celler: kantene blir trappetrinn.</text><text class="m" x="382" y="278">Cellestørrelsen = oppløsning.</text></svg><figcaption><b>Figur 5.</b> <b>Vektor og raster</b> viser samme scene på to måter. Vektor passer for objekter med klare grenser; raster for kontinuerlige fenomener som bilder og høydemodeller.</figcaption></figure>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Projeksjoner, kartografi og visualiseringsmetoder», «Lagringsformater», «Geografiske operasjoner». Nett:
+<ul>
+<li><a href="https://register.geonorge.no/kodelister/byggesoknad/koordinatsystem">Geonorge: kodeliste for koordinatsystem</a></li>
+<li><a href="https://epsg.io/25833.json">epsg.io: EPSG:25833</a> og <a href="https://spatialreference.org/ref/epsg/5973/">spatialreference.org: EPSG:5973</a></li>
+<li><a href="https://doc.esri.com/en/arcgis-pro/3.7/help/mapping/properties/mercator.html">Esri: Mercator</a></li>
+<li><a href="https://atlas.co/courses/gis-basics/common-projections-mercator-utm-lambert/">Atlas GIS Basics: Mercator, UTM, Lambert</a></li>
+</ul>
+Litteratur: Rød (2023), kap. 4. Slå opp koder på <a href="https://epsg.io">epsg.io</a>.</div>
+
+<!-- ======================================================= -->
+<h2 id="k3">3. Kartografi og visualiseringsmetoder</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Metode, klasser og farger bestemmer hva kartet forteller. Velg metode ut fra datatypen.</li>
+<li>Choropleth for rater/tettheter, proporsjonale sirkler for totaler, dot density for konsentrasjon, kartogram når geografien kan forlates, heatmap for tetthetsflate.</li>
+<li>Fargeskala følger dataene: sekvensiell, divergerende eller kvalitativ. Unngå regnbue; test for fargesynsavvik.</li>
+</ul></div>
+
+<h3>3.1 Fem tematiske kartmetoder</h3>
+<div class="tablewrap"><table>
+<tr><th>Metode</th><th>Hvordan</th><th>Passer for</th><th>Fallgruve</th></tr>
+<tr><td>Choropleth</td><td>Flater farget etter klasser</td><td>Rater og tettheter (f.eks. innbyggere per km²)</td><td>Ikke for absolutte totaler: store flater dominerer visuelt</td></tr>
+<tr><td>Proporsjonale sirkler</td><td>Sirkelens <em>areal</em> viser verdien</td><td>Totaler og mengder</td><td>Overlappende sirkler i tette områder</td></tr>
+<tr><td>Dot density</td><td>Hver prikk = et fast antall enheter</td><td>Konsentrasjon og spredning</td><td>Prikkplassering innen flaten er tilfeldig, ikke faktisk</td></tr>
+<tr><td>Kartogram (Dorling)</td><td>Geografien forlates, størrelsen viser verdien</td><td>Sammenligne enheter uavhengig av flatestørrelse</td><td>Stedsgjenkjenning svekkes</td></tr>
+<tr><td>Heatmap</td><td>Glatt tetthetsflate (kernel density) fra punkter</td><td>Hvor punkter samler seg</td><td>Valg av radius/bånd påvirker bildet kraftig; kan lyse opp sensitive steder (jf. Strava)</td></tr>
+</table></div>
+<div class="demo"><span class="t">Demo i repoet</span><a href="../Tematisk kartografi/index.html">Tematisk kartografi: visualiseringsmetoder</a> viser alle fem metodene med ekte data (fylker og Agder-kommuner). Bildene lages av <code>generer_eksempler.py</code>.</div>
+
+
+<figure><div class="figrow"><div><img class="ramme" src="bilder/01_choropleth.png" alt="Choropleth over befolkningstetthet per fylke"><p class="sc"><b>Choropleth</b>: tetthet per fylke</p></div><div><img class="ramme" src="bilder/02_proporsjonale_sirkler.png" alt="Proporsjonale sirkler for folketall per fylke"><p class="sc"><b>Proporsjonale sirkler</b>: folketall</p></div><div><img class="ramme" src="bilder/03_dot_density.png" alt="Dot density for befolkning i Agder"><p class="sc"><b>Dot density</b>: Agder</p></div></div><div class="figrow" style="margin-top:12px"><div><img class="ramme" src="bilder/04_kartogram.png" alt="Dorling-kartogram over folketall per fylke"><p class="sc"><b>Kartogram (Dorling)</b>: folketall</p></div><div><img class="ramme" src="bilder/05_heatmap.png" alt="Heatmap av befolkningspunkter i Agder"><p class="sc"><b>Heatmap</b>: Agder (samme punkter som dot density)</p></div></div><figcaption><b>Figur 6.</b> Fem metoder for tematiske kart, med ekte data fra Geonorge og SSB (fra demoen «Tematisk kartografi»). Metoden bestemmer hva kartet forteller.</figcaption></figure>
+<h3>3.2 Klassifisering</h3>
+<p>For choropleth må kontinuerlige verdier deles i klasser. Canvas stiller spørsmålet: hvorfor ville klassene sett annerledes ut med Jenks natural breaks enn med kvantiler?</p>
+<div class="web"><span class="t">Utdypning fra nett</span>
+<ul>
+<li><strong>Like intervaller (equal interval):</strong> verdiområdet deles i like brede bånd. Lett å lese og viser absolutt størrelse, men gir nesten tomme eller overfylte klasser ved skjev fordeling.</li>
+<li><strong>Kvantiler:</strong> like mange enheter i hver klasse. Bra for rangering, men to nesten like verdier kan havne i hver sin klasse, og en ekstremverdi kan grupperes med vanlige.</li>
+<li><strong>Jenks natural breaks:</strong> algoritmen legger grensene der det er naturlige gap, ved å minimere varians innen klassene. Avslører grupperinger i dataene, men klassegrensene er spesifikke for datasettet, så kart er vanskelige å sammenligne.</li>
+</ul>
+<p>God praksis: vis klassegrensene i tegnforklaringen og velg metode ut fra formålet.</p></div>
+
+<h3>3.3 Fargebruk</h3>
+<ul>
+<li><strong>Sekvensiell:</strong> ordnede verdier fra lav til høy (lys til mørk).</li>
+<li><strong>Divergerende:</strong> avvik fra et meningsfullt midtpunkt (f.eks. endring, null eller gjennomsnitt).</li>
+<li><strong>Kvalitativ:</strong> kategorier uten rekkefølge.</li>
+</ul>
+<p>Verktøyet tar også opp hvor mange klasser leseren klarer å skille (typisk 5–7), hvorfor «regnbuen» er et dårlig valg (ikke perseptuelt jevn, ingen naturlig rekkefølge) og hvordan kartet kan fungere for dem med fargesynsavvik. Kjente kilder er ColorBrewer (Brewer og Harrower), CARTOColors, Viridis-familien (viridis, magma, inferno, plasma, cividis) og Okabe–Ito-paletten (åtte farger laget for å være skillbare ved vanlige fargesynsavvik).</p>
+
+<figure><svg class="fig" viewBox="0 0 720 235" role="img" aria-label="<b>Fargeskalaer følger dataene.</b> Eksemplene er ColorBrewer (Blues, RdBu, Dark" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><text class="h" x="10" y="26">Sekvensiell</text><text class="m" x="10" y="42">lav → høy</text><rect x="190" y="12" width="40" height="26" fill="#eff3ff"/><rect x="230" y="12" width="40" height="26" fill="#bdd7e7"/><rect x="270" y="12" width="40" height="26" fill="#6baed6"/><rect x="310" y="12" width="40" height="26" fill="#3182bd"/><rect x="350" y="12" width="40" height="26" fill="#08519c"/><rect x="190" y="12" width="200" height="26" fill="none" stroke="var(--line)"/><text class="m" x="410" y="29">Befolkningstetthet, temperatur, andel</text><text class="h" x="10" y="78">Divergerende</text><text class="m" x="10" y="94">avvik fra midtpunkt</text><rect x="190" y="64" width="40" height="26" fill="#ca0020"/><rect x="230" y="64" width="40" height="26" fill="#f4a582"/><rect x="270" y="64" width="40" height="26" fill="#f7f7f7"/><rect x="310" y="64" width="40" height="26" fill="#92c5de"/><rect x="350" y="64" width="40" height="26" fill="#0571b0"/><rect x="190" y="64" width="200" height="26" fill="none" stroke="var(--line)"/><text class="m" x="410" y="81">Endring, over/under gjennomsnitt</text><text class="h" x="10" y="130">Kvalitativ</text><text class="m" x="10" y="146">kategorier uten rekkefølge</text><rect x="190" y="116" width="40" height="26" fill="#1b9e77"/><rect x="230" y="116" width="40" height="26" fill="#d95f02"/><rect x="270" y="116" width="40" height="26" fill="#7570b3"/><rect x="310" y="116" width="40" height="26" fill="#e7298a"/><rect x="350" y="116" width="40" height="26" fill="#66a61e"/><rect x="190" y="116" width="200" height="26" fill="none" stroke="var(--line)"/><text class="m" x="410" y="133">Arealbruk, kommunetype</text><defs><linearGradient id="reg" x1="0" x2="1"><stop offset="0" stop-color="#00007f"/><stop offset=".2" stop-color="#0000ff"/><stop offset=".4" stop-color="#00ffff"/><stop offset=".6" stop-color="#ffff00"/><stop offset=".8" stop-color="#ff0000"/><stop offset="1" stop-color="#7f0000"/></linearGradient><linearGradient id="vir" x1="0" x2="1"><stop offset="0" stop-color="#440154"/><stop offset=".25" stop-color="#3b528b"/><stop offset=".5" stop-color="#21918c"/><stop offset=".75" stop-color="#5ec962"/><stop offset="1" stop-color="#fde725"/></linearGradient></defs><text class="h" x="10" y="186">Unngå regnbue</text><text class="m" x="10" y="202">ujevn lysstyrke</text><rect x="190" y="172" width="200" height="22" fill="url(#reg)"/><text class="m" x="400" y="188">regnbue (jet)</text><rect x="190" y="200" width="200" height="22" fill="url(#vir)"/><text class="m" x="400" y="216">viridis: jevn og fargeblind-trygg</text></svg><figcaption><b>Figur 7.</b> <b>Fargeskalaer følger dataene.</b> Eksemplene er ColorBrewer (Blues, RdBu, Dark2) og viridis.</figcaption></figure>
+<div class="demo"><span class="t">Demo i repoet</span><a href="../Fargeskalaer for tematiske kart/index.html">Fargeskalaer for tematiske kart</a>: live forhåndsvisning på et sekskantrutenett, justerbart klassetall, simulering av protanopi/deuteranopi/tritanopi og eksport som HEX, CSS, JSON eller matplotlib-colormap. Mappen inneholder også en nedlastbar <code>Skill.md</code> (se kapittel 15).</div>
+
+
+<figure><img class="ramme" src="bilder/demo-fargeskalaer.png" alt="Verktøyet Fargeskalaer for tematiske kart med sekskantkart"><figcaption><b>Figur 8.</b> Verktøyet «Fargeskalaer for tematiske kart»: velg skala, antall klasser og simuler fargesynsavvik mot et sekskantkart.</figcaption></figure>
+<h3>3.4 Bakgrunnskart er ikke nøytrale</h3>
+<p>Et bakgrunnskart er ferdig visualisert (raster) eller bygget av vektordata som nettleseren tegner (vector tiles). Detaljnivå, presisjon, kompletthet og stil varierer med hvem som har laget kartet. Se kapittel 5 for kilder.</p>
+<div class="demo"><span class="t">Demo i repoet</span><a href="../Ulike bakgrunnskart/index.html">Ulike bakgrunnskart</a>: ni tjenester side om side med synkronisert zoom. Overture-kartet er et «x-ray» der alle datalag vises i egne farger uten kartografi.</div>
+
+
+<figure><img class="ramme" src="bilder/demo-bakgrunnskart.jpg" alt="Ni bakgrunnskart av Kristiansand side om side"><figcaption><b>Figur 9.</b> Samme utsnitt (Kristiansand) i ni bakgrunnskart: OpenStreetMap, OpenFreeMap Liberty, Overture x-ray, Kartverket Topo (vektor og raster), Gråtone, Esri World Imagery og World Topo, og Norkart. Detaljer, stedsnavn og stil varierer.</figcaption></figure>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Projeksjoner, kartografi og visualiseringsmetoder». Nett:
+<ul>
+<li><a href="https://atlas.co/courses/gis-basics/classification-methods/">Atlas GIS Basics: Classification Methods</a></li>
+<li><a href="https://storymaps.arcgis.com/stories/871fe556c40b4d40b7a465c6f135ac88">Esri StoryMaps: Data classification for choropleth maps</a></li>
+</ul>
+Videre: <a href="https://colorbrewer2.org">ColorBrewer 2.0</a>, Axis Maps (Data Classification, Choropleth Maps, Proportional Symbols, Cartograms), CARTOColors, Viridis/BIDS, Fabio Crameris vitenskapelige fargekart. Rød (2023), kap. 4, 16 og 17.</div>
+
+<!-- ======================================================= -->
+<h2 id="k4">4. Norges geografiske økosystem</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Geodata produseres, forvaltes og deles gjennom samarbeid mellom stat, kommuner og private, styrt av lover og fellesløsninger.</li>
+<li>Kartverket står i midten. Sentrale samarbeid: Norge digitalt, Geovekst, Nasjonalt geodataråd.</li>
+<li>Å kjenne aktørene gjør det lettere å finne data, forstå opphavet og vite hvem som har ansvaret.</li>
+</ul></div>
+
+<p>Kart og geografiske data kommer ikke av seg selv. Kartverket samler arbeidet på sin side om geodataarbeid. Følgende temaer er utgangspunktet:</p>
+<ul>
+<li><strong>Nasjonalt geodataråd</strong>: bidrar til samarbeid om og bruk av geografisk informasjon, og følger opp nasjonale strategier for den felles digitale geografiske infrastrukturen.</li>
+<li><strong>Norge digitalt</strong>: nasjonalt samarbeid om å skaffe, dele og bruke stedfestet informasjon.</li>
+<li><strong>Geovekst</strong>: samarbeid om å etablere, forvalte og bruke geografisk informasjon. I tillegg til offentlige etater deltar Bane NOR, Fornybar Norge og Telenor.</li>
+<li><strong>Fellesløsningene</strong>: digitale systemer for kart- og eiendomsinformasjon som Kartverket forvalter. Noen inngår i Norge digitalt, andre tilhører andre samarbeid.</li>
+<li><strong>DOK og temadata</strong>: kartgrunnlag for kunnskapsbasert og effektiv planlegging og saksbehandling.</li>
+<li><strong>Planarbeid</strong>: veiledning for kommuner og andre som lager og forvalter arealplaner.</li>
+</ul>
+<p>I kapittel 5 og 6 ser vi konsekvensen i praksis: for eksempel er FKB-data (Felles kartdatabase, et Geovekst-produkt) tilgjengelig for Norge digitalt-parter, mens private kjøper via forhandler.</p>
+<div class="demo"><span class="t">Demo i repoet</span>To visualiseringer av økosystemet: <a href="../geografiske-okosystem-i-norge/okosystem-gammelt-kart.html">«gamle kartet»</a> (klikk på et sted for å se relasjonene) og <a href="../geografiske-okosystem-i-norge/okosystem-soner-og-kort.html">soner og kort</a> (fra politikk og regelverk øverst via Kartverket i midten til kommuner, privat sektor og randsoneaktører).</div>
+
+<figure><div class="figrow"><div><img class="ramme" src="bilder/okosystem-gammelt-kart.jpg" alt="Kart over det geografiske økosystemet i Norge tegnet i gammel kartstil"><p class="sc"><b>a)</b> «Gamle kartet»: aktørene som landområder.</p></div><div><img class="ramme" src="bilder/demo-okosystem-soner.png" alt="Økosystemet som kort og soner"><p class="sc"><b>b)</b> Soner og kort: politikk og regelverk øverst, Kartverket i midten.</p></div></div><figcaption><b>Figur 10.</b> To visualiseringer av det norske geografiske økosystemet. Kartverket står som nasjonal geodatakoordinator midt i Norge digitalt.</figcaption></figure>
+<h3>Aktivitetsforslag</h3>
+<ul><li>Velg to aktører i kartet og beskriv relasjonen: regulering, penger eller data?</li>
+<li>Velg et datasett og finn produsent, forvalter og hvor det deles.</li>
+<li>Les Geodataplan for Agder og finn samarbeidspartnere i regionen.</li></ul>
+<div class="kilder"><strong>Kilder:</strong> Kartverket: Geodataarbeid. Videre: Geodataplan for Agder, Nasjonalt geografisk informasjonssystem (NGIS), Sentral felles kartdatabase (SFKB).</div>
+
+<!-- ======================================================= -->
+<h2 id="k5">5. Datakilder</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Hvilke data du bruker påvirker kvalitet, presisjon, kompletthet og hva du har lov til å gjøre.</li>
+<li>Bakgrunnskart = ferdig stilt, for orientering. Vektordata = geometri og attributter, for analyse og egen stil.</li>
+<li>Norske autoritative data: Geonorge. Globale åpne data: OpenStreetMap og Overture Maps. Statistikk: SSB.</li>
+<li>Det meste fra Kartverket er gratis; unntakene er hovedsakelig ortofoto og detaljerte data (FKB, lidar).</li>
+</ul></div>
+
+<h3>5.1 Bakgrunnskart</h3>
+<div class="tablewrap"><table>
+<tr><th>Kilde</th><th>Pris / lisens</th><th>Levering</th><th>Bruk når</th></tr>
+<tr><td>Kartverket: Topografisk Norgeskart</td><td>Åpne data</td><td>Raster (WMS/WMTS)</td><td>Norske topografiske kart med offentlig kvalitet. Gråtoneversjonen egner seg når egne data skal fremheves.</td></tr>
+<tr><td>OpenStreetMap</td><td>ODbL, krever kildehenvisning; se vilkår for tiles</td><td>Raster</td><td>Enkel, global bakgrunn drevet av et fellesskap.</td></tr>
+<tr><td>OpenFreeMap</td><td>Gratis og åpen, OSM-basert</td><td>Vektor</td><td>Egen stil, f.eks. med MapLibre, uten kostnad.</td></tr>
+<tr><td>Esri World Imagery / World Topo</td><td>Gratis, se vilkår</td><td>Raster</td><td>Satellittbilder eller topografisk verdenskart.</td></tr>
+<tr><td>Overture Maps</td><td>Åpne data, lisens varierer per tema</td><td>Vektor (rådata, f.eks. PMTiles)</td><td>Bygge egen kartstil fra rådata.</td></tr>
+<tr><td>Kommersielle (Google, Mapbox, HERE, MapTiler, Norkart, Geodata Online)</td><td>Betalt eller gratis kvote, API-nøkkel; vilkårene begrenser ofte lagring og gjenbruk</td><td>Raster og vektor</td><td>Support, avtalt tilgjengelighet, søk og ruting.</td></tr>
+</table></div>
+
+<h3>5.2 Vektordata</h3>
+<div class="tablewrap"><table>
+<tr><th>Kilde</th><th>Innhold</th><th>Lisens</th><th>Bruk når</th></tr>
+<tr><td>Geonorge</td><td>Kartverkets data (bl.a. N50) og data fra nasjonale fagetater. FKB er fritt for Norge digitalt-parter; private kjøper via forhandler.</td><td>Mange åpne (NLOD 2.0). Sjekk per datasett.</td><td>Autoritative, detaljerte og oppdaterte norske data.</td></tr>
+<tr><td>data.norge.no</td><td>Felles datakatalog for offentlige data</td><td>Åpne data</td><td>Åpne offentlige datasett utover geodata.</td></tr>
+<tr><td>OpenStreetMap</td><td>Globale data fra frivillige; i Norge delvis importert fra Kartverket</td><td>ODbL</td><td>Gratis global dekning. Kompletthet varierer.</td></tr>
+<tr><td>Overture Maps</td><td>Ett felles skjema, seks temaer: addresses, base, buildings, divisions, places, transportation</td><td>Varierer per tema</td><td>Global, ensartet struktur i skyvennlige formater.</td></tr>
+<tr><td>Natural Earth</td><td>Verdensdata i små målestokker</td><td>Gratis</td><td>Oversiktskart.</td></tr>
+<tr><td>SSB</td><td>Offisiell norsk statistikk som kan kobles mot geometri</td><td>Åpne data</td><td>Tematiske kart med norsk statistikk.</td></tr>
+<tr><td>Internasjonale betalte (HERE, TomTom, Google Places, satellittleverandører)</td><td>Vegnett, steder, høyoppløselige bilder</td><td>Betalt</td><td>Bestemt kvalitet, dekning eller support.</td></tr>
+</table></div>
+
+<h3>5.3 Betalte data i Norge</h3>
+<p>Det meste av Kartverkets data er gratis. Unntakene er i hovedsak ortofoto og de mest detaljerte topografiske dataene (større målestokk enn 1:50 000, bl.a. Geovekst-produkter som FKB og lidar). Disse bestilles fra kommunen eller en forhandler. Matrikkel- og grunnboksdata videreformidles av forhandlere med avtale med Kartverket.</p>
+<ul>
+<li><strong>Norkart (eTorg)</strong>: kart, nabolister, eiendoms- og planinformasjon til bygge-, dele- og plansaker. Kommunen kan kreve at kartet ikke er eldre enn seks måneder.</li>
+<li><strong>Ambita (Infoland)</strong>: grunnbok, matrikkel, kart, vei- og plandata og foto, også SOSI-format.</li>
+<li><strong>Geodata (Geodata Online)</strong>: Esri-distributør i Norge, datavarehus med over 2 000 datasett.</li>
+</ul>
+
+<h3>5.4 Slik får du tak i OpenStreetMap-data</h3>
+<ul>
+<li><strong>Geofabrik</strong>: ferdige utdrag for land og regioner.</li>
+<li><strong>BBBike</strong>: utdrag for et område du tegner selv.</li>
+<li><strong>Overpass Turbo / Overpass API</strong>: spørringer etter bestemte tagger eller utsnitt.</li>
+<li><strong>HOT Export</strong>: tilpassede utdrag i GeoPackage, GeoJSON og Shapefile.</li>
+<li><strong>Planet.osm</strong>: hele verden, svært store filer.</li>
+</ul>
+
+<h3>5.5 Bakgrunnskart versus vektordata</h3>
+<div class="tablewrap"><table>
+<tr><th></th><th>Bakgrunnskart</th><th>Vektordata</th></tr>
+<tr><td>Hva</td><td>Ferdig stilt kart, ofte raster</td><td>Geometri og attributter</td></tr>
+<tr><td>Endre stil</td><td>Som regel ikke</td><td>Ja, du styler selv</td></tr>
+<tr><td>Analyse og spørringer</td><td>Nei, bare visning</td><td>Ja: filtrere, måle, koble</td></tr>
+<tr><td>Bruk når</td><td>Orientering og kontekst under egne data</td><td>Analyse, egen visualisering, videre deling</td></tr>
+</table></div>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Datakilder». Videre: Geonorge, data.norge.no, Kartverket: Kjøp kartdata, OSM Wiki: Downloading data, Overture Maps-dokumentasjon, NLOD 2.0, Geonorge nedlastings-API, Copernicus Data Space Ecosystem.</div>
+
+<!-- ======================================================= -->
+<h2 id="k6">6. Datakvalitet, metadata og lisens</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Et datasett som ser riktig ut kan likevel være gammelt, unøyaktig, ufullstendig eller ha en lisens du ikke kan bruke.</li>
+<li>Metadata (data om data) følger ISO 19115. Kvalitet beskrives med fem elementer fra ISO 19157.</li>
+<li>Det som teller mest: er dataene <em>egnet til formålet</em>?</li>
+<li>Metadata forteller hva dataene skal være. Egne tester viser hva de faktisk er.</li>
+</ul></div>
+
+<h3>6.1 Sjekkliste før du tar i bruk et datasett</h3>
+<p>Eksempelet er FKB-Bygning i Geonorge kartkatalog.</p>
+<div class="tablewrap"><table>
+<tr><th>Spørsmål</th><th>Hva du ser etter</th><th>Eksempel: FKB-Bygning</th></tr>
+<tr><td>Hva er det?</td><td>Innhold, objekttyper, formål, avgrensninger (produktspesifikasjon)</td><td>Bygningsdata i Felles kartdatabase</td></tr>
+<tr><td>Hvem eier det, og hva får jeg bruke det til?</td><td>Eier, lisens, tilgangsrestriksjoner</td><td>«Norge digitalt begrenset»: ikke åpne data, selv om en WMS finnes</td></tr>
+<tr><td>Hvor ferskt er det?</td><td>Oppdateringsfrekvens, siste oppdatering</td><td>Kontinuerlig; sjekk likevel dato</td></tr>
+<tr><td>Hvor nøyaktig er det?</td><td>Kilde, målemetode, detaljnivå, posisjonsnøyaktighet</td><td>Fotogrammetri fra flybilder; FKB-A (mest detaljert) til FKB-D</td></tr>
+<tr><td>Er det komplett?</td><td>Dekning og kjente hull</td><td>Dekningskart i metadata</td></tr>
+<tr><td>Hvilket koordinatsystem?</td><td>Horisontalt og vertikalt referansesystem</td><td>EUREF89 UTM sone 32, NN2000</td></tr>
+<tr><td>Henger dataene sammen?</td><td>Gyldige geometrier, kodelister, manglende verdier</td><td>Ikke i metadata, må testes</td></tr>
+</table></div>
+
+<h3>6.2 Fem kvalitetselementer (ISO 19157)</h3>
+<div class="tablewrap"><table>
+<tr><th>Element</th><th>Spørsmål</th><th>Eksempel</th></tr>
+<tr><td>Fullstendighet</td><td>Mangler noe, eller er noe med som ikke skal være der?</td><td>Nye bygg mangler; revne bygg ligger igjen</td></tr>
+<tr><td>Logisk konsistens</td><td>Følger dataene reglene for format, kodelister, geometri?</td><td>Polygon med selvkryss; bygningstype utenfor kodelisten</td></tr>
+<tr><td>Posisjonsnøyaktighet</td><td>Hvor nær er posisjonen den sanne?</td><td>Felt-målte mot digitaliserte grenser</td></tr>
+<tr><td>Tematisk nøyaktighet</td><td>Er attributtene riktige?</td><td>Feil bygningstype eller bruksareal</td></tr>
+<tr><td>Tidsmessig kvalitet</td><td>Hvor aktuelle er dataene?</td><td>Flybilder fra 2019 sier lite om 2026</td></tr>
+</table></div>
+<p>Kvalitet er ikke absolutt: et datasett kan være godt nok til et oversiktskart, men for dårlig til en byggesak.</p>
+
+<h3>6.3 Metadata i praksis</h3>
+<p>Metadata følger ISO 19115, og i Norge brukes en norsk profil. Du finner dem som beskrivelsen av hvert datasett i Geonorge kartkatalog. Lager du data selv, bør du beskrive innhold, opphav, tidspunkt og lisens like grundig. Virksomheter som publiserer i Geonorge bruker metadataeditoren.</p>
+
+<h3>6.4 Enkle tekniske kontroller</h3>
+<pre><code>INSTALL spatial; LOAD spatial;
+
+-- Antall objekter, manglende og ugyldige geometrier
+SELECT count(*) AS antall,
+       count(*) FILTER (WHERE geom IS NULL) AS uten_geometri,
+       count(*) FILTER (WHERE NOT ST_IsValid(geom)) AS ugyldige
+FROM st_read('bygg.gpkg');
+
+-- Manglende verdier
+SELECT count(*) FILTER (WHERE bruksareal IS NULL) AS mangler_areal FROM st_read('bygg.gpkg');
+
+-- Duplikater på identifikator
+SELECT bygg_id, count(*) FROM st_read('bygg.gpkg') GROUP BY bygg_id HAVING count(*) > 1;
+
+-- Utstrekning: ligger koordinatene der de skal?
+SELECT min(ST_X(geom)), max(ST_X(geom)), min(ST_Y(geom)), max(ST_Y(geom)) FROM st_read('bygg.gpkg');</code></pre>
+<p>I QGIS finnes tilsvarende verktøy, for eksempel <em>Check validity</em>.</p>
+
+<h3>6.5 Lisens</h3>
+<p>Lisensen avgjør hva du kan gjøre: Norsk lisens for offentlige data (NLOD 2.0) er den vanlige åpne lisensen for offentlige norske data, mens OpenStreetMap bruker ODbL (krever kildehenvisning og deling på like vilkår for avledede databaser). Kommersielle API-er begrenser ofte lagring og gjenbruk. Sjekk lisens per datasett, ikke per leverandør.</p>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Datakvalitet og metadata». Videre: Geonorge kartkatalog, Kartverket: Standarder, NLOD 2.0, FKB-datasettbeskrivelse, Essentials of GIS (metadata og data quality).</div>
+
+<!-- ======================================================= -->
+<h2 id="k7">7. Lagringsformater</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Standardvalg for nye prosjekter: <strong>GeoPackage</strong>. Web og utveksling: <strong>GeoJSON</strong>. Unngå Shapefile i nye prosjekter hvis du kan.</li>
+<li>SOSI brukes i norsk forvaltning (f.eks. reguleringsplaner til kommunen).</li>
+<li>Cloud native-formater (FlatGeobuf, GeoParquet, PMTiles, COG) leses direkte fra skylagring uten å laste ned alt.</li>
+</ul></div>
+
+<h3>7.1 Rene filformater</h3>
+<div class="tablewrap"><table>
+<tr><th>Format</th><th>Hva</th><th>Bruk når</th><th>Vær oppmerksom på</th></tr>
+<tr><td>GeoJSON (.geojson)</td><td>Tekstbasert JSON, åpen standard (RFC 7946)</td><td>Webkart, API-er, utveksling, små datasett</td><td>Ingen spatial indeks, tung ved store data. Koordinater lengde/bredde (WGS 84).</td></tr>
+<tr><td>Shapefile (.shp, .shx, .dbf, .prj)</td><td>ESRIs klassiske format; flere filer</td><td>Mottaker krever det, eldre kompatibilitet</td><td>Maks 2 GB per delfil, feltnavn maks 10 tegn, flere filer som må henge sammen</td></tr>
+<tr><td>SOSI (.sos)</td><td>Norsk tekstbasert utvekslingsformat fra Kartverket (1987): geometri, topologi, kvalitet, koordinatsystem, attributter, metadata</td><td>Norsk offentlig forvaltning, f.eks. reguleringsplaner</td><td>Norsk-spesifikt; krever riktig SOSI-versjon og objektkatalog. Har GML-realisering.</td></tr>
+<tr><td>GML (.gml)</td><td>XML-basert OGC-standard</td><td>Utveksling mellom systemer og OGC-tjenester</td><td>Omstendelig, store filer</td></tr>
+<tr><td>KML (.kml, .kmz)</td><td>XML for visning (Google Earth), OGC-standard</td><td>Dele enkle visninger</td><td>Laget for visning, ikke analyse</td></tr>
+</table></div>
+
+<h3>7.2 Fildatabaser</h3>
+<div class="tablewrap"><table>
+<tr><th>Format</th><th>Hva</th><th>Bruk når</th><th>Vær oppmerksom på</th></tr>
+<tr><td>GeoPackage (.gpkg)</td><td>OGC-standard på SQLite; flere lag, rastertiles og tabeller i én fil</td><td>Standardvalget for nye prosjekter, QGIS, feltarbeid, mobil</td><td>Mange samtidige lesere, men bare én skriver om gangen</td></tr>
+<tr><td>File Geodatabase (.gdb)</td><td>Esris fildatabase (mappe) med domener og relasjonsklasser</td><td>ArcGIS Pro og Esris datamodell-funksjoner</td><td>Esri-eid, ikke åpen standard; GDAL leser/skriver via OpenFileGDB</td></tr>
+</table></div>
+
+<h3>7.3 Cloud native geospatial (vektor)</h3>
+<p>Formater laget for objektlagring i skyen, lest via forespørsler om bare de delene du trenger.</p>
+<div class="tablewrap"><table>
+<tr><th>Format</th><th>Hva</th><th>Bruk når</th></tr>
+<tr><td>FlatGeobuf (.fgb)</td><td>Binært vektorformat med innebygd spatial indeks</td><td>Distribuere vektordata fra skylagring og lese bare utsnittet, f.eks. i webapper</td></tr>
+<tr><td>GeoParquet (.parquet)</td><td>Kolonnebasert, bygget på Apache Parquet</td><td>Analyse av store datasett (DuckDB, dataplattformer)</td></tr>
+<tr><td>PMTiles (.pmtiles)</td><td>Én fil med vektortiler for visualisering</td><td>Store kartdatasett i nettleseren fra statisk hosting, uten kartserver</td></tr>
+</table></div>
+<p>FlatGeobuf og GeoParquet egner seg best for analyse, PMTiles for visualisering; de supplerer hverandre. For raster er motstykket Cloud Optimized GeoTIFF (COG).</p>
+
+<figure><svg class="fig" viewBox="0 0 620 290" role="img" aria-label="<b>Hvilket format til hvilken oppgave?</b> En forenklet huskeregel basert på tab" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="8" width="320" height="30" rx="5"/><text x="22" y="28">Levere plan til kommunen</text><line class="ar" x1="336" y1="23" x2="396" y2="23"/><rect class="accs" x="402" y="8" width="200" height="30" rx="5"/><text class="h" x="416" y="28">SOSI / GML</text><rect class="box" x="10" y="48" width="320" height="30" rx="5"/><text x="22" y="68">Dele ett datasett mellom GIS-brukere</text><line class="ar" x1="336" y1="63" x2="396" y2="63"/><rect class="accs" x="402" y="48" width="200" height="30" rx="5"/><text class="h" x="416" y="68">GeoPackage</text><rect class="box" x="10" y="88" width="320" height="30" rx="5"/><text x="22" y="108">Vise små data i et webkart</text><line class="ar" x1="336" y1="103" x2="396" y2="103"/><rect class="accs" x="402" y="88" width="200" height="30" rx="5"/><text class="h" x="416" y="108">GeoJSON</text><rect class="box" x="10" y="128" width="320" height="30" rx="5"/><text x="22" y="148">Vise store data i nettleseren</text><line class="ar" x1="336" y1="143" x2="396" y2="143"/><rect class="accs" x="402" y="128" width="200" height="30" rx="5"/><text class="h" x="416" y="148">PMTiles</text><rect class="box" x="10" y="168" width="320" height="30" rx="5"/><text x="22" y="188">Hente utsnitt fra skylagring</text><line class="ar" x1="336" y1="183" x2="396" y2="183"/><rect class="accs" x="402" y="168" width="200" height="30" rx="5"/><text class="h" x="416" y="188">FlatGeobuf</text><rect class="box" x="10" y="208" width="320" height="30" rx="5"/><text x="22" y="228">Analysere et stort datasett</text><line class="ar" x1="336" y1="223" x2="396" y2="223"/><rect class="accs" x="402" y="208" width="200" height="30" rx="5"/><text class="h" x="416" y="228">GeoParquet</text><rect class="box" x="10" y="248" width="320" height="30" rx="5"/><text x="22" y="268">Satellitt- og høydedata (raster)</text><line class="ar" x1="336" y1="263" x2="396" y2="263"/><rect class="accs" x="402" y="248" width="200" height="30" rx="5"/><text class="h" x="416" y="268">COG / GeoTIFF</text></svg><figcaption><b>Figur 11.</b> <b>Hvilket format til hvilken oppgave?</b> En forenklet huskeregel basert på tabellene over.</figcaption></figure>
+<div class="web"><span class="t">Utdypning fra nett</span>
+<p>Rask beslutningsregel: <em>Levere til kommunen?</em> SOSI/GML (etter kommunens krav). <em>Vise på nett?</em> GeoJSON for små data, PMTiles/vektortiler for store. <em>Analysere stort datasett?</em> GeoParquet. <em>Dele ett datasett mellom GIS-brukere?</em> GeoPackage. Enhver GDAL-støttet konvertering gjøres med <code>ogr2ogr</code> (kapittel 13).</p></div>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Lagringsformater». Videre: OGC GeoPackage Encoding Standard, RFC 7946, Kartverket: SOSI, Cloud-Native Geospatial: «Where is COG for Vector?», GDAL vector drivers, Mapscaping: Shapefiles vs. GeoPackage. Rød (2023), kap. 2.1 og 7.</div>
+
+<!-- ======================================================= -->
+<h2 id="k8">8. Databaser og lagringsstrukturer</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Spatial SQL er deklarativt, skalerer (romlig indeks) og er overførbart (ST_-funksjoner fra OGC Simple Features).</li>
+<li>Standard delt geodatabase: PostgreSQL + PostGIS. Raskt analyseverktøy på én maskin: DuckDB.</li>
+<li>Fil, database eller objektlagring? Velg ut fra hvem som skriver, hvor mange som leser og hvor ofte dataene endres.</li>
+<li>Cloud native-filer på objektlagring fungerer som en skrivebeskyttet «database» via HTTP range requests.</li>
+</ul></div>
+
+<h3>8.1 Hvorfor spatial SQL?</h3>
+<pre><code>-- PostGIS: bygg innen 100 m fra vassdrag
+SELECT b.* FROM bygg b JOIN vassdrag v ON ST_DWithin(b.geom, v.geom, 100);
+
+-- Nærmeste brannstasjon (&lt;-&gt; bruker den romlige indeksen)
+SELECT navn FROM brannstasjon
+ORDER BY geom &lt;-&gt; ST_SetSRID(ST_MakePoint(88423, 6466808), 25833) LIMIT 1;
+
+-- Antall bygg per kommune
+SELECT k.kommunenavn, count(*) FROM bygg b
+JOIN kommuner k ON ST_Within(b.geom, k.geom) GROUP BY k.kommunenavn;</code></pre>
+
+<h3>8.2 Databaser med geografisk støtte</h3>
+<div class="tablewrap"><table>
+<tr><th>Database</th><th>Type</th><th>Skalerer til</th><th>Lisens</th><th>Bruk når</th></tr>
+<tr><td>PostgreSQL + PostGIS</td><td>Databaseserver</td><td>Store data, mange brukere</td><td>Åpen kildekode</td><td>Delte geodatabaser med oppdateringer</td></tr>
+<tr><td>DuckDB (spatial)</td><td>In-memory på egen maskin</td><td>Millioner–milliarder rader</td><td>MIT</td><td>Rask analyse på GeoParquet/GeoPackage, lokalt eller mot sky</td></tr>
+<tr><td>SQLite/SpatiaLite + GeoPackage</td><td>Innebygd fildatabase</td><td>Opptil noen GB</td><td>Åpen</td><td>Én fil å dele, feltarbeid</td></tr>
+<tr><td>SQL Server (spatial)</td><td>Databaseserver (Microsoft)</td><td>Store data</td><td>Kommersiell</td><td>Microsoft-plattform</td></tr>
+<tr><td>BigQuery GIS</td><td>Skybasert datavarehus</td><td>Svært store</td><td>Per spørring</td><td>Store analyser uten server</td></tr>
+<tr><td>Databricks</td><td>Skybasert dataplattform</td><td>Svært store</td><td>Kommersiell</td><td>Felles dataplattform; støtter geometrityper og ST_</td></tr>
+<tr><td>Microsoft Fabric</td><td>Skybasert dataplattform</td><td>Svært store</td><td>Kommersiell</td><td>Microsoft/Azure; Maps in Fabric</td></tr>
+</table></div>
+<p>Databricks og Fabric brukes av mange norske virksomheter som felles dataplattform, og geodata er der et tillegg. Sjekk hvilke romlige funksjoner plattformen har før dere planlegger analyser der.</p>
+
+<h3>8.3 Fil, database eller objektlagring?</h3>
+<div class="tablewrap"><table>
+<tr><th>Struktur</th><th>Eksempler</th><th>Egenskaper</th><th>Passer når</th><th>Vær oppmerksom på</th></tr>
+<tr><td>Fil</td><td>GeoPackage, GeoParquet, Shapefile</td><td>Enkel å dele, ingen server</td><td>Dele, arkivere, analysere på én maskin</td><td>Vanskelig med flere skrivere; tilgang kun via filrettigheter</td></tr>
+<tr><td>Database</td><td>PostGIS, SQL Server</td><td>Flere brukere, transaksjoner, tilgangsstyring, indeks</td><td>Data som endres og brukes av mange</td><td>Må driftes, sikres og sikkerhetskopieres</td></tr>
+<tr><td>Objektlagring</td><td>S3, Azure Blob, GCS med COG/GeoParquet/PMTiles</td><td>Billig, skalerbar, leses via HTTP</td><td>Store datasett som sjelden endres og deles bredt</td><td>Ingen transaksjoner; tilgang per fil/URL</td></tr>
+</table></div>
+<p>To begreper forklarer mye av ytelsen: en <strong>romlig indeks</strong> (R-tre, GiST) finner objekter i et område uten å lese alt; <strong>kolonnebasert lagring</strong> (Parquet) leser bare kolonnene du spør etter.</p>
+
+<h3>8.4 Cloud native som skrivebeskyttet database</h3>
+<p>Med HTTP range requests henter klienten bare delene av filen den trenger.</p>
+<pre><code>INSTALL httpfs; LOAD httpfs;
+SELECT name, ST_Area(geometry) AS areal
+FROM read_parquet('https://raw.githubusercontent.com/opengeospatial/geoparquet/main/examples/example.parquet')
+ORDER BY areal DESC;</code></pre>
+<div class="tablewrap"><table>
+<tr><th>Format</th><th>Leser bare …</th><th>Typisk «spørring»</th></tr>
+<tr><td>COG</td><td>utsnittet og oppløsningen du ber om</td><td>Vis satellittbilde i nettleseren</td></tr>
+<tr><td>PMTiles</td><td>flisene som vises</td><td>Store kartdata fra statisk hosting</td></tr>
+<tr><td>FlatGeobuf</td><td>objektene innenfor et utsnitt</td><td>Hent bygg i et område</td></tr>
+<tr><td>GeoParquet</td><td>kolonnene og radgruppene spørringen trenger</td><td>Tell/summer/filtrer med DuckDB</td></tr>
+</table></div>
+
+<figure><svg class="fig" viewBox="0 0 700 240" role="img" aria-label="<b>Cloud native.</b> Klienten leser først filens metadata og henter deretter bar" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="20" width="170" height="150" rx="6"/><text class="h" x="22" y="44">Klient</text><text class="m" x="22" y="62">nettleser, DuckDB, QGIS</text><text x="22" y="100">SELECT … WHERE</text><text x="22" y="118">  bbox / kolonner</text><text class="h" x="260" y="22">Fil på objektlagring (S3, Azure Blob, GCS)</text><rect class="box" x="260" y="120" width="70" height="46"/><text class="m" x="295.0" y="148" text-anchor="middle">metadata</text><rect class="box" x="330" y="120" width="70" height="46"/><text class="m" x="365.0" y="148" text-anchor="middle">blokk 1</text><rect class="hots" x="400" y="120" width="70" height="46"/><text class="m" x="435.0" y="148" text-anchor="middle">blokk 2</text><rect class="box" x="470" y="120" width="70" height="46"/><text class="m" x="505.0" y="148" text-anchor="middle">blokk 3</text><rect class="hots" x="540" y="120" width="70" height="46"/><text class="m" x="575.0" y="148" text-anchor="middle">blokk 4</text><rect class="box" x="610" y="120" width="70" height="46"/><text class="m" x="645.0" y="148" text-anchor="middle">blokk 5</text><rect class="accs" x="260" y="120" width="70" height="46"/><text class="m" x="295" y="148" text-anchor="middle">metadata</text><line class="ar" x1="184" y1="62" x2="292" y2="114"/><circle class="acc" cx="232" cy="82" r="9"/><text x="232" y="86" text-anchor="middle" style="fill:#fff;font-weight:700">1</text><line class="ar" x1="184" y1="100" x2="470" y2="114"/><circle class="hot" cx="330" cy="107" r="9"/><text x="330" y="111" text-anchor="middle" style="fill:#fff;font-weight:700">2</text><text class="m" x="260" y="190">1) HTTP Range: les metadata først.</text><text class="m" x="260" y="208">2) Hent bare blokkene (oransje) som trengs.</text><text class="m" x="260" y="226">Resten av filen lastes aldri ned. Ingen server kjører: bare en fil på en URL.</text></svg><figcaption><b>Figur 12.</b> <b>Cloud native.</b> Klienten leser først filens metadata og henter deretter bare byte-områdene (oransje) som spørringen trenger.</figcaption></figure>
+<p><strong>Begrensninger:</strong> ingen skriving eller oppdatering, ingen transaksjoner, tilgang per fil eller URL (f.eks. tidsbegrensede signerte lenker), og ytelsen avhenger av hvordan filen er bygget.</p>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Databaser og lagring». Videre: PostGIS Introduction (workshop), DuckDB spatial extension, Overture Maps: hente data med DuckDB, GeoParquet-spesifikasjonen, Cloud-Native Geospatial: guide.</div>
+
+<!-- ======================================================= -->
+<h2 id="k9">9. API-standarder og tjenester</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Data deles stadig oftere som tjenester. Standarder gjør at QGIS, nettkart og skript kan bruke ulike servere likt.</li>
+<li>Velg ut fra behov: <em>vise</em> (WMS/WMTS), <em>hente data</em> (WFS/WCS), <em>finne data</em> (CSW/STAC), <em>kjøre analyse</em> (WPS).</li>
+<li>OGC API-ene (Features, Tiles, Maps, Coverages, Processes, Records, EDR) er moderne REST/JSON-etterfølgere til de klassiske tjenestene.</li>
+<li>De-facto-standarder (XYZ, MVT, ArcGIS REST, STAC) er ikke OGC, men utbredt.</li>
+</ul></div>
+
+<h3>9.1 Klassiske OGC-standarder</h3>
+<div class="tablewrap"><table>
+<tr><th>Standard</th><th>Gir deg</th><th>Bruk når</th></tr>
+<tr><td>WMS – Web Map Service</td><td>Ferdige kartbilder (PNG/JPEG); GetFeatureInfo for info om objekt</td><td>Du bare skal vise et lag og ikke trenger dataene</td></tr>
+<tr><td>WMTS – Web Map Tile Service</td><td>Forhåndslagde fliser i faste målestokknivåer</td><td>Bakgrunnskart og lag mange bruker raskt (Topografisk Norgeskart)</td></tr>
+<tr><td>WFS – Web Feature Service</td><td>Vektorobjekter med geometri og attributter (f.eks. GML)</td><td>Analyse, filtrering, egen visualisering (Vegvesen, Geonorge)</td></tr>
+<tr><td>WCS – Web Coverage Service</td><td>Rasterdata (coverages), utsnitt</td><td>Rå rasterverdier, f.eks. høydedata</td></tr>
+<tr><td>CSW – Catalogue Service for the Web</td><td>Søk i metadatakataloger</td><td>Finne ut hvilke datasett og tjenester som finnes</td></tr>
+</table></div>
+<p>Tjenestene spørres med URL-parametere, f.eks. <code>?service=WMS&amp;request=GetCapabilities</code>, som returnerer en beskrivelse av hva tjenesten tilbyr. Geonorge tilbyr i tillegg nedlasting via Atom-feed (ikke OGC). Tjenester finnes i Geonorges kartkatalog.</p>
+
+
+<figure><svg class="fig" viewBox="0 0 720 250" role="img" aria-label="<b>WMS gir deg et bilde, WFS gir deg dataene.</b> Det samme skillet som mellom b" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="10" width="340" height="230" rx="6"/><text class="h" x="24" y="34">WMS</text><text class="m" x="24" y="51">ber om et bilde</text><rect class="accs" x="24" y="70" width="80" height="36" rx="4"/><text x="64" y="93" text-anchor="middle">Klient</text><line class="ar" x1="108" y1="88" x2="160" y2="88"/><rect class="accs" x="164" y="70" width="90" height="36" rx="4"/><text x="209" y="93" text-anchor="middle">Server</text><path class="lm dash" d="M209,112 L209,140"/><rect x="150" y="145" width="190" height="80" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.4"/><polygon class="hots" points="170,210 190,175 220,180 230,210"/><polyline class="ln" points="158,160 210,195 328,170"/><circle class="blu" cx="295" cy="205" r="7"/><text class="m" x="24" y="165">PNG/JPEG</text><text class="m" x="24" y="185">Ser bra ut,</text><text class="m" x="24" y="201">men kan ikke</text><text class="m" x="24" y="217">analyseres.</text><rect class="box" x="370" y="10" width="340" height="230" rx="6"/><text class="h" x="384" y="34">WFS</text><text class="m" x="384" y="51">ber om dataene</text><rect class="accs" x="384" y="70" width="80" height="36" rx="4"/><text x="424" y="93" text-anchor="middle">Klient</text><line class="ar" x1="468" y1="88" x2="520" y2="88"/><rect class="accs" x="524" y="70" width="90" height="36" rx="4"/><text x="569" y="93" text-anchor="middle">Server</text><path class="lm dash" d="M569,112 L569,140"/><rect x="510" y="145" width="190" height="80" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.4"/><text class="m" style="font-family:ui-monospace,monospace;font-size:11px" x="518" y="163">id type    m²  geom</text><text class="m" style="font-family:ui-monospace,monospace;font-size:11px" x="518" y="179">1  bolig   142 POLYGON</text><text class="m" style="font-family:ui-monospace,monospace;font-size:11px" x="518" y="195">2  garasje  36 POLYGON</text><text class="m" style="font-family:ui-monospace,monospace;font-size:11px" x="518" y="211">3  bolig    98 POLYGON</text><text class="m" x="384" y="165">GML / GeoJSON</text><text class="m" x="384" y="185">Filtrer, mål og</text><text class="m" x="384" y="201">style selv.</text></svg><figcaption><b>Figur 13.</b> <b>WMS gir deg et bilde, WFS gir deg dataene.</b> Det samme skillet som mellom bakgrunnskart og vektordata, og mellom WMTS og vektortiler.</figcaption></figure>
+<h3>9.2 Nyere OGC API-standarder</h3>
+<div class="tablewrap"><table>
+<tr><th>Standard</th><th>Etterfølger til</th><th>Gir deg</th></tr>
+<tr><td>OGC API – Features</td><td>WFS</td><td>Vektorobjekter som GeoJSON via enkle URL-er, f.eks. <code>/collections/lag/items</code></td></tr>
+<tr><td>OGC API – Tiles</td><td>WMTS</td><td>Alle typer tiles, særlig vektortiler</td></tr>
+<tr><td>OGC API – Maps</td><td>WMS</td><td>Kartbilder og rasterinnhold</td></tr>
+<tr><td>OGC API – Coverages</td><td>WCS</td><td>Rasterdata, f.eks. GeoTIFF</td></tr>
+<tr><td>OGC API – Processes</td><td>WPS</td><td>Prosesseringsverktøy kalt via API</td></tr>
+<tr><td>OGC API – Records</td><td>CSW</td><td>Søkbar metadata/datakatalog</td></tr>
+<tr><td>OGC API – EDR</td><td>(ny)</td><td>Spørringsmønstre for miljø- og værdata per posisjon/område</td></tr>
+</table></div>
+<p>De bruker REST, JSON og OpenAPI og er bygget av gjenbrukbare byggeklosser.</p>
+
+<h3>9.3 De-facto-standarder</h3>
+<div class="tablewrap"><table>
+<tr><th>Praksis</th><th>Hva</th><th>Bruk når</th></tr>
+<tr><td>XYZ-tiles / TMS</td><td>URL-maler som <code>/{z}/{x}/{y}.png</code></td><td>Bakgrunnskart i Leaflet, OpenLayers, MapLibre</td></tr>
+<tr><td>TileJSON</td><td>JSON-beskrivelse av et tilesett</td><td>Peke klient til tilesett</td></tr>
+<tr><td>Mapbox Vector Tiles (MVT)</td><td>Mest brukte vektortile-format</td><td>Raske, stilbare vektorkart</td></tr>
+<tr><td>ArcGIS REST API</td><td>Esris REST-grensesnitt</td><td>Data i ArcGIS Online/Enterprise</td></tr>
+<tr><td>STAC</td><td>SpatioTemporal Asset Catalog for satellitt-/jordobservasjonsdata</td><td>Finne og hente satellittbilder fra katalog</td></tr>
+</table></div>
+
+<div class="web"><span class="t">Utdypning fra nett</span>
+<p>Tommelfingerregel for «WMS eller WFS?»: WMS gir deg et <em>bilde</em> (du kan se, ikke analysere), WFS gir deg <em>dataene</em> (du kan filtrere, måle og style selv). Samme forskjell som mellom bakgrunnskart og vektordata i kapittel 5. Det samme gjelder WMTS (bilder i fliser) mot vektortiler (MVT/PMTiles).</p></div>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «API-standarder». Videre: ogcapi.ogc.org, OGC Standards, GIS Basics: OGC Services, pygeoapi, Geonorge kartkatalog. Øvelse: legg inn <code>https://wms.geonorge.no/skwms1/wms.norges_grunnkart?service=wms&amp;request=getcapabilities</code> som WMS-lag i QGIS.</div>
+
+<!-- ======================================================= -->
+<h2 id="k10">10. Geografiske operasjoner</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Seks operasjoner dekker mesteparten av geografisk databehandling: buffer, klipp, romlig kobling, nærhet, aggregering og overlay.</li>
+<li>Bruk et projisert koordinatsystem i meter før du måler (EPSG:25832/25833).</li>
+<li>Clip beholder bare A sine attributter, intersection/union kombinerer A og B, difference gir A minus B.</li>
+<li>Samme operasjoner finnes i QGIS, SQL (DuckDB/PostGIS), geopandas og ogr2ogr.</li>
+</ul></div>
+
+<h3>10.1 Seks operasjoner</h3>
+<div class="tablewrap"><table>
+<tr><th>Operasjon</th><th>Spørsmål</th><th>Eksempel</th><th>Pass opp</th><th>QGIS / GeoPandas</th></tr>
+<tr><td>1. Buffer</td><td>Hva ligger innenfor en avstand fra et objekt?</td><td>100 m-sonen langs sjø og vassdrag (plan- og bygningsloven § 1-8)</td><td>Enheten er CRS-ets enhet. Overlappende buffere kan slås sammen.</td><td>Buffer / <code>buffer()</code></td></tr>
+<tr><td>2. Klipp</td><td>Gi meg bare delen av laget innenfor dette området</td><td>Vegnett klippet til én kommune</td><td>Bare lagets egne attributter beholdes</td><td>Clip / <code>clip()</code></td></tr>
+<tr><td>3. Romlig kobling</td><td>Hvilke egenskaper har stedet objektet ligger på?</td><td>Hvilken kommune ligger hvert bygg i?</td><td>Et objekt kan treffe flere områder og gi flere rader; velg riktig relasjon (innenfor, krysser, berører)</td><td>Join attributes by location / <code>sjoin()</code></td></tr>
+<tr><td>4. Nærhet</td><td>Hva er nærmest / innenfor X meter?</td><td>Nærmeste brannstasjon fra en bolig</td><td>Luftlinje er ikke veilengde; store data trenger romlig indeks</td><td>Join attributes by nearest / <code>sjoin_nearest()</code></td></tr>
+<tr><td>5. Aggregering</td><td>Hvor mange/mye i hvert område? Kan områder slås sammen?</td><td>Antall bygg og areal per grunnkrets; dissolve til kommuner</td><td>Koble til riktig område før telling; grensekryssende objekter kan telles flere ganger</td><td>Count points in polygon, Dissolve / <code>groupby()</code>, <code>dissolve()</code></td></tr>
+<tr><td>6. Overlay</td><td>Hvordan overlapper to lag?</td><td>Hvilke deler av hver eiendom ligger i en faresone</td><td>Resultatet får attributter fra begge lag og deles i biter; regn ut areal på nytt</td><td>Intersection / <code>overlay()</code></td></tr>
+</table></div>
+
+
+<figure><svg class="fig" viewBox="0 0 720 430" role="img" aria-label="<b>De seks operasjonene</b> som små skisser. Nesten all geografisk analyse er sa" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><g transform="translate(10,10)"><rect class="box" width="224" height="204" rx="6"/><text class="h" x="12" y="22">1. Buffer</text><path d="M30,140 C70,60 130,150 190,70" fill="none" stroke="#e8590c" stroke-opacity=".3" stroke-width="56" stroke-linecap="round"/><path class="ln" d="M30,140 C70,60 130,150 190,70"/><text class="m" x="100" y="175">100 m</text><text class="m" x="12" y="194">sone rundt objekt</text></g><g transform="translate(246,10)"><rect class="box" width="224" height="204" rx="6"/><text class="h" x="12" y="22">2. Klipp</text><defs><clipPath id="kl"><rect x="62" y="50" width="100" height="90"/></clipPath></defs><path class="blu" d="M20,60 L110,40 L200,70 L190,150 L90,165 L25,130 Z"/><g clip-path="url(#kl)"><path style="fill:#3b82c4;fill-opacity:.8" d="M20,60 L110,40 L200,70 L190,150 L90,165 L25,130 Z"/></g><rect class="ln dash" x="62" y="50" width="100" height="90"/><text class="m" x="12" y="194">behold det innenfor området</text></g><g transform="translate(482,10)"><rect class="box" width="224" height="204" rx="6"/><text class="h" x="12" y="22">3. Romlig kobling</text><rect class="blu" x="20" y="40" width="85" height="120"/><rect class="grn" x="105" y="40" width="95" height="120"/><text class="m" x="30" y="58">Kommune A</text><text class="m" x="112" y="58">Kommune B</text><circle cx="50" cy="90" r="6" fill="#3b82c4"/><circle cx="75" cy="130" r="6" fill="#3b82c4"/><circle cx="140" cy="100" r="6" fill="#4a9d5b"/><circle cx="170" cy="140" r="6" fill="#4a9d5b"/><text class="m" x="12" y="194">punkt arver områdets verdi</text></g><g transform="translate(10,224)"><rect class="box" width="224" height="204" rx="6"/><text class="h" x="12" y="22">4. Nærhet</text><circle cx="110" cy="105" r="52" fill="none" class="lm dash"/><circle class="hot" cx="110" cy="105" r="7"/><rect x="148" y="80" width="12" height="12" fill="var(--accent)"/><rect x="40" y="55" width="12" height="12" fill="var(--muted)"/><rect x="160" y="150" width="12" height="12" fill="var(--muted)"/><rect x="35" y="140" width="12" height="12" fill="var(--muted)"/><line class="ar" x1="116" y1="102" x2="146" y2="88"/><text class="m" x="72" y="172">X meter</text><text class="m" x="12" y="194">nærmeste / innenfor X meter</text></g><g transform="translate(246,224)"><rect class="box" width="224" height="204" rx="6"/><text class="h" x="12" y="22">5. Aggregering</text><rect class="blu" x="20" y="40" width="85" height="120"/><rect class="grn" x="105" y="40" width="95" height="120"/><circle cx="45" cy="75" r="4" fill="var(--fg)"/><circle cx="70" cy="95" r="4" fill="var(--fg)"/><circle cx="55" cy="125" r="4" fill="var(--fg)"/><circle cx="85" cy="140" r="4" fill="var(--fg)"/><circle cx="140" cy="100" r="4" fill="var(--fg)"/><circle cx="170" cy="130" r="4" fill="var(--fg)"/><text class="h" x="62" y="62">4</text><text class="h" x="145" y="62">2</text><text class="m" x="12" y="194">tell / summer per område</text></g><g transform="translate(482,224)"><rect class="box" width="224" height="204" rx="6"/><text class="h" x="12" y="22">6. Overlay</text><defs><clipPath id="ov"><rect x="30" y="55" width="100" height="90"/></clipPath></defs><rect class="grn" x="30" y="55" width="100" height="90"/><circle class="hots" cx="125" cy="110" r="55"/><g clip-path="url(#ov)"><circle style="fill:#e8590c;fill-opacity:.75" cx="125" cy="110" r="55"/></g><text class="m" x="36" y="50">eiendom</text><text class="m" x="150" y="170">faresone</text><text class="m" x="12" y="194">hva er felles? (andel i faresonen)</text></g></svg><figcaption><b>Figur 14.</b> <b>De seks operasjonene</b> som små skisser. Nesten all geografisk analyse er satt sammen av disse byggeklossene.</figcaption></figure>
+<h3>10.2 Klipp, intersect eller overlay?</h3>
+<div class="tablewrap"><table>
+<tr><th>Operasjon</th><th>Du får</th><th>Attributter fra</th><th>Bruk når</th></tr>
+<tr><td>Clip</td><td>Delene av A innenfor B</td><td>Bare A</td><td>Utsnitt av A</td></tr>
+<tr><td>Intersection</td><td>Områder der A og B overlapper</td><td>A og B</td><td>Hvor og hvor mye de overlapper</td></tr>
+<tr><td>Union</td><td>Alt fra A og B, delt opp ved overlapp</td><td>A og B</td><td>Samle to områdelag</td></tr>
+<tr><td>Difference</td><td>Delene av A som ikke ligger i B</td><td>Bare A</td><td>Det som ligger utenfor, f.eks. bygg utenfor faresone</td></tr>
+</table></div>
+<p>I QGIS: Vector → Geoprocessing Tools. I GeoPandas heter fire av dem <code>overlay()</code> med <code>how="intersection" | "union" | "difference" | …</code>, mens <code>clip()</code> er egen funksjon.</p>
+
+
+<figure><svg class="fig" viewBox="0 0 720 220" role="img" aria-label="<b>Mengdeoperasjoner.</b> Forskjellen er hva du får tilbake og hvilke attributte" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><defs><clipPath id="cA"><circle cx="70" cy="85" r="38"/></clipPath><clipPath id="cB"><circle cx="105" cy="85" r="38"/></clipPath><mask id="mAB"><rect width="200" height="170" fill="white"/><circle cx="105" cy="85" r="38" fill="black"/></mask></defs><g transform="translate(10,0)"><rect class="box" width="168" height="190" rx="6"/><text class="h" x="12" y="22">Clip</text><g transform="translate(-12,-4) scale(.95)"><circle cx="70" cy="85" r="38" class="blu"/><circle cx="105" cy="85" r="38" fill="none" class="ln dash"/><g clip-path="url(#cB)"><circle cx="70" cy="85" r="38" style="fill:#3b82c4;fill-opacity:.85"/></g></g><text class="m" x="12" y="170">A innenfor B.</text><text class="m" x="12" y="184">Bare A sine attributter</text></g><g transform="translate(188,0)"><rect class="box" width="168" height="190" rx="6"/><text class="h" x="12" y="22">Intersection</text><g transform="translate(-12,-4) scale(.95)"><circle cx="70" cy="85" r="38" fill="none" class="lm"/><circle cx="105" cy="85" r="38" fill="none" class="lm"/><g clip-path="url(#cA)"><circle cx="105" cy="85" r="38" style="fill:#e8590c;fill-opacity:.8"/></g></g><text class="m" x="12" y="170">Overlappen.</text><text class="m" x="12" y="184">Attributter fra A og B</text></g><g transform="translate(366,0)"><rect class="box" width="168" height="190" rx="6"/><text class="h" x="12" y="22">Union</text><g transform="translate(-12,-4) scale(.95)"><circle cx="70" cy="85" r="38" class="blu"/><circle cx="105" cy="85" r="38" class="grn"/><g clip-path="url(#cA)"><circle cx="105" cy="85" r="38" style="fill:#e8590c;fill-opacity:.55"/></g></g><text class="m" x="12" y="170">Alt fra A og B,</text><text class="m" x="12" y="184">delt opp ved overlapp</text></g><g transform="translate(544,0)"><rect class="box" width="168" height="190" rx="6"/><text class="h" x="12" y="22">Difference</text><g transform="translate(-12,-4) scale(.95)"><circle cx="70" cy="85" r="38" fill="none" class="lm"/><circle cx="105" cy="85" r="38" fill="none" class="lm dash"/><g mask="url(#mAB)"><circle cx="70" cy="85" r="38" style="fill:#3b82c4;fill-opacity:.8"/></g></g><text class="m" x="12" y="170">A uten B.</text><text class="m" x="12" y="184">Bare A sine attributter</text></g><text class="m" x="10" y="210">Blå = lag A, grønn = lag B, oransje = felles område.</text></svg><figcaption><b>Figur 15.</b> <b>Mengdeoperasjoner.</b> Forskjellen er hva du får tilbake og hvilke attributter som følger med.</figcaption></figure>
+<h3>10.3 Tekniske eksempler</h3>
+<p>Eksemplene bruker syntetiske data i EPSG:25833 rundt Kristiansand. Datasettene ligger i <code>modul-2/eksempeldata/</code> (bygg, vassdrag, kommuner, grunnkrets, brannstasjon, eiendom, faresone).</p>
+<h4>SQL (DuckDB; samme ST_-funksjoner i PostGIS)</h4>
+<pre><code>INSTALL spatial; LOAD spatial;
+
+-- 1 Buffer: 100 m rundt vassdrag
+SELECT navn, ST_Buffer(geom, 100) AS geom FROM st_read('vassdrag.gpkg');
+
+-- 2 Klipp: vassdrag innenfor Kristiansand
+SELECT v.navn, ST_Intersection(v.geom, k.geom) AS geom
+FROM st_read('vassdrag.gpkg') v, st_read('kommuner.gpkg') k
+WHERE k.kommunenavn = 'Kristiansand' AND ST_Intersects(v.geom, k.geom);
+
+-- 3 Romlig kobling: hvilken kommune ligger hvert bygg i?
+SELECT b.bygg_id, k.kommunenavn
+FROM st_read('bygg.gpkg') b JOIN st_read('kommuner.gpkg') k ON ST_Within(b.geom, k.geom);
+
+-- 4 Nærhet: nærmeste brannstasjon og avstand
+SELECT b.bygg_id, s.navn, ST_Distance(b.geom, s.geom) AS meter
+FROM st_read('bygg.gpkg') b,
+     LATERAL (SELECT navn, geom FROM st_read('brannstasjon.gpkg') s
+              ORDER BY ST_Distance(b.geom, s.geom) LIMIT 1) s;
+
+-- 5 Aggregering + dissolve
+SELECT g.grunnkretsnummer, count(*) AS antall_bygg, sum(b.bruksareal) AS sum_areal
+FROM st_read('bygg.gpkg') b JOIN st_read('grunnkrets.gpkg') g ON ST_Within(b.geom, g.geom)
+GROUP BY g.grunnkretsnummer;
+SELECT kommunenummer, ST_Union_Agg(geom) AS geom FROM st_read('grunnkrets.gpkg') GROUP BY kommunenummer;
+
+-- 6 Overlay: andel av hver eiendom i faresonen
+SELECT e.gnr_bnr, ST_Area(ST_Intersection(e.geom, f.geom)) / ST_Area(e.geom) AS andel
+FROM st_read('eiendom.gpkg') e JOIN st_read('faresone.gpkg') f ON ST_Intersects(e.geom, f.geom);</code></pre>
+<h4>Python (geopandas)</h4>
+<pre><code>import geopandas as gpd
+bygg = gpd.read_file("bygg.gpkg"); vassdrag = gpd.read_file("vassdrag.gpkg")
+kommuner = gpd.read_file("kommuner.gpkg"); brann = gpd.read_file("brannstasjon.gpkg")
+grunnkrets = gpd.read_file("grunnkrets.gpkg")
+eiendom = gpd.read_file("eiendom.gpkg"); faresone = gpd.read_file("faresone.gpkg")
+print(bygg.crs)  # sjekk koordinatsystemet først
+
+buffer   = vassdrag.buffer(100)                                                # 1
+klipp    = gpd.clip(vassdrag, kommuner[kommuner.kommunenavn == "Kristiansand"]) # 2
+kobling  = gpd.sjoin(bygg, kommuner[["kommunenavn", "geometry"]], predicate="within")  # 3
+naermeste = gpd.sjoin_nearest(bygg, brann[["navn", "geometry"]], distance_col="meter") # 4
+per_krets = (gpd.sjoin(bygg, grunnkrets, predicate="within")                  # 5
+             .groupby("grunnkretsnummer")
+             .agg(antall_bygg=("bygg_id", "size"), sum_areal=("bruksareal", "sum")))
+kommuner_av_krets = grunnkrets.dissolve(by="kommunenummer")                    # 5 dissolve
+overlay = gpd.overlay(eiendom, faresone, how="intersection")                   # 6</code></pre>
+<h4>Kommandolinje (ogr2ogr; best til buffer, klipp, dissolve)</h4>
+<pre><code>ogrinfo -so kommuner.gpkg kommuner      # geometrikolonne og CRS
+
+ogr2ogr -f GPKG buffer.gpkg vassdrag.gpkg -dialect sqlite \
+  -sql "SELECT navn, ST_Buffer(geom, 100) AS geom FROM vassdrag"
+
+ogr2ogr -f GPKG klippet.gpkg vassdrag.gpkg -clipsrc kommuner.gpkg \
+  -clipsrclayer kommuner -clipsrcwhere "kommunenavn = 'Kristiansand'"
+
+ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
+  -sql "SELECT kommunenummer, ST_Union(geom) AS geom FROM grunnkrets GROUP BY kommunenummer"</code></pre>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Geografiske operasjoner». Videre: QGIS Training Manual: Vector Analysis, GeoPandas set operations, DuckDB spatial-funksjoner, Essentials of GIS: Geospatial Analysis I.</div>
+
+<!-- ======================================================= -->
+<h2 id="k11">11. Ruteberegning</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Luftlinje er sjelden nok. Ruteberegning regner på et nettverk (graf) av noder og kanter med kostnad.</li>
+<li>Viktige begreper: korteste vei (Dijkstra, A*), isokron, avstandsmatrise, ruteoptimalisering (VRP).</li>
+<li>Norsk vegdata: NVDB. De fleste åpne rutemotorer bruker OpenStreetMap. Start gjerne med OpenRouteService.</li>
+</ul></div>
+<div class="tablewrap"><table>
+<tr><th>Begrep</th><th>Betyr</th></tr>
+<tr><td>Graf</td><td>Vegnettet som noder (kryss) og kanter (veistrekninger) med kostnad (tid/lengde)</td></tr>
+<tr><td>Korteste vei</td><td>Rute med lavest samlet kostnad (Dijkstra, A*). Raskeste og korteste er ikke alltid samme rute.</td></tr>
+<tr><td>Isokron</td><td>Området du rekker innen f.eks. 15 minutter fra et punkt</td></tr>
+<tr><td>Avstandsmatrise</td><td>Reisetid/avstand mellom mange punkter samtidig</td></tr>
+<tr><td>Ruteoptimalisering (VRP)</td><td>Beste rekkefølge på stopp for ett eller flere kjøretøy</td></tr>
+</table></div>
+
+<figure><svg class="fig" viewBox="0 0 700 285" role="img" aria-label="<b>Vegnett som graf.</b> Rutemotorer finner veien med lavest samlet kostnad (Dij" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><line class="" x1="50" y1="150" x2="170" y2="60" stroke="#e8590c" stroke-width="4"/><text class="m" x="114.0" y="99.0">4</text><line class="" x1="50" y1="150" x2="190" y2="190" stroke="var(--muted)" stroke-width="1.6"/><text class="m" x="124.0" y="164.0">3</text><line class="" x1="170" y1="60" x2="330" y2="100" stroke="#e8590c" stroke-width="4"/><text class="m" x="254.0" y="74.0">5</text><line class="" x1="190" y1="190" x2="330" y2="100" stroke="var(--muted)" stroke-width="1.6"/><text class="m" x="264.0" y="139.0">6</text><line class="" x1="190" y1="190" x2="350" y2="220" stroke="var(--muted)" stroke-width="1.6"/><text class="m" x="274.0" y="199.0">4</text><line class="" x1="330" y1="100" x2="500" y2="140" stroke="#e8590c" stroke-width="4"/><text class="m" x="419.0" y="114.0">4</text><line class="" x1="350" y1="220" x2="500" y2="140" stroke="var(--muted)" stroke-width="1.6"/><text class="m" x="429.0" y="174.0">7</text><line class="" x1="500" y1="140" x2="620" y2="80" stroke="var(--muted)" stroke-width="1.6"/><text class="m" x="564.0" y="104.0">3</text><line class="" x1="500" y1="140" x2="620" y2="200" stroke="#e8590c" stroke-width="4"/><text class="m" x="564.0" y="164.0">3</text><line class="" x1="330" y1="100" x2="620" y2="80" stroke="var(--muted)" stroke-width="1.6"/><text class="m" x="479.0" y="84.0">9</text><circle class="hot" cx="50" cy="150" r="15"/><text x="50" y="155" text-anchor="middle" style="fill:#fff;font-weight:700">A</text><circle class="hot" cx="170" cy="60" r="15"/><text x="170" y="65" text-anchor="middle" style="fill:#fff;font-weight:700">B</text><circle class="acc" cx="190" cy="190" r="15"/><text x="190" y="195" text-anchor="middle" style="fill:#fff;font-weight:700">C</text><circle class="hot" cx="330" cy="100" r="15"/><text x="330" y="105" text-anchor="middle" style="fill:#fff;font-weight:700">D</text><circle class="acc" cx="350" cy="220" r="15"/><text x="350" y="225" text-anchor="middle" style="fill:#fff;font-weight:700">E</text><circle class="hot" cx="500" cy="140" r="15"/><text x="500" y="145" text-anchor="middle" style="fill:#fff;font-weight:700">F</text><circle class="acc" cx="620" cy="80" r="15"/><text x="620" y="85" text-anchor="middle" style="fill:#fff;font-weight:700">G</text><circle class="hot" cx="620" cy="200" r="15"/><text x="620" y="205" text-anchor="middle" style="fill:#fff;font-weight:700">H</text><text class="m" x="10" y="20">kryss = noder, veistrekninger = kanter, tall = kostnad (minutter)</text><text class="m" x="10" y="270">Korteste vei A → H (oransje): kostnad 4+5+4+3 = 16. Alternativet via C og E koster 3+4+7+3 = 17.</text></svg><figcaption><b>Figur 16.</b> <b>Vegnett som graf.</b> Rutemotorer finner veien med lavest samlet kostnad (Dijkstra, A*). Endres kostnaden fra lengde til tid, kan den beste ruten bli en annen.</figcaption></figure>
+<p>Norske vegnettsdata kommer fra Nasjonal vegdatabank (NVDB), bl.a. Forenklet Elveg 2.0 og NVDB rutedatasett.</p>
+<div class="tablewrap"><table>
+<tr><th>Tjeneste / bibliotek</th><th>Type og lisens</th><th>Passer til</th></tr>
+<tr><td>OpenRouteService</td><td>Åpen web-API (HeiGIT), kan driftes selv; gratis plan med nøkkel</td><td>Ruter, isokroner, matriser, optimalisering; QGIS-plugin (ORS Tools)</td></tr>
+<tr><td>OSRM</td><td>Åpen, egen drift</td><td>Mange raske ruter og matriser på OSM</td></tr>
+<tr><td>Valhalla</td><td>Åpen</td><td>Mange transportmåter, isokroner</td></tr>
+<tr><td>GraphHopper</td><td>Åpen kjerne + betalt tjeneste</td><td>Ruter og optimalisering</td></tr>
+<tr><td>pgRouting</td><td>PostGIS-utvidelse</td><td>Ruting med SQL i databasen</td></tr>
+<tr><td>OSMnx og NetworkX</td><td>Python</td><td>Nettverksanalyse i notebooks</td></tr>
+<tr><td>QGIS nettverksanalyse</td><td>Innebygd</td><td>Engangsanalyser (korteste vei, serviceområde)</td></tr>
+<tr><td>OpenTripPlanner</td><td>Åpen</td><td>Kollektivreiser (GTFS + OSM); Entur har åpent API</td></tr>
+<tr><td>Google, Mapbox, HERE, Esri</td><td>Kommersielle, betaling per forespørsel</td><td>Produksjon med trafikkdata og avtalt driftsnivå</td></tr>
+</table></div>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Geografiske operasjoner» (fordypning: ruteberegning). Øvelse: beregn en 15-minutters isokron med bil og sykkel på maps.openrouteservice.org og forklar forskjellen.</div>
+
+<!-- ======================================================= -->
+<h2 id="k12">12. Verktøylandskapet</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Fem kategorier: desktop-GIS, web-GIS/plattformer, kartservere, databaser, kommandolinje og biblioteker. De overlapper.</li>
+<li>Velg kategori ut fra oppgaven. Tre spørsmål: hvor store er dataene, hvor ofte skal det gjøres, hvem skal bruke resultatet?</li>
+<li>Velg det enkleste verktøyet som løser oppgaven. Åpen kildekode ≠ gratis drift.</li>
+</ul></div>
+
+<h3>12.1 Velg kategori ut fra oppgaven</h3>
+<div class="tablewrap"><table>
+<tr><th>Jeg vil …</th><th>Start med</th><th>Fordi</th></tr>
+<tr><td>undersøke et ukjent datasett visuelt</td><td>Desktop-GIS</td><td>Raskt og visuelt, uten kode</td></tr>
+<tr><td>lage et kart å dele</td><td>Web-GIS-plattform</td><td>Enkel deling via web</td></tr>
+<tr><td>gjøre data tilgjengelig som tjeneste</td><td>Kartserver</td><td>Standardiserte grensesnitt</td></tr>
+<tr><td>kjøre samme analyse på millioner av objekter eller gjenta den ukentlig</td><td>Database (SQL)</td><td>Skalerer, spørringen dokumenterer analysen</td></tr>
+<tr><td>konvertere mange filer / automatisere</td><td>Kommandolinje (GDAL)</td><td>Kan gjentas og skriptes</td></tr>
+<tr><td>lage egen kartapp</td><td>JavaScript-bibliotek (MapLibre)</td><td>Full kontroll</td></tr>
+<tr><td>analysere stedfestede data sammen med tabeller og statistikk</td><td>Python (geopandas, DuckDB)</td><td>Kombineres med øvrig dataanalyse</td></tr>
+</table></div>
+<p><strong>Tre spørsmål:</strong> (1) <em>Størrelse</em>: tusenvis av objekter går i nesten alt, millioner peker mot database eller GeoParquet. (2) <em>Hyppighet</em>: én gang = klikk i GIS, gjentatt = skript/SQL. (3) <em>Brukere</em>: bare deg, kolleger eller bredt publikum?</p>
+
+<h3>12.2 Desktop-GIS</h3>
+<div class="tablewrap"><table>
+<tr><th>Programvare</th><th>Lisens</th><th>Hovedbruk</th></tr>
+<tr><td>QGIS</td><td>Åpen (GPL)</td><td>Fullverdig GIS med plugins og Python. Kursets standardverktøy.</td></tr>
+<tr><td>ArcGIS Pro</td><td>Kommersiell (Esri)</td><td>Esri-økosystemet. I Norge selges og støttes av Geodata AS.</td></tr>
+<tr><td>Norkart GISLINE</td><td>Kommersiell</td><td>Kommunal kart- og planforvaltning, ofte koblet til Matrikkelen</td></tr>
+<tr><td>Norconsult WinMap</td><td>Kommersiell</td><td>Teknisk infrastruktur (vann/avløp, veg, eiendom)</td></tr>
+<tr><td>AutoCAD Map 3D</td><td>Kommersiell (Autodesk)</td><td>CAD-basert GIS</td></tr>
+</table></div>
+
+<h3>12.3 Web-GIS og kartplattformer</h3>
+<div class="tablewrap"><table>
+<tr><th>Programvare</th><th>Lisens</th><th>Hovedbruk</th></tr>
+<tr><td>GeoLibre</td><td>Åpen</td><td>Nettleserbasert GIS; leser skybaserte formater og kjører spatial SQL i nettleseren</td></tr>
+<tr><td>ArcGIS Online</td><td>Kommersiell</td><td>Kart, apper og dashboards uten egen serverdrift</td></tr>
+<tr><td>Felt</td><td>Kommersiell, gratisnivå</td><td>Samarbeidskart</td></tr>
+<tr><td>Mapbox</td><td>Kommersiell, gratisnivå</td><td>Utviklerplattform: fliser, stiler, søk, ruting</td></tr>
+<tr><td>CARTO</td><td>Kommersiell</td><td>Analyse/visualisering oppå skydatabaser (BigQuery, Snowflake, Databricks)</td></tr>
+<tr><td>Kepler.gl</td><td>Åpen (MIT)</td><td>Store punkt- og bevegelsesdata i nettleseren</td></tr>
+</table></div>
+
+<h3>12.4 Kartservere og tjenester</h3>
+<div class="tablewrap"><table>
+<tr><th>Programvare</th><th>Lisens</th><th>Hovedbruk</th></tr>
+<tr><td>GeoServer</td><td>GPL</td><td>Java-kartserver; WMS, WFS, WCS, WMTS fra filer og databaser</td></tr>
+<tr><td>MapServer</td><td>MIT-stil</td><td>Rask kartserver (C), tekstfilkonfig; WMS og WFS</td></tr>
+<tr><td>QGIS Server</td><td>GPL</td><td>Publiserer QGIS-prosjekt som WMS/WFS/OGC API med samme symbolikk</td></tr>
+<tr><td>MapProxy</td><td>Apache</td><td>Cache/proxy foran andre tjenester; gjør en treg WMS rask som WMTS</td></tr>
+<tr><td>pygeoapi</td><td>MIT</td><td>Python-server for OGC API (Features, Tiles, Records, Processes)</td></tr>
+<tr><td>pg_featureserv / pg_tileserv</td><td>Apache</td><td>PostGIS-tabell til OGC API Features / vektorfliser</td></tr>
+<tr><td>Martin</td><td>Apache</td><td>Vektorfliser fra PostGIS, PMTiles, MBTiles</td></tr>
+<tr><td>TiTiler</td><td>MIT</td><td>Rasterfliser on-demand fra COG</td></tr>
+<tr><td>ArcGIS Enterprise</td><td>Kommersiell</td><td>Esris serverplattform for egen drift</td></tr>
+</table></div>
+
+<h3>12.5 Slik velger du</h3>
+<ul>
+<li>Åpen kildekode er ikke det samme som gratis drift: du sparer lisens, men betaler med tid til installasjon, oppdatering og sikkerhet.</li>
+<li>Kommersielle plattformer gir mindre drift og støtte, men binder deg til en leverandør. Sjekk prisnivå og hvilke formater du kan ta med ut igjen.</li>
+<li>Mange norske virksomheter har allerede en plattform (Geodata AS/Esri, Norkart). Undersøk hva dere har før dere velger nytt.</li>
+</ul>
+<p><em>Priser og funksjoner endres; Canvas-siden er sist kontrollert oktober 2026.</em></p>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Verktøylandskapet» og «Desktop, web og serverprogramvare». Videre: QGIS User Guide, GeoLibre Tutorials, OSGeo Software projects, GeoServer-/QGIS Server-/pygeoapi-dokumentasjon, Awesome Geospatial.</div>
+
+<!-- ======================================================= -->
+<h2 id="k13">13. Kommandolinje og biblioteker</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Kode og kommandolinje gjør arbeid repeterbart, delbart og kvalitetssikret. Her er KI-agenter mest nyttige.</li>
+<li>GDAL (<code>ogr2ogr</code>, <code>gdal_translate</code>, <code>gdalwarp</code>) ligger under de fleste GIS-verktøy.</li>
+<li>Python: geopandas, shapely, pyproj, rasterio, duckdb. JavaScript: MapLibre GL JS, Leaflet, OpenLayers, Turf.js.</li>
+<li><code>uv</code> lar deg kjøre Python-eksempler uten å sette opp miljø.</li>
+</ul></div>
+<p><em>Merk: Canvas-siden «CLI og biblioteker» er fortsatt merket som kladd.</em></p>
+
+<h3>13.1 GDAL og ogr2ogr</h3>
+<div class="tablewrap"><table>
+<tr><th>Oppgave</th><th>Kommando</th></tr>
+<tr><td>Se hva som ligger i en fil</td><td><code>ogrinfo -so -al kommuner.gpkg</code></td></tr>
+<tr><td>Konvertere format</td><td><code>ogr2ogr kommuner.geojson kommuner.gpkg</code></td></tr>
+<tr><td>Reprojisere</td><td><code>ogr2ogr -t_srs EPSG:4326 bygg_4326.gpkg bygg.gpkg</code></td></tr>
+<tr><td>Filtrere på attributt</td><td><code>ogr2ogr -where "bruksareal &gt; 300" store_bygg.gpkg bygg.gpkg</code></td></tr>
+<tr><td>Rektangulært utsnitt</td><td><code>ogr2ogr -spat 80000 6460000 90000 6470000 utsnitt.gpkg bygg.gpkg</code></td></tr>
+<tr><td>FlatGeobuf for web</td><td><code>ogr2ogr bygg.fgb bygg.gpkg</code></td></tr>
+<tr><td>Laste inn i PostGIS</td><td><code>ogr2ogr -f PostgreSQL PG:"dbname=gis user=bruker" bygg.gpkg -nln bygg</code></td></tr>
+<tr><td>Raster til COG</td><td><code>gdal_translate -of COG inn.tif ut.tif</code></td></tr>
+<tr><td>Reprojisere raster</td><td><code>gdalwarp -t_srs EPSG:25833 inn.tif ut.tif</code></td></tr>
+</table></div>
+<p>Fra GDAL 3.11 finnes også en samlet kommando (<code>gdal vector convert</code>, <code>gdal raster info</code>). På Windows brukes OSGeo4W Shell (følger med QGIS), på Mac <code>brew install gdal</code>.</p>
+
+<h3>13.2 Andre kommandolinjeverktøy</h3>
+<ul>
+<li><strong>PROJ</strong> (<code>projinfo</code>, <code>cs2cs</code>): slå opp og transformere koordinatsystemer.</li>
+<li><strong>DuckDB</strong>: SQL på filer, som CLI eller bibliotek.</li>
+<li><strong>osm2pgsql</strong>: OSM inn i PostGIS. <strong>osmium</strong>: filtrere/klippe OSM-filer.</li>
+<li><strong>tippecanoe</strong> og <strong>pmtiles</strong>: lage vektorfliser og PMTiles.</li>
+<li><strong>qgis_process</strong>: kjøre QGIS-analyser fra terminalen.</li>
+</ul>
+
+<h3>13.3 Python-biblioteker</h3>
+<div class="tablewrap"><table>
+<tr><th>Bibliotek</th><th>Hva</th><th>Typisk bruk</th></tr>
+<tr><td>geopandas</td><td>Tabeller med geometri (pandas)</td><td>Lese, analysere, skrive; dekker alle seks operasjoner</td></tr>
+<tr><td>shapely</td><td>Geometrier og -operasjoner</td><td>Buffer, skjæring, avstand</td></tr>
+<tr><td>pyproj</td><td>Koordinatsystemer</td><td>Reprojisere</td></tr>
+<tr><td>pyogrio</td><td>Rask lesing/skriving via GDAL</td><td>Store filer</td></tr>
+<tr><td>rasterio</td><td>Raster</td><td>GeoTIFF, COG, høydemodeller</td></tr>
+<tr><td>duckdb</td><td>SQL på geodata</td><td>GeoParquet og GeoPackage</td></tr>
+<tr><td>h3</td><td>Heksagonalt rutenett</td><td>Aggregere punkter til like celler</td></tr>
+<tr><td>osmnx</td><td>Vegnett og bygg fra OSM</td><td>Nettverksanalyse</td></tr>
+<tr><td>leafmap</td><td>Interaktive kart i notebooks</td><td>Vise data mens du analyserer</td></tr>
+</table></div>
+
+<h3>13.4 JavaScript-biblioteker</h3>
+<div class="tablewrap"><table>
+<tr><th>Bibliotek</th><th>Hva / bruk</th></tr>
+<tr><td>MapLibre GL JS</td><td>Åpen vektorkart med WebGL; moderne, raske kartapper</td></tr>
+<tr><td>OpenLayers</td><td>Fullverdig; WMS, WMTS, WFS, mange koordinatsystemer</td></tr>
+<tr><td>Leaflet</td><td>Enkelt og lett; markører og GeoJSON</td></tr>
+<tr><td>Turf.js</td><td>Geografisk analyse i nettleseren (buffer, skjæring, nærmeste punkt)</td></tr>
+<tr><td>proj4js</td><td>Koordinatomregning i nettleseren</td></tr>
+<tr><td>deck.gl</td><td>WebGL for store datasett</td></tr>
+<tr><td>DuckDB-WASM</td><td>DuckDB i nettleseren; SQL på GeoParquet uten backend</td></tr>
+</table></div>
+<p>Nettleseren laster ikke moduler fra <code>file://</code>, så kartsider med <code>import</code> må åpnes via lokal server: <code>uv run python -m http.server 8000</code>.</p>
+
+<h3>13.5 Kom i gang uten oppsett: uv</h3>
+<pre><code>uv run --with geopandas --with pyogrio python eksempel.py
+uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').show()"</code></pre>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «CLI og biblioteker (kladd)». Videre: GDAL ogr2ogr, GeoPandas Getting started, Geographic Data Science with Python (Rey, Arribas-Bel, Wolf), uv-dokumentasjon, MapLibre GL JS-dokumentasjon.</div>
+
+<!-- ======================================================= -->
+<h2 id="k14">14. Arkitekturer og stack-valg</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Fire mønstre: frontend-only, frontend + backend-API (+ PostGIS), 3-lags med kartserver, og caching/tile-pyramider.</li>
+<li>Hovedregel: velg det enkleste mønsteret som løser oppgaven. Mønstrene kan kombineres.</li>
+<li>Frontend-only er ikke «uten backend»: du er klient i andres 3-lags arkitektur. Alt er offentlig, så aldri hemmelige nøkler.</li>
+<li>Én HTML-fil eller kompilert løsning? Behov for å skrive data, skjule noe eller styre tilgang krever backend.</li>
+</ul></div>
+
+<h3>14.1 Fire mønstre</h3>
+<div class="tablewrap"><table>
+<tr><th>Mønster</th><th>Skisse</th><th>Passer når</th><th>Passer ikke når</th><th>Eksempel</th></tr>
+<tr><td>1. Frontend-only</td><td>Nettleser → andres tjenester / egne statiske filer</td><td>Åpne data, prototyper, enkel publisering uten drift</td><td>Du må skrive data, holde noe hemmelig, styre tilgang</td><td>Frontend-only kartapp</td></tr>
+<tr><td>2. Frontend + API (+ PostGIS)</td><td>Nettleser → API → database</td><td>Data som endres, egne spørringer, skjule nøkler/passord</td><td>Statiske filer holder</td><td>postgis-sql-api</td></tr>
+<tr><td>3. 3-lags med kartserver</td><td>Klient → kartserver → database/filer</td><td>Mange ulike klienter via standardtjenester</td><td>Liten app for få brukere</td><td>Geonorge, GeoServer + PostGIS</td></tr>
+<tr><td>4. Caching og tile-pyramider</td><td>Nettleser → cache/CDN → kartserver/fliser</td><td>Mange brukere, tunge kart, data endres sjelden</td><td>Data endres hele tiden / unike spørringer</td><td>Kartverkets fliser, PMTiles</td></tr>
+</table></div>
+
+<h4>1. Frontend-only</h4>
+<p><strong>Variant a:</strong> appen bruker andres tjenester (Kartverket, Geonorge, OSM) – du er klient i deres 3-lags arkitektur. <strong>Variant b (cloud native):</strong> egne filer (PMTiles, COG, GeoParquet) på statisk lagring leses direkte. <em>Pris:</em> alt er offentlig (nøkler i kode kan leses av alle), og i variant a er du avhengig av at andre holder tjenestene oppe og beholder vilkårene.</p>
+<div class="demo"><span class="t">Demo i repoet</span><a href="../Frontend-only kartapp/index.html">Frontend-only kartapp</a>: én HTML-fil med kartfliser, et WMS-lag og oppslag på stedsnavn, kommune og høyde fra Kartverket, Miljødirektoratet, OSM og Geonorge. Bruker ES-moduler, så åpnes via lokal server.</div>
+
+
+<figure><img class="ramme" src="bilder/demo-frontend-only.jpg" alt="Frontend-only kartapp med Kartverket-kart og oppslag etter klikk"><figcaption><b>Figur 17.</b> Frontend-only kartapp etter et klikk i kartet. Panelet viser URL-ene appen kalte (Geonorges høydedata og kommuneinfo): nettleseren er klient i andres tjenester.</figcaption></figure>
+<h4>2. Frontend + backend-API + PostGIS</h4>
+<p>Et API tar imot forespørsler, spør PostGIS og returnerer f.eks. GeoJSON. Nettleseren får aldri databasepassordet. I virkelige løsninger lages faste endepunkter (<code>/skoler?kommune=4204</code>) eller ferdige verktøy som pg_featureserv eller Supabase. Å sende fri SQL fra nettleseren er kun egnet i undervisning med en lesebruker.</p>
+<h4>3. 3-lags med kartserver</h4>
+<p>Presentasjon, logikk og data i hvert sitt lag. Standardtjenester (WMS, WFS, OGC API) lar mange klienter (nettleser, QGIS, andre systemer) bruke samme tjeneste. Slik er Geonorges tjenester bygget. Kostnad: du må selv drifte, oppdatere og sikre serveren.</p>
+<h4>4. Caching og tile-pyramider</h4>
+<p>Ferdige fliser for alle zoomnivåer (en pyramide) i cache eller CDN slipper serveren å tegne på nytt. Raskt og billig, men best når dataene sjelden endres. Legges som regel oppå mønster 2 eller 3.</p>
+
+
+<figure><svg class="fig" viewBox="0 0 740 262" role="img" aria-label="<b>Fire arkitekturmønstre.</b> Pilene viser hvem som spør hvem. Mønstrene kan ko" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><text class="h" x="10" y="34">1. Frontend-only</text><rect class="accs" x="190" y="15" width="150" height="38" rx="5"/><text class="h" x="265.0" y="32" text-anchor="middle">Nettleser</text><text class="m" x="265.0" y="46" text-anchor="middle" style="font-size:11px">HTML + JS</text><line class="ar" x1="342" y1="34" x2="388" y2="34"/><rect class="accs" x="390" y="15" width="150" height="38" rx="5"/><text class="h" x="465.0" y="32" text-anchor="middle">Andres tjenester</text><text class="m" x="465.0" y="46" text-anchor="middle" style="font-size:11px">eller egne statiske filer</text><text class="h" x="10" y="96">2. Frontend + API</text><rect class="accs" x="190" y="77" width="150" height="38" rx="5"/><text class="h" x="265.0" y="94" text-anchor="middle">Nettleser</text><line class="ar" x1="342" y1="96" x2="388" y2="96"/><rect class="accs" x="390" y="77" width="150" height="38" rx="5"/><text class="h" x="465.0" y="94" text-anchor="middle">API</text><text class="m" x="465.0" y="108" text-anchor="middle" style="font-size:11px">Node, Python, edge</text><line class="ar" x1="542" y1="96" x2="588" y2="96"/><rect class="accs" x="590" y="77" width="150" height="38" rx="5"/><text class="h" x="665.0" y="94" text-anchor="middle">PostGIS</text><text class="m" x="665.0" y="108" text-anchor="middle" style="font-size:11px">database</text><text class="h" x="10" y="158">3. 3-lags kartserver</text><rect class="accs" x="190" y="139" width="150" height="38" rx="5"/><text class="h" x="265.0" y="156" text-anchor="middle">Klient</text><text class="m" x="265.0" y="170" text-anchor="middle" style="font-size:11px">nettleser, QGIS …</text><line class="ar" x1="342" y1="158" x2="388" y2="158"/><rect class="accs" x="390" y="139" width="150" height="38" rx="5"/><text class="h" x="465.0" y="156" text-anchor="middle">Kartserver</text><text class="m" x="465.0" y="170" text-anchor="middle" style="font-size:11px">GeoServer, pygeoapi</text><line class="ar" x1="542" y1="158" x2="588" y2="158"/><rect class="accs" x="590" y="139" width="150" height="38" rx="5"/><text class="h" x="665.0" y="156" text-anchor="middle">Data</text><text class="m" x="665.0" y="170" text-anchor="middle" style="font-size:11px">PostGIS, GeoPackage</text><text class="h" x="10" y="220">4. Cache / tiles</text><rect class="accs" x="190" y="201" width="150" height="38" rx="5"/><text class="h" x="265.0" y="218" text-anchor="middle">Nettleser</text><line class="ar" x1="342" y1="220" x2="388" y2="220"/><rect class="accs" x="390" y="201" width="150" height="38" rx="5"/><text class="h" x="465.0" y="218" text-anchor="middle">Cache / CDN</text><text class="m" x="465.0" y="232" text-anchor="middle" style="font-size:11px">MapProxy, PMTiles</text><line class="ar" x1="542" y1="220" x2="588" y2="220"/><rect class="accs" x="590" y="201" width="150" height="38" rx="5"/><text class="h" x="665.0" y="218" text-anchor="middle">Kartserver / fliser</text></svg><figcaption><b>Figur 18.</b> <b>Fire arkitekturmønstre.</b> Pilene viser hvem som spør hvem. Mønstrene kan kombineres, for eksempel frontend + API + PostGIS med cache foran.</figcaption></figure>
+<h3>14.2 Velg arkitektur</h3>
+<div class="tablewrap"><table>
+<tr><th>Spørsmål</th><th>Peker mot</th></tr>
+<tr><td>Åpne data som sjelden endres?</td><td>Frontend-only (evt. cloud native)</td></tr>
+<tr><td>Må noen endre data, eller noe holdes hemmelig?</td><td>Frontend + backend-API</td></tr>
+<tr><td>Skal mange ulike systemer bruke tjenesten?</td><td>3-lags med standardtjenester</td></tr>
+<tr><td>Mange brukere eller tunge kart?</td><td>Legg til caching</td></tr>
+</table></div>
+
+<h3>14.3 Stack-valg når en agent skal bygge</h3>
+<div class="tablewrap"><table>
+<tr><th>Kriterium</th><th>Frontend + backend (kompilert)</th><th>Én HTML-fil</th></tr>
+<tr><td>Deploy</td><td>Bygg-steg og server/container</td><td>Kopier filen til statisk vert</td></tr>
+<tr><td>Vedlikehold</td><td>Mange avhengigheter</td><td>Få avhengigheter, all kode i én fil</td></tr>
+<tr><td>Sikkerhet</td><td>Nøkler/passord kan holdes på server</td><td>Alt synlig; aldri hemmelige nøkler</td></tr>
+<tr><td>Datamengde</td><td>Store data via database</td><td>Små data eller skybaserte formater</td></tr>
+<tr><td>Hvem kan endre koden?</td><td>Utviklere</td><td>Alle som kan lese HTML, også agenten</td></tr>
+</table></div>
+<p>Den enkleste løsningen som oppfyller kravene vinner. Så snart du trenger å skrive data, skjule en nøkkel eller styre tilgang, trenger du backend.</p>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «Arkitekturer» og «KI-agenter og stack-valg». Videre: MapLibre «Add a WMS source», Cloud-Native Geospatial: guide, postgis-sql-api og supabase_geojson_sqlapi (GitHub), PMTiles-dokumentasjon.</div>
+
+<!-- ======================================================= -->
+<h2 id="k15">15. KI-agenter og geografisk IT</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>En KI-agent er en språkmodell som resonnerer, bruker verktøy og jobber i en løkke: planlegge, handle, observere, justere.</li>
+<li>Agenter kan lite på egen hånd: feil CRS, lange feilkjeder og hallusinering er typiske fallgruver.</li>
+<li>Fire nivåer for å gi agenten mer: prompt engineering → instruksjoner → skills → MCP.</li>
+<li>Agenten er en rask praktikant: du må kunne kontrollere resultatet.</li>
+</ul></div>
+
+<h3>15.1 Hva er en KI-agent?</h3>
+<p>En KI-agent er en språkmodell (LLM) som kan resonnere, bruke verktøy og jobbe i en løkke: <strong>1) resonnering</strong> («hva trenger jeg?»), <strong>2) verktøykall</strong> (kjør kode, kall API eller MCP-server), <strong>3) observasjon</strong> (resultat eller feilmelding). Resultatet går tilbake til modellen til oppgaven er løst. Hver runde gir ny informasjon, så agenten kan oppdage og rette egne feil, men en feil tidlig i løkken kan også forplante seg.</p>
+<p><em>Eksempel:</em> «Jeg trenger kommunegrensene» → agenten henter fra Geonorge og leser inn med geopandas → resultatet viser at CRS mangler → neste runde: sjekk og sett CRS.</p>
+
+
+<figure><svg class="fig" viewBox="0 0 720 245" role="img" aria-label="<b>Agent-løkken.</b> Hver runde gir modellen ny informasjon, slik at agenten kan" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="95" width="130" height="50" rx="6"/><text class="h" x="75" y="124" text-anchor="middle">Oppgave</text><rect class="accs" x="200" y="20" width="170" height="54" rx="6"/><text class="h" x="285" y="44" text-anchor="middle">1. Resonnering</text><text class="m" x="285" y="62" text-anchor="middle">LLM: hva er neste steg?</text><rect class="accs" x="420" y="95" width="170" height="54" rx="6"/><text class="h" x="505" y="119" text-anchor="middle">2. Verktøykall</text><text class="m" x="505" y="137" text-anchor="middle">kode, API, MCP</text><rect class="accs" x="200" y="170" width="170" height="54" rx="6"/><text class="h" x="285" y="194" text-anchor="middle">3. Observasjon</text><text class="m" x="285" y="212" text-anchor="middle">resultat / feilmelding</text><path class="ar" d="M144,112 L196,60"/><path class="ar" d="M374,56 L416,100"/><path class="ar" d="M452,152 L372,190"/><path class="ar" d="M196,200 C150,200 150,120 196,70" /><rect class="box" x="640" y="95" width="70" height="50" rx="6"/><text class="h" x="675" y="124" text-anchor="middle">Svar</text><line class="ar" x1="594" y1="120" x2="636" y2="120"/><text class="m" x="500" y="215" text-anchor="middle">Løkken gjentas til oppgaven er løst. Feil tidlig i løkken forplanter seg.</text></svg><figcaption><b>Figur 19.</b> <b>Agent-løkken.</b> Hver runde gir modellen ny informasjon, slik at agenten kan oppdage og rette feil, men en tidlig feil kan også følge med hele veien.</figcaption></figure>
+<h3>15.2 Hva agenter er gode på, og hvor det går galt</h3>
+<div class="tablewrap"><table>
+<tr><th>Godt egnet</th><th>Typiske feil</th></tr>
+<tr><td>Skrive og forklare spatial SQL</td><td>Koordinatsystem: buffer i grader i stedet for meter; blanding av 4326 og UTM</td></tr>
+<tr><td>GDAL-kommandoer og små geopandas-skript</td><td>Oppdiktede lag og kolonner</td></tr>
+<tr><td>Prototype en kartapp raskt</td><td>Utdaterte API-er (kode mot eldre bibliotekversjon)</td></tr>
+<tr><td>Konvertere og rydde data</td><td>Stille feil: kjører uten feilmelding, men resultatet er feil</td></tr>
+<tr><td>Forklare ukjent kode og feilmeldinger</td><td>Overdesign: tre lag og rammeverk der én HTML-fil holdt</td></tr>
+</table></div>
+<p>Eksempel: MapLibre GL JS fra versjon 6 finnes bare som ES-modul. Agenter trent på eldre eksempler skriver ofte <code>&lt;script src="maplibre-gl.js"&gt;</code>, og kartet vises aldri.</p>
+<p>Forskere har laget tester for dette: <strong>GeoBenchX</strong> tester LLM-er på flertrinns GIS-oppgaver, inkludert oppgaver som ikke kan løses, for å se om modellen finner opp et svar (typiske feil: misforståtte geometriske forhold, utdatert kunnskap, ineffektiv databehandling). <strong>GeoHaluBench</strong> måler geografiske hallusinasjoner hos 20 modeller, og <strong>GISAgentBench</strong> bruker oppgaver fra praktisk GIS-arbeid.</p>
+<div class="demo"><span class="t">Fil i repoet</span><code>KI-hallusinering/gemma4-hallusinering.png</code> er et skjermbilde der modellen gemma4:31b-cloud får spørsmålet «Hvilke kommuner grenser til Kristiansand?» (en av utforskningsideene på Canvas). Modellen resonnerer om at Søgne ble slått sammen med Kristiansand i 2020, men svarer med bare Vennesla, Iveland, Birkenes og Lindesnes, og utelater blant annet Lillesand. Svaret høres troverdig ut, men må kontrolleres mot kartdata (f.eks. en romlig kobling mot kommunegrenser fra Geonorge).</div>
+
+
+<figure><img class="ramme" style="max-height:640px;width:auto" src="bilder/ki-hallusinering.png" alt="Chat der en språkmodell svarer på hvilke kommuner som grenser til Kristiansand"><figcaption><b>Figur 20.</b> Modellen svarer selvsikkert, men listen er ufullstendig (Lillesand mangler). Stille feil må fanges med kontroll mot data.</figcaption></figure>
+<h3>15.3 Fra prompt til MCP</h3>
+<p>Start nederst og bygg oppover når oppgaven krever det:</p>
+<div class="tablewrap"><table>
+<tr><th>Nivå</th><th>Hva</th><th>Geo-eksempel</th><th>Bruk når</th></tr>
+<tr><td>Prompt engineering</td><td>Formulering: rolle, kontekst, formatkrav, eksempler</td><td>«Lag et GeoJSON-punkt for Kristiansand i [lengdegrad, breddegrad] og forklar CRS.»</td><td>Enkeltoppgaver og utforsking</td></tr>
+<tr><td>Instruksjoner</td><td>Faste regler (systemprompt, <code>AGENTS.md</code>/<code>CLAUDE.md</code>)</td><td>«Svar på norsk. Bruk EPSG:25832/25833 for norske data. Si fra hvis du er usikker.»</td><td>Du gjentar de samme reglene</td></tr>
+<tr><td>Skills</td><td>Mappe med <code>SKILL.md</code> (+ skript/referanser) som lastes ved behov; åpent format (agentskills.io)</td><td>Fargeskala-skillen fra demoen «Fargeskalaer»</td><td>Fagkunnskap og arbeidsmetoder modellen mangler</td></tr>
+<tr><td>MCP</td><td>Model Context Protocol: åpen protokoll som kobler agenten til eksterne verktøy og data</td><td>Allemannsdata.com sin MCP-server for geografi og natur</td><td>Live data eller handlinger i andre systemer</td></tr>
+</table></div>
+
+
+<figure><svg class="fig" viewBox="0 0 600 220" role="img" aria-label="<b>Fire nivåer</b> for å gi en agent mer. Start nederst og bygg oppover bare når" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="accs" x="110.0" y="10" width="220" height="46" rx="6"/><text class="h" x="220" y="30" text-anchor="middle">MCP</text><text class="m" x="220" y="46" text-anchor="middle" style="font-size:11px">tilgang til verktøy og live data</text><rect class="box" x="75.0" y="62" width="290" height="46" rx="6"/><text class="h" x="220" y="82" text-anchor="middle">Skills</text><text class="m" x="220" y="98" text-anchor="middle" style="font-size:11px">fagkunnskap og arbeidsflyt</text><rect class="accs" x="40.0" y="114" width="360" height="46" rx="6"/><text class="h" x="220" y="134" text-anchor="middle">Instruksjoner</text><text class="m" x="220" y="150" text-anchor="middle" style="font-size:11px">faste regler og kontekst (AGENTS.md)</text><rect class="box" x="10.0" y="166" width="420" height="46" rx="6"/><text class="h" x="220" y="186" text-anchor="middle">Prompt engineering</text><text class="m" x="220" y="202" text-anchor="middle" style="font-size:11px">oppgaven du ber om her og nå</text><line class="ar" x1="470" y1="190" x2="470" y2="20"/><text class="m" x="480" y="110">mer kunnskap</text><text class="m" x="480" y="126">og muligheter</text><text class="m" x="480" y="190">start her</text></svg><figcaption><b>Figur 21.</b> <b>Fire nivåer</b> for å gi en agent mer. Start nederst og bygg oppover bare når oppgaven krever det.</figcaption></figure>
+<h4>Eksempel på en skill</h4>
+<pre><code>---
+name: norsk-geodata
+description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
+  Geonorge-tjenester eller tematiske kart.
+---
+# Regler
+- GeoJSON bruker alltid [lengdegrad, breddegrad].
+- Beregn avstand og areal i et projisert system (EPSG:25832/25833)
+  eller geodetisk. Aldri i grader.
+- Hent lagnavn og parametere fra GetCapabilities. Gjett aldri URL-er.
+- Hvis et datasett ikke finnes: si det, ikke finn på et svar.
+- Tematiske kart: normaliser verdiene og bruk en sekvensiell fargeskala.</code></pre>
+<p>Agenten ser først bare navn og beskrivelse og laster resten ved behov. Formatet ble opprinnelig utviklet av Anthropic og støttes av flere agentverktøy.</p>
+
+<h3>15.4 Slik styrer du en agent</h3>
+<ol>
+<li><strong>Gi kontekst</strong> i en instruksjonsfil (<code>AGENTS.md</code>/<code>CLAUDE.md</code>): versjoner, hva som ikke skal gjøres, hvordan resultatet testes. Eksempel fra MapLibre: «Kun ES-modul; pin eksakt versjon i CDN-URL; moduler lastes ikke fra file://; test at kartet laster (<code>map.on("load")</code>) før levering.»</li>
+<li><strong>Gi verktøy og kunnskap</strong>: skills og MCP-servere.</li>
+<li><strong>Krev verifisering</strong>: be agenten teste selv (kjøre koden, åpne kartet), og gjør egen kontroll: se på kartet, sjekk antall objekter, areal og koordinatsystem.</li>
+</ol>
+
+<h3>15.5 Superhelt eller praktikant?</h3>
+<p>Agenten er en rask og lærevillig praktikant. Den jobber raskt og er sjelden sliten, men tar ikke ansvar for resultatet. Du må kunne nok til å se når svaret er feil, og ha oversikt over datakvalitet og lisenser. Kunnskapen fra de foregående kapitlene (operasjoner, koordinatsystem, lagring, arkitektur, kvalitet) er det som gjør deg i stand til å gi gode oppdrag og kontrollere svarene. KI-bruk i emnet er tillatt og anbefalt, men skal dokumenteres i prosjektoppgaven.</p>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «KI-agenter og geografisk IT» og «KI-agenter og stack-valg». Videre: agentskills.io, Anthropic: Agent Skills og Prompt engineering, Model Context Protocol, Claude Code best practices, GeoBenchX, GISAgentBench, GeoHaluBench, Esri: MCP for ArcGIS Location Services, AGENTS.md. Demo: <a href="../Fargeskalaer for tematiske kart/index.html">Fargeskalaer</a> inneholder <code>Skill.md</code> og en zip-pakke.</div>
+
+<!-- ======================================================= -->
+<h2 id="glossar">Ordliste</h2>
+<dl class="gloss">
+<dt>AIS</dt><dd>Automatic Identification System; sendere skip bruker til å melde posisjon, fart og kurs.</dd>
+<dt>Aggregering</dt><dd>Telle/summere objekter per område eller slå områder sammen (dissolve).</dd>
+<dt>Attributt</dt><dd>Egenskap knyttet til et geografisk objekt, lagret i tabell.</dd>
+<dt>Bakgrunnskart</dt><dd>Ferdig stilt kart (raster eller vektortiler) som legges under egne data.</dd>
+<dt>Buffer</dt><dd>Sone av gitt avstand rundt et objekt.</dd>
+<dt>Choropleth</dt><dd>Tematisk kart der flater farges etter klasser.</dd>
+<dt>COG</dt><dd>Cloud Optimized GeoTIFF; raster som kan leses i utdrag via HTTP.</dd>
+<dt>Cloud native</dt><dd>Formater laget for å leses direkte fra objektlagring med range requests.</dd>
+<dt>CRS</dt><dd>Coordinate Reference System; koordinatsystem (datum + evt. projeksjon).</dd>
+<dt>CSW</dt><dd>Catalogue Service for the Web; OGC-tjeneste for metadatasøk.</dd>
+<dt>De-facto-standard</dt><dd>Utbredt praksis uten formell standardisering (XYZ-tiles, MVT, ArcGIS REST).</dd>
+<dt>Dissolve</dt><dd>Slå sammen flater som deler en attributtverdi.</dd>
+<dt>Dot density</dt><dd>Kart der hver prikk representerer et fast antall enheter.</dd>
+<dt>DuckDB</dt><dd>Innebygd analysedatabase med spatial-utvidelse.</dd>
+<dt>EPSG</dt><dd>Registeret over koordinatsystemkoder (f.eks. 4326, 25833).</dd>
+<dt>EUREF89</dt><dd>Norsk realisering av det europeiske referansesystemet ETRS89; grunnlag for UTM 32/33.</dd>
+<dt>FKB</dt><dd>Felles kartdatabase; detaljerte Geovekst-data (FKB-A til D).</dd>
+<dt>FlatGeobuf</dt><dd>Binært vektorformat med spatial indeks.</dd>
+<dt>GDAL / OGR</dt><dd>Bibliotek og verktøy for lesing og skriving av raster- og vektorformater.</dd>
+<dt>GeoJSON</dt><dd>JSON-basert vektorformat (RFC 7946), [lengdegrad, breddegrad].</dd>
+<dt>GeoPackage</dt><dd>OGC-standard fildatabase på SQLite (.gpkg).</dd>
+<dt>GeoParquet</dt><dd>Kolonnebasert format for vektordata, bygget på Parquet.</dd>
+<dt>Geonorge</dt><dd>Norges geodataportal og kartkatalog.</dd>
+<dt>Geovekst</dt><dd>Samarbeid om å etablere og forvalte geodata (FKB).</dd>
+<dt>Graf</dt><dd>Noder og kanter med kostnad; grunnlag for ruteberegning.</dd>
+<dt>Heatmap</dt><dd>Glatt tetthetsflate beregnet fra punkter (kernel density).</dd>
+<dt>Hallusinering</dt><dd>At en språkmodell finner opp fakta, datasett, URL-er eller lag som ikke finnes.</dd>
+<dt>Isokron</dt><dd>Område man rekker innen en gitt reisetid.</dd>
+<dt>ISO 19115 / 19157</dt><dd>Standarder for henholdsvis metadata og datakvalitet.</dd>
+<dt>Kartogram</dt><dd>Kart der geografi forvrenges eller forlates slik at størrelsen viser verdien (Dorling).</dd>
+<dt>Klasse / klassifisering</dt><dd>Inndeling av verdier i grupper (like intervaller, kvantiler, Jenks).</dd>
+<dt>MCP</dt><dd>Model Context Protocol; åpen protokoll som kobler KI-agenter til verktøy og data.</dd>
+<dt>Metadata</dt><dd>Data om data: innhold, opphav, kvalitet, lisens, CRS.</dd>
+<dt>MVT</dt><dd>Mapbox Vector Tiles; mest brukte vektortileformat.</dd>
+<dt>NLOD</dt><dd>Norsk lisens for offentlige data.</dd>
+<dt>NN2000</dt><dd>Gjeldende norsk høydesystem.</dd>
+<dt>NVDB</dt><dd>Nasjonal vegdatabank.</dd>
+<dt>OGC</dt><dd>Open Geospatial Consortium; standardiseringsorgan for geografisk informasjon.</dd>
+<dt>OGC API</dt><dd>Moderne REST/JSON-baserte etterfølgere til WMS/WFS m.fl.</dd>
+<dt>Overlay</dt><dd>Kombinere to lag (intersection, union, difference …).</dd>
+<dt>Overture Maps</dt><dd>Åpne globale kartdata i ett skjema, seks temaer.</dd>
+<dt>PMTiles</dt><dd>Hele flispyramiden i én fil, til statisk hosting.</dd>
+<dt>PostGIS</dt><dd>Geografisk utvidelse til PostgreSQL.</dd>
+<dt>Projeksjon</dt><dd>Matematisk metode for å avbilde jordoverflaten på et plan.</dd>
+<dt>Raster</dt><dd>Rutenett av celler med verdier.</dd>
+<dt>Romlig indeks</dt><dd>Datastruktur (R-tre, GiST) som gir rask romlig søking.</dd>
+<dt>Romlig kobling</dt><dd>Spatial join; koble attributter basert på geografisk relasjon.</dd>
+<dt>Shapefile</dt><dd>Eldre ESRI-vektorformat bestående av flere filer.</dd>
+<dt>Skill</dt><dd>Mappe med SKILL.md som gir en agent fagkunnskap og arbeidsflyt ved behov.</dd>
+<dt>SOSI</dt><dd>Norsk utvekslingsformat for geografiske data fra Kartverket.</dd>
+<dt>STAC</dt><dd>SpatioTemporal Asset Catalog; katalogisering av satellittdata.</dd>
+<dt>Tissots indikatriks</dt><dd>Sirkler på kartet som viser en projeksjons forvrengning.</dd>
+<dt>Vektor</dt><dd>Punkter, linjer og flater med attributter.</dd>
+<dt>WFS / WMS / WMTS / WCS</dt><dd>Klassiske OGC-tjenester for henholdsvis vektorobjekter, kartbilder, fliser og raster.</dd>
+</dl>
+
+<!-- ======================================================= -->
+<h2 id="litteratur">Litteratur og kilder</h2>
+<h3>Pensum</h3>
+<ul><li>Rød, J. K. (2023): <em>GIS – Verktøy for å forstå verden</em>, 2. utgave, Fagbokforlaget. Kapittel 1, 2, 3, 4, 7, 16 og 17.</li></ul>
+<h3>Utvalgte kilder fra Canvas</h3>
+<ul>
+<li>Kartverket: Geodataarbeid; Geonorge; data.norge.no; Kartverket: Kjøp kartdata</li>
+<li>ColorBrewer 2.0; Axis Maps (Data Classification)</li>
+<li>OpenStreetMap Wiki: Downloading data; Overture Maps-dokumentasjon</li>
+<li>GDAL: Vector drivers og ogr2ogr; Mapscaping: Shapefiles vs. GeoPackage</li>
+<li>OGC API: ogcapi.ogc.org; OGC Standards</li>
+<li>Cloud-Native Geospatial: guide; PostGIS Introduction (workshop)</li>
+<li>QGIS User Guide; QGIS Training Manual; GeoLibre Tutorials; OSGeo Software projects</li>
+<li>GeoPandas: Getting started; uv-dokumentasjon; MapLibre GL JS</li>
+<li>Agent Skills (agentskills.io); Anthropic: Agent Skills og Prompt engineering; Model Context Protocol; Claude Code: Best practices; GeoBenchX</li>
+</ul>
+<h3>Tilleggskilder fra nett (brukt i gule felt)</h3>
+<ul>
+<li><a href="https://register.geonorge.no/kodelister/byggesoknad/koordinatsystem">Geonorge: kodeliste for koordinatsystem</a></li>
+<li><a href="https://epsg.io/25833.json">epsg.io: EPSG:25833</a>; <a href="https://spatialreference.org/ref/epsg/5973/">spatialreference.org: EPSG:5973</a></li>
+<li><a href="https://doc.esri.com/en/arcgis-pro/3.7/help/mapping/properties/mercator.html">Esri ArcGIS Pro: Mercator</a> (viser til Battersby et al. 2014, <em>Implications of Web Mercator and Its Use in Online Mapping</em>, Cartographica 49(2))</li>
+<li><a href="https://atlas.co/courses/gis-basics/common-projections-mercator-utm-lambert/">Atlas GIS Basics: Mercator, UTM, Lambert and Friends</a></li>
+<li><a href="https://atlas.co/courses/gis-basics/classification-methods/">Atlas GIS Basics: Classification Methods</a>; <a href="https://storymaps.arcgis.com/stories/871fe556c40b4d40b7a465c6f135ac88">Esri StoryMaps: Data classification for choropleth maps</a></li>
+</ul>
+<p class="sub">Merk: Oppføringer uten lenke er titler slik de står i Canvas. Lenkene på selve Canvas-sidene er ikke bevart i den lokale tekstkopien, så slå opp titlene eller bruk Canvas-sidene.</p>
+
+<h2 id="kurs">Vedlegg: om kurset</h2>
+<p><strong>IS-930 Introduksjon til Geografisk IT og Kunstig Intelligens</strong>, videreutdanning høst 2026, 2,5 studiepoeng. Heldigitalt (Zoom + Canvas). Emneansvarlig: Alexander S. Nossum.</p>
+<div class="tablewrap"><table>
+<tr><th>Dato</th><th>Aktivitet</th></tr>
+<tr><td>Tirsdag 6. oktober, 09:00–11:00</td><td>Introduksjonswebinar</td></tr>
+<tr><td>Torsdag 22. oktober, 09:15–13:00</td><td>Samling 1: Introduksjon til geografisk IT (modul 1)</td></tr>
+<tr><td>Tirsdag 3. november, 09:15–13:00</td><td>Samling 2: Teknologi og databehandling (modul 2)</td></tr>
+<tr><td>12. november</td><td>Digital veiledning</td></tr>
+<tr><td>Søndag 15. november, 23:59</td><td>Frist refleksjonsoppgave</td></tr>
+<tr><td>Tirsdag 17. november, 09:15–13:00</td><td>Samling 3: Analyse og KI (modul 3)</td></tr>
+<tr><td>24. november</td><td>Digital veiledning</td></tr>
+<tr><td>Søndag 6. desember, 23:59</td><td>Frist mappeinnlevering</td></tr>
+</table></div>
+<p><strong>Vurdering:</strong> mappeinnlevering (refleksjonsoppgave + prosjektoppgave/-skisse), bestått/ikke bestått. Vurderingen baseres på om innleveringene samlet viser tilstrekkelig forståelse for geografisk IT og KI, og om prosjektskissen er realistisk og faglig begrunnet; prosjektet trenger ikke gjennomføres. KI-verktøy er tillatt og anbefalt, men bruken skal dokumenteres.</p>
+<p><strong>Programvare:</strong> Zoom, QGIS (på Mac også GDAL via Homebrew), Google-konto (Colab), Claude Pro anbefalt. Valgfritt: VS Code, Claude Code, Node.js, uv, Cloudflare-konto.</p>
+
+</main>
+</div>
+</body>
+</html>
