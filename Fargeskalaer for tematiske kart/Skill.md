@@ -17,6 +17,7 @@ Hjelper med å velge riktig fargeskala for data på kart og i diagrammer, og gir
 3. **Vurder målgruppe.** Skal fargeblinde kunne lese kartet, eller skal det skrives ut i gråtoner? Velg da en skala merket «CVD-trygg», helst Viridis/Cividis (sekvensiell) eller Okabe–Ito (kvalitativ).
 4. **Hent fargekodene** fra riktig katalogfil og lever dem i formatet brukeren trenger (se [eksport.md](references/eksport.md)).
 5. **Forklar valget kort**: hvorfor denne familien og dette klasseantallet.
+6. **Oppgi og lenk til originalkildene** som ligger til grunn for anbefalingene og fargedataene du bruker i svaret. Knytt kildene til det konkrete valget (for eksempel ColorBrewer: Cynthia Brewer & Mark Harrower; CARTOColors: CARTO; Viridis: matplotlib/BIDS; Okabe–Ito: Okabe & Ito, 2008). Slå opp fullstendige referanser i [kilder.md](references/kilder.md); ikke nøye deg med å omtale kildene generelt.
 
 ## Raske standardvalg
 
@@ -41,7 +42,7 @@ Les kun det som trengs:
 | [skalaer-divergerende.md](references/skalaer-divergerende.md) | 16 divergerende skalaer med HEX per klasseantall | Du trenger fargekoder for data med midtpunkt |
 | [skalaer-kvalitativ.md](references/skalaer-kvalitativ.md) | 15 kvalitative skalaer med HEX per klasseantall | Du trenger fargekoder for kategorier |
 | [eksport.md](references/eksport.md) | HEX, CSS, CSS-variabler, JSON, Python med eksempler | Brukeren vil ha koder i et bestemt format |
-| [kilder.md](references/kilder.md) | Kilder og videre lesning | Brukeren ber om referanser |
+| [kilder.md](references/kilder.md) | Originalkilder og videre lesning | Slå opp relevante referanser for å oppgi og lenke til dem i svaret |
 
 Hver katalogfil starter med en oversiktstabell (skala, kilde, klasser, CVD) med lenker til detaljene; slå opp i den før du leser hele filen.
 
