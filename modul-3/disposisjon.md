@@ -8,6 +8,8 @@
 - Modul 3 går fra introduksjon til **praksis**: eget oppsett, skills andre har laget, hele analyser, og dømmekraften til å vurdere resultatet.
 - Kurset handler i hovedsak om **vektordata**. Raster og satellittbilder nevnes med henvisninger, men er ikke tema.
 
+> **TODO (påminnelse):** Beskriv sømmen mellom modul 1 og modul 2 i modul 3: studentene bruker det de lærte i modul 1 og 2 til å kvalitetssikre agenten, ikke bare agenten til å gjøre modul 1 og 2. Legg ved NTNU-forelesningene om arkitektur.
+
 ---
 
 ## 0. Modulside: Modul 3 – Geografisk analyse og kunstig intelligens
@@ -84,7 +86,7 @@
 |---|---|---|---|
 | **grill-me** / **grilling** | [mattpocock/skills](https://github.com/mattpocock/skills) (~310k ★) | Intervjuer deg om planen din, ett spørsmål om gangen, til dere har felles forståelse. | Tvinger frem valgene du ikke har tatt: avstandsmål, terskel, aggregeringsenhet, datakilde. |
 | **grill-with-docs** | mattpocock/skills | Som grill-me, men skriver ordliste og beslutningslogg underveis. | Dokumenterer analysevalgene, så andre kan etterprøve dem. |
-| **teach** | mattpocock/skills | Lærer deg et konsept i arbeidsmappen din. | Lær MAUP eller romlig kobling på dine egne data. |
+| **teach** | mattpocock/skills | Lærer deg et konsept i arbeidsmappen din. | Lær klyngeanalyse eller romlig kobling på dine egne data. |
 | **research** | mattpocock/skills | Undersøker et spørsmål mot primærkilder og lagrer funnene som Markdown. | Finne datakilder og dokumentasjon med kildehenvisning. |
 | **interview-me** | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (~113k ★) | Finner ut hva du egentlig vil, ikke hva du tror du bør ville. | Uklare bestillinger fra ledelsen: «lag et kart over dekningen». |
 | **doubt-driven-development** | addyosmani/agent-skills | Lar en ny kontekst gå kritisk gjennom hver viktig beslutning. | Et innebygd «djevelens advokat» for analysen. |
@@ -108,7 +110,7 @@
 - Test med og uten skill på samme oppgave. Bruk `skill-creator` som hjelp.
 - MCP nevnes kort, som neste trinn når agenten trenger live data eller tilgang til systemer (henvis til modul 1).
 
-**Aktivitet:** Ø0, Ø1, Ø3 og Ø4 i [ovinger.md](ovinger.md). Diskusjon: Hvilken av skillene i tabellen ville du installert først, og hvorfor?
+**Aktivitet:** Ø1, Ø2 og Ø3 i [ovinger.md](ovinger.md). Diskusjon: Hvilken av skillene i tabellen ville du installert først, og hvorfor?
 
 **utvalgt:** Claude Code-dokumentasjon (oppsett, CLAUDE.md, skills), uv-dokumentasjon (prosjekter og skript), agentskills.io.
 **interessert:** samlingene i tabellen, Janowicz mfl. (2020) *GeoAI* og samgeo for de som vil se på raster.
@@ -123,9 +125,10 @@
 - **Nærhet:** avstand til nærmeste, innenfor en terskel.
   - Luftlinje, avstand langs vegnett og reisetid. Hvor stor er forskjellen i en fjordkommune?
   - Verktøy: `sjoin_nearest` (geopandas), `ST_DWithin` og `<->` (PostGIS/DuckDB), osmnx og r5py for nettverk og reisetid. Henvis til modul 2 for operasjonene.
-- **Tetthet:** hvor mye per areal.
-  - Antall per sone (grunnkrets, kommune), per rute (SSB 250 m, H3) og kjernetetthet (KDE).
-  - **MAUP:** samme data, ulik inndeling, ulike konklusjoner.
+- **Tetthet og klynger:** hvor er det mest av noe, og hvor ligger det i grupper?
+  - Tetthet: antall per sone (grunnkrets, kommune), per rute (SSB 250 m), per heksagon (H3) og kernel density estimation (KDE) med valg av bandwidth.
+  - Klynger: DBSCAN finner grupper av punkter uten at du må velge soner eller ruter, men krever valg av `eps` (avstand) og minste antall punkter.
+  - Samme data gir ulike kart med ulik cellestørrelse, bandwidth eller `eps`. Metoden og parameterne må følge med kartet.
   - Normalisering: per areal eller per innbygger, aldri bare antall.
 - **Dekning:** andel av befolkningen eller arealet som nås av en tjeneste.
   - Serviceområder og isokroner, befolkning på rutenett, valg av terskel.
@@ -140,14 +143,14 @@
 | Legevakt og fastlege i distriktet | Helse | Dekning | Helseinstitusjoner, SSB rutenett |
 | Ny butikk eller ladestasjon | Næringsliv | Tetthet og dekning | Befolkning, konkurrenter (OSM), trafikk (NVDB) |
 | Mobil- og bredbåndsdekning | Næringsliv og Nkom | Dekning | Nkom dekningskart, befolkning |
-| Hytter og fritidsboliger | Plan | Tetthet | Matrikkelen (bygningstype), kommuneplan |
+| Hytter og fritidsboliger | Plan | Tetthet og klynger | Matrikkelen (bygningstype), kommuneplan |
 
 - For hvert case: hvilket spørsmål, hvilke valg, og hvordan kan svaret misforstås eller misbrukes?
 
-**Aktivitet:** Ø2, Ø5 og Ø6 i [ovinger.md](ovinger.md). Diskusjon: hvilke analyser i din virksomhet er egentlig nærhet, tetthet eller dekning?
+**Aktivitet:** Ø1, Ø4, Ø5 og Ø8 i [ovinger.md](ovinger.md). Diskusjon: hvilke analyser i din virksomhet er egentlig nærhet, tetthet eller dekning?
 
 **utvalgt:** Rød (2023), SSB statistikk på rutenett, DSB dimensjoneringsforskriften.
-**interessert:** Openshaw (1984) om MAUP, osmnx, r5py, H3.
+**interessert:** osmnx, r5py, H3, DBSCAN i scikit-learn.
 
 ---
 
@@ -170,7 +173,7 @@
 3. **Se det fra en annens ståsted.** Hva ville brannsjefen, en innbygger i distriktet eller en kollega som ikke liker konklusjonen spurt om?
 
 #### Hvor skjevheter kommer fra (kort, som linse)
-- Ett avsnitt, ikke en egen gjennomgang: data (ujevn dekning, hvem som er registrert), modell (kjenner Oslo bedre enn Bykle, og bekrefter gjerne det du antyder), metode (MAUP, terskler, luftlinje) og oss selv (vi stoler for mye på maskinen).
+- Ett avsnitt, ikke en egen gjennomgang: data (ujevn dekning, hvem som er registrert), modell (kjenner Oslo bedre enn Bykle, og bekrefter gjerne det du antyder), metode (aggregeringsenhet, terskler, luftlinje) og oss selv (vi stoler for mye på maskinen).
 - Henvisninger for de som vil lese mer: Haklay (2010), Manvi mfl. (2024), Parasuraman og Manzey (2010).
 
 #### La verktøyene trene deg, ikke erstatte deg
@@ -187,7 +190,7 @@
 - Hva bør stå om KI-bruk i en rapport: verktøy, hva KI gjorde, hva du vurderte selv, og hvordan.
 - Rammer: EUs KI-forordning (kort om risikonivåer), personvern for lokasjonsdata, Digdirs veiledning, egen virksomhets retningslinjer.
 
-**Aktivitet:** Ø7 og Ø8 i [ovinger.md](ovinger.md), og diskusjonen på slutten av samlingen: «Ville du levert dette resultatet til ledelsen i morgen? Hva måtte du visst først?»
+**Aktivitet:** Ø6, Ø7 og Ø8 i [ovinger.md](ovinger.md) (med loggen fra verkstedene), og diskusjonen på slutten av samlingen: «Ville du levert dette resultatet til ledelsen i morgen? Hva måtte du visst først?»
 
 **utvalgt:** Digdir: veiledning for ansvarlig bruk av KI, Datatilsynet om KI og personvern.
 **interessert:** Haklay (2010) om OSM-kvalitet, Manvi mfl. (2024) *Large Language Models are Geographically Biased*, Parasuraman og Manzey (2010) om automatiseringsbias, GeoBenchX (fra modul 1).

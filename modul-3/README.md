@@ -6,8 +6,9 @@ Arbeidsmappe for Modul 3. Foreløpig inneholder den disposisjon, agenda og øvin
 |---|---|
 | [disposisjon.md](disposisjon.md) | Modulside og tre temasider: formål, innhold, aktivitet og kilder for hver side |
 | [agenda.md](agenda.md) | Agenda for samlingen 09:15–13:00, med kjørenotater og forberedelser |
-| [ovinger.md](ovinger.md) | Øvinger og tutorials: før samlingen, verksted 1, verksted 2 og selvstudium |
+| [ovinger.md](ovinger.md) | Øvinger og tutorials som studentene velger fritt fra i verkstedene |
 | [ovinger/sjekk_oppsett.py](ovinger/sjekk_oppsett.py) | Testskript studentene kjører med `uv run` før samlingen |
+| [ovinger/finn_feilen.py](ovinger/finn_feilen.py) | Skript med innplantede feil til Ø6 (fasit i agenda.md) |
 
 ## Modulbeskrivelse (fra studieplanen)
 
@@ -24,6 +25,9 @@ Kurset handler i hovedsak om vektordata. Raster og satellittbilder nevnes bare m
 ## Gjenstår (TODO)
 
 - [ ] Eksempeldata med reell fordeling for tetthet og dekning (`eksempeldata/`, se [ovinger.md](ovinger.md#data))
-- [ ] Skript med innplantede feil til «Finn feilen» (Ø7)
-- [ ] Sette dato og Zoom-lenke i agenda
+- [ ] Sette dato i agenda og på modulsiden (`kilde/modulside.md`)
 - [ ] Velge kapitler fra Rød (2023)
+
+## Bygge Canvas-sider
+
+`python3 bygg.py` leser `kilde/*.md` og skriver ferdige HTML-sider til `pages/`, som limes inn i Canvas (samme oppsett som [modul-2](../modul-2/)). Zoom-lenker er ikke med.
