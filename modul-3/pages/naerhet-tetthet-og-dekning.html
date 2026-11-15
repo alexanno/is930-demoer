@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Nærhet, tetthet og dekning</title></head>
+<body>
+<h1>Nærhet, tetthet og dekning</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="nt01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="nt02">Nærhet, tetthet og dekning</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="nt03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="nt04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="nt05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>Tre analysetyper svarer på de fleste «hvor»-spørsmål: Hvor langt er det til nærmeste? Hvor er det mest av noe? Hvor mange nås av en tjeneste? Analysene er enkle å kjøre, særlig med en agent, men svaret avhenger av valg som ofte tas uten at noen merker det.</p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="nt06" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="nt07" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="nt08">
+<h3 class="mt-2 mb-2" id="nt09">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="nt10">
+<h4>Nærhet</h4>
+<p>Nærhet handler om avstand til nærmeste, eller om noe ligger innenfor en terskel. Avstanden kan være luftlinje, avstand langs vegnett eller reisetid, og forskjellen kan være stor i en fjordkommune. Operasjonene er beskrevet i Geografiske operasjoner i modul 2.</p>
+<ul>
+<li><code>sjoin_nearest</code> i geopandas</li>
+<li><code>ST_DWithin</code> og <code>&lt;-&gt;</code> i PostGIS og DuckDB</li>
+<li>osmnx og r5py for vegnett og reisetid</li>
+</ul>
+<h4>Tetthet og klynger</h4>
+<p>Tetthet viser hvor det er mest av noe. Klynger viser hvor ting ligger i grupper.</p>
+<ul>
+<li><strong>Tetthet</strong> kan telles per sone (grunnkrets, kommune), per rute (SSB 250 m), per heksagon (H3) eller glattes med kernel density estimation (KDE), der du velger <em>bandwidth</em>.</li>
+<li><strong>Klynger</strong> med DBSCAN finner grupper av punkter uten at du må velge soner eller ruter. Du må velge <code>eps</code> (maks avstand mellom naboer) og minste antall punkter.</li>
+<li><strong>Klyngeanalyse generelt</strong> er en familie av metoder som grupperer objekter etter likhet eller nærhet. DBSCAN grupperer etter tetthet, finner klynger i vilkårlig form og markerer enkeltpunkter som støy. K-means krever at du velger antall klynger på forhånd. Les mer: <a href="https://en.wikipedia.org/wiki/DBSCAN" target="_blank">Wikipedia om DBSCAN</a>, <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-statistics/densitybasedclustering.htm" target="_blank">ArcGIS Pro: Density-based Clustering</a> og <a href="https://scikit-learn.org/stable/modules/clustering.html" target="_blank">scikit-learn: Clustering</a>.</li>
+<li>Samme data gir ulike kart med ulik cellestørrelse, bandwidth eller <code>eps</code>. Metoden og parameterne må følge med kartet.</li>
+<li><strong>Normaliser.</strong> Vis antall per areal eller per innbygger, aldri bare antall.</li>
+</ul>
+<h4>Dekning</h4>
+<p>Dekning handler om hvor stor andel av befolkningen eller arealet som nås av en tjeneste.</p>
+<ul>
+<li>Serviceområder og isokroner (område som nås på en gitt kjøretid) kombineres med befolkning på rutenett.</li>
+<li>Terskelen du velger (5, 10 eller 15 minutter) avgjør svaret.</li>
+<li>Lokaliseringsanalyse går ett steg videre: hvor bør neste enhet ligge for å øke dekningen mest?</li>
+</ul>
+<h4>Valgene som styrer svaret</h4>
+<p>Disse valgene gjelder for alle tre analysetypene:</p>
+<ul>
+<li><strong>Avstandsmål:</strong> luftlinje, veg eller reisetid</li>
+<li><strong>Terskel:</strong> 5 km eller 10 km, 10 minutter eller 20 minutter</li>
+<li><strong>Aggregeringsenhet:</strong> sone, rute, heksagon eller kontinuerlig flate</li>
+<li><strong>Hvem som telles:</strong> befolkning på bosted teller ikke hytteturister og pendlere</li>
+<li><strong>Datakildens dekning:</strong> OpenStreetMap er tettere i by enn i distrikt</li>
+</ul>
+<h4>Casestudier</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Case</th>
+<th style="text-align: left;">Sektor</th>
+<th style="text-align: left;">Analysetype</th>
+<th style="text-align: left;">Data</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Responstid for brann og redning</td><td>Forvaltning</td><td>Nærhet og dekning</td><td>Brannstasjoner, vegnett, befolkning på rutenett</td></tr>
+<tr><td>Skolevei og skyss</td><td>Kommune</td><td>Nærhet (nettverk)</td><td>Skoler, adresser, vegnett (NVDB)</td></tr>
+<tr><td>Legevakt og fastlege i distriktet</td><td>Helse</td><td>Dekning</td><td>Helseinstitusjoner, SSB rutenett</td></tr>
+<tr><td>Ny butikk eller ladestasjon</td><td>Næringsliv</td><td>Tetthet og dekning</td><td>Befolkning, konkurrenter (OSM), trafikk (NVDB)</td></tr>
+<tr><td>Mobil- og bredbåndsdekning</td><td>Næringsliv og Nkom</td><td>Dekning</td><td>Nkom dekningskart, befolkning</td></tr>
+<tr><td>Hytter og fritidsboliger</td><td>Plan</td><td>Tetthet og klynger</td><td>Matrikkelen (bygningstype), kommuneplan</td></tr>
+</tbody>
+</table>
+</div>
+<p>For hvert case: hvilket spørsmål stilles, hvilke valg ligger bak, og hvordan kan svaret misforstås eller misbrukes?</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="nt11">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="nt12">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="nt13" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="nt14" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="nt15" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="nt16">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="nt17" style="position: relative;"><span id="nt18">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="nt19">
+<p id="nt20">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul>
+<li>Hvor stor andel av boligbyggene i Agder tror du ligger mer enn 5 km fra nærmeste brannstasjon? Skriv ned et anslag, og la en agent beregne det. Hvor nær var du?</li>
+<li>Lag et kart over restauranter i en by du kjenner med to ulike cellestørrelser (H3) og med DBSCAN med to verdier av <code>eps</code>. Peker metodene på de samme områdene?</li>
+<li>Beregn andel av innbyggerne som bor innenfor 10 km luftlinje fra en brannstasjon, og sammenlign med 15 minutters kjøring. Hvor mye endret svaret seg?</li>
+<li>Hvilke analyser i din virksomhet er egentlig nærhet, tetthet eller dekning?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="nt21">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="nt22" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="nt23" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="nt24" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="nt25">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="nt26" style="position: relative;"><span id="nt27">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="nt28" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="nt29" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="nt30"><span id="nt31">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="nt32">
+<ul>
+<li><a href="https://fagbokforlaget.no/produkt/9788245045222-gis" target="_blank">Rød, J. K. (2023): GIS – Verktøy for å forstå verden, 2. utgave, Fagbokforlaget</a></li>
+<li><a href="https://www.ssb.no/en/natur-og-miljo/geodata/statistikk/befolkning-pa-rutenett" target="_blank">SSB: Befolkning på rutenett</a></li>
+<li><a href="https://www.dsb.no/lover/brannvern-ulykker-og-redning/" target="_blank">DSB: dimensjoneringsforskriften</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="nt33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="nt34"><strong id="nt35"><span id="nt36">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="nt37">
+<ul>
+<li><a href="https://osmnx.readthedocs.io/" target="_blank">osmnx</a> og <a href="https://r5py.readthedocs.io/" target="_blank">r5py</a> for vegnett og reisetid</li>
+<li><a href="https://h3geo.org/docs" target="_blank">H3</a> for heksagonrutenett</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html" target="_blank">DBSCAN i scikit-learn</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<title>Oppsett, agenter og skills</title></head>
+<body>
+<h1>Oppsett, agenter og skills</h1>
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-id="cmm0a4b4g00l5my9y9x0arybn_12" data-component-type="rte" id="oa01" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="oa02">Oppsett, agenter og skills</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" data-component-id="cmo15xe7t0198my9yrwiw5weu_5" id="oa03" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="oa04">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="oa05" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>I modul 1 og 2 så vi hva agenter er og hvor de gjør feil. Nå setter vi opp et arbeidsmiljø du kan bruke videre: en agent som kan kjøre kode, en Python-installasjon som er lik hos alle, regler agenten følger, og skills som gir den gode arbeidsvaner.</p>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="oa06" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="oa07" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="oa08">
+<h3 class="mt-2 mb-2" id="oa09">Innhold</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="oa10">
+<h4>KI-teknikker i oversikt</h4>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Teknikk</th>
+<th style="text-align: left;">Typisk oppgave</th>
+<th style="text-align: left;">Merknad</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Språkmodeller</strong></td><td>Tolke spørsmål, skrive kode og SQL, oppsummere metadata.</td><td>Grunnlaget for resten.</td></tr>
+<tr><td><strong>KI-agenter</strong></td><td>Språkmodell, verktøy og en løkke som kjører analysen for deg.</td><td><strong>Hovedtema i modulen.</strong></td></tr>
+<tr><td><strong>Klassisk maskinlæring på vektordata</strong></td><td>Klynger (DBSCAN, k-means) og prediksjon på punkter og polygoner med attributter.</td><td>Klynger møter du på neste side.</td></tr>
+<tr><td><strong>Bildeanalyse og raster</strong></td><td>Arealdekke og objektdeteksjon fra flybilder og satellitt.</td><td>Dekkes ikke i kurset. Se GeoAI, samgeo og Kartverkets ajourhold av bygg.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Språkmodellen regner ikke. Den skriver kode som regner. Derfor er kodekjøring kjernen i oppsettet.</p>
+<h4>Agenten og arbeidsrommet</h4>
+<p>Claude Code (terminal, VS Code eller desktop) brukes som hovedeksempel. Alternativer er GitHub Copilot (gratis for studenter via GitHub Education), Codex CLI og Gemini CLI. Prinsippene er de samme.</p>
+<ul>
+<li><strong>Prosjektmappen er arbeidsrommet.</strong> Agenten ser filene og kjører kommandoer der. Bruk én mappe per analyse.</li>
+<li><strong>Tillatelser</strong> styrer hva agenten får lese, skrive, kjøre og hente fra nett. Godkjenn aldri en kommando du ikke forstår.</li>
+<li><strong>Git er angreknappen.</strong> Lagre (commit) før og etter agentarbeid, og se på diffen.</li>
+<li><strong>Hva sendes hvor?</strong> Data og kode går til leverandøren. Tenk på personopplysninger, graderte data og virksomhetens retningslinjer. Lokale modeller er et alternativ, men du mister kvalitet og hastighet.</li>
+</ul>
+<h4>uv: Python som er lik hos alle</h4>
+<p><a href="https://docs.astral.sh/uv/" target="_blank">uv</a> installerer Python og pakker med én kommando, låser versjonene og gjør at analysen kan kjøres på nytt på en annen maskin.</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Lag et nytt prosjekt
+uv init naerhet
+# Legg til pakker
+uv add geopandas pyogrio matplotlib
+# Kjør et skript i prosjektets miljø
+uv run analyse.py</code></pre>
+<p>Pakkene og versjonene ligger i <code>pyproject.toml</code> og <code>uv.lock</code>. Engangsskript kan oppgi pakkene sine selv (PEP 723), eller kjøres med <code>uv run --with geopandas skript.py</code>. Regelen du gir agenten er enkel: «Kjør Python med <code>uv run</code>, aldri <code>pip install</code>.»</p>
+<h4>Instruksjonsfil</h4>
+<p><code>CLAUDE.md</code> (eller <code>AGENTS.md</code>) leses av agenten hver gang den starter. Hold den kort og konkret. Bygg videre på eksempelet fra modul 2. En kort mal for et geoprosjekt:</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Prosjekt: nærhetsanalyse
+
+## Data
+- Alle data ligger i `data/`. Ikke last ned andre data uten å spørre.
+- Koordinatsystem: EPSG:25833 (UTM 33N, meter).
+
+## Regler
+- Kjør Python med `uv run`. Aldri `pip install`. Nye pakker: `uv add`.
+- Avstand og areal beregnes i meter (projisert CRS), aldri i grader.
+- Skriv analysen som skript i `analyse/`, ikke bare som svar i chatten.
+- Lag en plan og vent på godkjenning før du skriver kode.
+- Si fra hvis noe er usikkert. Les kolonnenavn fra dataene, ikke gjett.</code></pre>
+<h4>Skills andre har laget</h4>
+<p>En skill er en vanlig mappe med instruksjoner som agenten laster når den passer. Skills deles på GitHub. Det finnes tusenvis, og noen samlinger har over 100 000 stjerner. Mange av de mest brukte handler ikke om kode, men om <strong>arbeidsmåte</strong>: å bli utspurt, planlegge, verifisere og lære.</p>
+<p>Du kan installere en skill som plugin (<code>/plugin install ...</code> i Claude Code), med <code>npx skills@latest add &lt;repo&gt;</code> (krever Node), eller ved å kopiere mappen til <code>.claude/skills/</code>.</p>
+<p><strong>Les før du installerer.</strong> En skill er instruksjoner (og iblant skript) som agenten følger med dine tillatelser. Behandle den som kode fra en fremmed.</p>
+<p>Tabellen under er til egen utforsking (antall stjerner per november 2026, avrundet):</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Skill</th>
+<th style="text-align: left;">Samling</th>
+<th style="text-align: left;">Hva den gjør</th>
+<th style="text-align: left;">Hvorfor er den interessant for oss?</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>grill-me</strong> / <strong>grilling</strong></td><td><a href="https://github.com/mattpocock/skills" target="_blank">mattpocock/skills</a> (~310k ★)</td><td>Intervjuer deg om planen din, ett spørsmål om gangen, til dere har felles forståelse.</td><td>Tvinger frem valgene du ikke har tatt: avstandsmål, terskel, aggregeringsenhet, datakilde.</td></tr>
+<tr><td><strong>grill-with-docs</strong></td><td>mattpocock/skills</td><td>Som grill-me, men skriver ordliste og beslutningslogg underveis.</td><td>Dokumenterer analysevalgene, så andre kan etterprøve dem.</td></tr>
+<tr><td><strong>teach</strong></td><td>mattpocock/skills</td><td>Lærer deg et konsept i arbeidsmappen din.</td><td>Lær klyngeanalyse eller romlig kobling på dine egne data.</td></tr>
+<tr><td><strong>research</strong></td><td>mattpocock/skills</td><td>Undersøker et spørsmål mot primærkilder og lagrer funnene som Markdown.</td><td>Finne datakilder og dokumentasjon med kildehenvisning.</td></tr>
+<tr><td><strong>interview-me</strong></td><td><a href="https://github.com/addyosmani/agent-skills" target="_blank">addyosmani/agent-skills</a> (~113k ★)</td><td>Finner ut hva du egentlig vil, ikke hva du tror du bør ville.</td><td>Uklare bestillinger fra ledelsen: «lag et kart over dekningen».</td></tr>
+<tr><td><strong>doubt-driven-development</strong></td><td>addyosmani/agent-skills</td><td>Lar en ny kontekst gå kritisk gjennom hver viktig beslutning.</td><td>Et innebygd «djevelens advokat» for analysen.</td></tr>
+<tr><td><strong>source-driven-development</strong></td><td>addyosmani/agent-skills</td><td>Forankrer kode i offisiell dokumentasjon.</td><td>Motvirker utdaterte API-er, som MapLibre-eksempelet fra modul 2.</td></tr>
+<tr><td><strong>brainstorming</strong></td><td><a href="https://github.com/obra/superpowers" target="_blank">obra/superpowers</a> (~311k ★)</td><td>Utforsker idé og krav før noe bygges.</td><td>Før du starter en ny analyse eller kartløsning.</td></tr>
+<tr><td><strong>writing-plans</strong></td><td>obra/superpowers</td><td>Lager en trinnvis plan før koding.</td><td>Gjør planen synlig, så du kan godkjenne den.</td></tr>
+<tr><td><strong>systematic-debugging</strong></td><td>obra/superpowers</td><td>Finner årsaken før den foreslår en løsning.</td><td>Når resultatet er rart, ikke bare når koden feiler.</td></tr>
+<tr><td><strong>verification-before-completion</strong></td><td>obra/superpowers</td><td>Krever bevis (kjørt kode, output) før agenten sier at noe er ferdig.</td><td>Motvirker «ferdig!» uten at noe er sjekket.</td></tr>
+<tr><td><strong>discernment-nudge</strong></td><td><a href="https://github.com/anthropics/skills" target="_blank">anthropics/skills</a> (~187k ★)</td><td>Legger til 2–3 spørsmål etter et svar, som hjelper deg å sjekke fakta og antakelser.</td><td>Trener din egen kritiske vurdering (se siste temaside).</td></tr>
+<tr><td><strong>skill-creator</strong></td><td>anthropics/skills</td><td>Hjelper deg å lage, teste og forbedre egne skills.</td><td>Utgangspunkt for å lage en skill for egen virksomhet.</td></tr>
+<tr><td><strong>pdf</strong>, <strong>docx</strong>, <strong>xlsx</strong></td><td>anthropics/skills</td><td>Leser og lager dokumenter og regneark.</td><td>Rapporter og tabeller ut av analysen.</td></tr>
+<tr><td><strong>find-skills</strong></td><td><a href="https://github.com/vercel-labs/skills" target="_blank">vercel-labs/skills</a></td><td>Finner og installerer skills for en oppgave.</td><td>Når du lurer på om noen allerede har laget det du trenger.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Kataloger å bla i: <a href="https://skills.sh" target="_blank">skills.sh</a>, <a href="https://claude.com/plugins" target="_blank">Claude-plugins</a> og <a href="https://agentskills.io" target="_blank">agentskills.io</a>. Legg merke til at mange av de populære skillene er laget for å <em>bremse</em> agenten og spørre deg. Hvorfor tror du det er slik?</p>
+<h4>Lage en egen skill</h4>
+<p>Instruksjonsfilen gjelder ett prosjekt. En skill kan brukes på tvers av prosjekter og deles med kolleger. En skill er en mappe med <code>SKILL.md</code>, eventuelt med <code>scripts/</code> og <code>references/</code>. Beskrivelsen (<code>description</code>) styrer når agenten laster den. Test alltid med og uten skillen på samme oppgave, og bruk <code>skill-creator</code> som hjelp.</p>
+<p>MCP er neste trinn, når agenten trenger live data eller tilgang til systemer. Det ble introdusert i modul 1.</p>
+</div>
+</div>
+</div>
+</div>
+<section class="flex md:flex-row flex-col flex-wrap justify-evenly p-0 mb-5 md:p-0" data-component-id="cmm08sjke00l2my9ymxuxjfwh_9" data-component-type="grid-row" id="oa11">
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="oa12">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0cco1ip000bqq7zn28mcpzx_5" id="oa13" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="oa14" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 bg-contain bg-center bg-no-repeat object-contain object-center w-16 h-16 rounded-full md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2639266" data-api-returntype="File" id="oa15" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/aktivitet_ramme.svg" style="border-radius: 50%; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="oa16">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="oa17" style="position: relative;"><span id="oa18">Aktivitet</span></h3>
+</div>
+<div class="p-0 mt-0" data-component-type="rte" id="oa19">
+<p id="oa20">Forslag til øvelser du kan prøve på egenhånd:</p>
+<ul>
+<li>Sett opp en prosjektmappe med <code>uv</code>, git og en <code>CLAUDE.md</code> med reglene over. Start agenten og spør: «Hva vet du om dette prosjektet?» Svarer den ut fra instruksjonsfilen?</li>
+<li>Les <code>SKILL.md</code> til <code>grill-me</code> på GitHub før du installerer den. Hva ber den agenten om å gjøre? Bruk den deretter på planen for en analyse du vil gjøre.</li>
+<li>Hvilken av skillene i tabellen ville du installert først, og hvorfor?</li>
+<li>Lag en enkel skill for ditt eget fagområde. Kjør tre oppgaver med og uten skillen. Ble svarene bedre, eller bare annerledes?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-grow md:w-6/12 w-full md:min-w-80 pl-2 pr-2" data-component-type="grid-column" id="oa21">
+<div class="flex flex-col relative pl-5 pb-6 border-2 pt-10 pr-5 rounded-2xl mb-6 mt-16 w-full ml-0 mr-0" data-component-id="cm0ccc7x20005qq7zncbedcn3_9" id="oa22" style="background-color: transparent; border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<div class="absolute m-0 rounded-full w-16 h-16" id="oa23" style="max-width: 100px; top: -32px; left: 2rem; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju);"><img alt="" class="md:p-0 p-0 md:m-0 m-0 rounded-full w-16 bg-contain bg-center bg-no-repeat object-contain object-center h-16 md:border-0 border-0" data-api-endpoint="https://uia.instructure.com/api/v1/files/2628672" data-api-returntype="File" id="oa24" loading="lazy" src="https://www.uia.no/intranett/arbeidsstotte/undervisningsstotte/canvas/canvas-design-bilder/ikoner-med-ramme/litteratur_ramme.svg" style="border-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-pkhs);"/></div>
+<div class="flex items-center mb-2 mt-0 md:p-0 pt-0 pl-0 w-full" id="oa25">
+<h3 class="mce-content-body mce-edit-focus md:border-0 border-0 md:m-0 mt-0 md:p-0 pt-0 w-full" id="oa26" style="position: relative;"><span id="oa27">Litteratur</span></h3>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40" id="oa28" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jdvv); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-bzai);"><span id="oa29" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-hdbb);"><strong id="oa30"><span id="oa31">UTVALGT</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="oa32">
+<ul>
+<li><a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code: dokumentasjon om oppsett, CLAUDE.md og skills</a></li>
+<li><a href="https://docs.astral.sh/uv/" target="_blank">uv: dokumentasjon om prosjekter og skript</a></li>
+<li><a href="https://agentskills.io" target="_blank">Agent Skills (agentskills.io)</a></li>
+</ul>
+</div>
+<span class="inline-block pt-1 pb-1 pl-2 pr-2 rounded !bg-opacity-10 text-xs tracking-widest uppercase mb-1 w-40 mt-2" id="oa33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-wcil); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-jfnw);"><span id="oa34"><strong id="oa35"><span id="oa36">Hvis interessert</span></strong></span></span>
+<div class="m-0 p-0" data-component-type="rte" id="oa37">
+<ul>
+<li>Samlingene i tabellen: mattpocock/skills, addyosmani/agent-skills, obra/superpowers og anthropics/skills.</li>
+<li>Janowicz mfl. (2020): <em>GeoAI</em>, og <a href="https://samgeo.gishub.org/" target="_blank">samgeo</a> for de som vil se på raster.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>
