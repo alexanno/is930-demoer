@@ -1,7 +1,5 @@
 # Prosjektoppgave – Plan, skisse og prototype
 
-*Leveres etter samling 3*
-
 ## Formål
 
 Prosjektoppgaven er hovedleveringen i kurset. Du skal lage en plan, en løsningsskisse og en eller flere prototyper for et prosjekt innen geografisk IT og kunstig intelligens i din egen virksomhet. Oppgaven har ingen fasit. Vi vurderer om du behersker fagstoffet fra samling 1–3 og kan bruke det på en konkret problemstilling, ikke om idéen din er den «riktige».
@@ -14,20 +12,20 @@ Sensor kjenner faget geografisk IT og KI, men **kjenner ikke virksomheten eller 
 
 ## Oppgave
 
-Velg **én konkret problemstilling** fra en virksomhet du kjenner godt (egen arbeidsplass, en organisasjon eller et selskap du har inngående kjennskap til). Hvis du ikke har en egnet virksomhet, kan du velge en offentlig virksomhet eller en tenkt virksomhet du beskriver kort i innledningen. Du kan bygge videre på refleksjonsnotatet ditt, men kan også velge en ny idé.
+Velg **én konkret problemstilling** fra din virksomhet (teamet ditt, egen arbeidsplass, en organisasjon eller et selskap du kjenner godt til). Hvis du ikke har en egnet virksomhet / team, kan du velge en offentlig virksomhet eller en tenkt virksomhet du beskriver kort i innledningen. Du kan bygge videre på refleksjonsnotatet ditt, men kan også velge en ny idé.
 
 ## Hva du skal vise – leveransen skal dekke åtte punkter
 
 1. **Problemstilling i geografisk IT og KI.** Beskriv problemstillingen fra virksomheten din, og plasser den innenfor geografisk IT og KI. Sett sensor inn i virksomheten: hvem er brukerne, hva gjør de i dag, og hva er behovet?
 2. **Datasett og datakilder.** Beskriv og drøft relevante datasett og kilder. Oppgi konkrete kilder der det er mulig, og vurder for eksempel dekning, oppdateringsgrad, oppløsning, koordinatsystem, kvalitet og lisens. Hva må eventuelt produseres?
 3. **Anvendelse av fagstoffet.** Vis hvordan konsepter, teori og teknologi fra kurset kan brukes på *din* problemstilling. Vi vurderer anvendelsen, ikke gjengivelse av pensum.
-4. **Løsningsskisse (figurer).** Lag en overordnet skisse som viser hvordan teknologier og konsepter henger sammen i en praktisk løsning, for eksempel som konseptskisse, arkitekturdiagram eller flytskisse. Gå gjennom figurene i teksten og kommenter hva som er viktig å tenke på i hvert steg. **Figurene er en sentral del av besvarelsen.**
-5. **Kompleksitet.** Drøft hvor komplekst prosjektet er. Vis at du kan skille mellom hva som er enkelt og hva som er vanskelig innenfor fagfeltet, og begrunn vurderingene dine.
-6. **Risiko, begrensninger og omfang.** Drøft hva som kan gå galt (for eksempel datakvalitet, personvern, KI-feil, kostnad, organisering og kompetanse), hvilke begrensninger løsningen har, og hvor stort prosjektet er. Sett det i sammenheng med din problemstilling.
+4. **Løsningsskisse (figurer).** Lag en overordnet skisse som viser hvordan teknologier og konsepter henger sammen i en praktisk løsning, for eksempel som konseptskisse, arkitekturdiagram eller flytskisse. Gå gjennom figurene i teksten og kommenter hva som er viktig å tenke på i hvert steg. Figurene er en sentral del av besvarelsen.
+5. **Kompleksitet.** Drøft hvor komplekst prosjektet er. Vis at du kan skille mellom hva som er enkelt og hva som er vanskelig med knytning til teori, konsepter, teknologi vi har lært i kurset. Begrunn vurderingene dine.
+6. **Risiko, begrensninger og omfang.** Drøft risiko; sannsynlighet, omfang, konsekvens (for eksempel datakvalitet, personvern, KI-feil, kostnad, organisering og kompetanse), hvilke begrensninger løsningen har, og hvor stort prosjektet er. Sett det i sammenheng med din problemstilling.
 7. **Alternative implementasjoner.** Beskriv alternative måter å gjennomføre prosjektet på (for eksempel ulike teknologivalg, bygge selv eller kjøpe, trinnvis eller samlet innføring) og vurder fordeler og ulemper.
 8. **Prototyper og proof-of-concept.** Lag konkrete prototyper, visualiseringer eller proof-of-concepts av hele eller deler av løsningsskissen. Se kravene under.
 
-Punktene trenger ikke være egne kapitler i denne rekkefølgen, men sensor skal enkelt finne dem. [Veiledende omfang per punkt kan settes her.]
+Punktene trenger ikke være egne kapitler i denne rekkefølgen, men sensor skal enkelt finne dem.
 
 ## Prototyper og proof-of-concept
 
@@ -47,21 +45,16 @@ Punktene trenger ikke være egne kapitler i denne rekkefølgen, men sensor skal 
 
 ## Omfang og format
 
-- **Rapport:** [PDF], ca. [2 000–3 500] ord, [inkludert / eksklusiv] KI-avsnittet, referanseliste, figurtekster og tabeller. Figurer regnes ikke som ord.
+- **Rapport:** [PDF], ca. [2 000–3 500] ord, eksklusiv KI-avsnittet, referanseliste, figurtekster og tabeller. Figurer regnes ikke som ord.
 - **Figurer:** Hånd- og KI-genererte figurer er tillatt så lenge de er lesbare og forklart i teksten. Hver figur skal ha figurtekst og henvises til i brødteksten.
-- **Prototyper:** Leveres som [lenker i rapporten / vedlegg / appendiks] og regnes ikke i ordgrensen.
+- **Prototyper:** Leveres som lenker i rapporten eller zip-fil og regnes ikke i ordgrensen.
 - **Kilder:** Henvisninger i teksten og referanseliste i APA 7th (norsk manual): [sikt.no/norsk-apa-referansestil](https://sikt.no/norsk-apa-referansestil).
-- **Språk:** [Norsk eller engelsk].
-- **Individuelt arbeid / gruppearbeid:** [Individuelt].
-
-## Innlevering
-
-- **Frist:** [dato og klokkeslett].
-- **Levering:** [system, for eksempel Canvas/Inspera], [sted/oppgavenavn].
+- **Språk:** Norsk eller Engelsk
+- **Individuelt arbeid / gruppearbeid:** Individuelt
 
 ## Vurdering
 
-- [Godkjent / ikke godkjent.]
+- Godkjent / ikke godkjent
 - Oppgaven vurderes ut fra om du viser at du:
   - beskriver problemstillingen slik at sensor forstår virksomheten og behovet
   - beskriver og drøfter relevante data og datakilder
@@ -71,5 +64,3 @@ Punktene trenger ikke være egne kapitler i denne rekkefølgen, men sensor skal 
   - drøfter risiko, begrensninger og omfang
   - beskriver alternativer for implementasjon og gjennomføring
   - leverer konkrete prototyper laget med Claude/Claude Code eller tilsvarende, som sensor får tilgang til
-- [Beskriv konsekvens ved ikke godkjent, for eksempel ny innleveringsmulighet innen dato.]
-- [Beskriv sammenhengen med refleksjonsoppgaven, for eksempel om den må være godkjent først.]
