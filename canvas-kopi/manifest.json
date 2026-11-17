@@ -77,66 +77,108 @@
     "front_page": false
   },
   {
-    "slug": "modul-2-geografisk-databehandling-og-teknologi-kladd",
-    "title": "Modul 2: Geografisk databehandling og teknologi (KLADD)",
-    "updated_at": "2026-10-28T20:49:27Z",
-    "published": false,
+    "slug": "modul-2-geografisk-databehandling-og-teknologi",
+    "title": "Modul 2: Geografisk databehandling og teknologi",
+    "updated_at": "2026-11-03T20:44:52Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "verktoylandskapet",
     "title": "Verktøylandskapet",
-    "updated_at": "2026-10-28T20:57:05Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:44Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "geografiske-operasjoner",
     "title": "Geografiske operasjoner ",
-    "updated_at": "2026-10-28T21:10:21Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:46Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "desktop-web-og-serverprogramvare",
     "title": "Desktop, web og serverprogramvare",
-    "updated_at": "2026-10-28T21:12:00Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:46Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "databaser-og-lagring",
     "title": "Databaser og lagring",
-    "updated_at": "2026-10-28T21:14:53Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:47Z",
+    "published": true,
     "front_page": false
   },
   {
-    "slug": "cli-og-biblioteker-kladd",
-    "title": "CLI og biblioteker (KLADD)",
-    "updated_at": "2026-10-28T21:20:07Z",
-    "published": false,
+    "slug": "cli-og-biblioteker",
+    "title": "CLI og biblioteker",
+    "updated_at": "2026-11-03T06:04:18Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "arkitekturer",
     "title": "Arkitekturer",
-    "updated_at": "2026-10-28T21:17:54Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:49Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "datakvalitet-og-metadata",
     "title": "Datakvalitet og metadata",
-    "updated_at": "2026-10-28T21:21:39Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:51Z",
+    "published": true,
     "front_page": false
   },
   {
     "slug": "ki-agenter-og-stack-valg",
     "title": "KI-agenter og stack-valg",
-    "updated_at": "2026-10-28T21:24:24Z",
-    "published": false,
+    "updated_at": "2026-10-29T06:04:51Z",
+    "published": true,
+    "front_page": false
+  },
+  {
+    "slug": "modul-3-geografisk-data-og-standarder",
+    "title": "Modul 3: Geografisk data og standarder",
+    "updated_at": "2026-11-11T20:09:19Z",
+    "published": true,
+    "front_page": false
+  },
+  {
+    "slug": "m3-naerhet-tetthet-og-dekning",
+    "title": "M3 - Nærhet, tetthet og dekning",
+    "updated_at": "2026-11-11T20:09:20Z",
+    "published": true,
+    "front_page": false
+  },
+  {
+    "slug": "m3-oppsett-agenter-og-skills",
+    "title": "M3 - Oppsett, agenter og skills",
+    "updated_at": "2026-11-11T20:09:21Z",
+    "published": true,
+    "front_page": false
+  },
+  {
+    "slug": "m3-kritisk-vurdering-og-ansvar",
+    "title": "M3 - Kritisk vurdering og ansvar",
+    "updated_at": "2026-11-11T20:09:22Z",
+    "published": true,
+    "front_page": false
+  },
+  {
+    "slug": "ki-i-kursmaterialet",
+    "title": "KI i kursmaterialet",
+    "updated_at": "2026-11-11T20:09:36Z",
+    "published": true,
+    "front_page": false
+  },
+  {
+    "slug": "m3-ovinger",
+    "title": "M3 - Øvinger",
+    "updated_at": "2026-11-17T12:03:35Z",
+    "published": true,
     "front_page": false
   }
 ]

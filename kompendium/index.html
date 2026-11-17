@@ -118,10 +118,12 @@
     <li><a href="#k9">9. API-standarder og tjenester</a></li>
     <li><a href="#k10">10. Geografiske operasjoner</a></li>
     <li><a href="#k11">11. Ruteberegning</a></li>
-    <li><a href="#k12">12. Verktøylandskapet</a></li>
-    <li><a href="#k13">13. Kommandolinje og biblioteker</a></li>
-    <li><a href="#k14">14. Arkitekturer og stack-valg</a></li>
-    <li><a href="#k15">15. KI-agenter og geografisk IT</a></li>
+    <li><a href="#k12">12. Nærhet, tetthet og dekning</a></li>
+    <li><a href="#k13">13. Verktøylandskapet</a></li>
+    <li><a href="#k14">14. Kommandolinje og biblioteker</a></li>
+    <li><a href="#k15">15. Arkitekturer og stack-valg</a></li>
+    <li><a href="#k16">16. KI-agenter og geografisk IT</a></li>
+    <li><a href="#k17">17. Kritisk vurdering og ansvar</a></li>
     <li><a href="#glossar">Ordliste</a></li>
     <li><a href="#litteratur">Litteratur og kilder</a></li>
     <li><a href="#kurs">Vedlegg: om kurset</a></li>
@@ -135,10 +137,10 @@
 </header>
 
 <h2 id="forord" class="nobreak">Forord og slik bruker du kompendiet</h2>
-<p>Dette kompendiet samler stoffet fra emnets Canvas-sider (Modul 0–2) i én sammenhengende tekst. Der Canvas følger samlingene, er kompendiet ordnet <em>etter tema</em>: først hvorfor og hva geografiske data er, så hvordan de visualiseres, hvor de kommer fra, hvordan de lagres og deles, hvordan de behandles, og til slutt hvordan verktøy, arkitektur og KI-agenter settes sammen til løsninger.</p>
+<p>Dette kompendiet samler stoffet fra emnets Canvas-sider (modul 0–3) og forelesningsslidene fra samling 1–3 i én sammenhengende tekst. Der Canvas følger samlingene, er kompendiet ordnet <em>etter tema</em>: først hvorfor og hva geografiske data er, så hvordan de visualiseres, hvor de kommer fra, hvordan de lagres og deles, hvordan de behandles og analyseres, hvordan verktøy, arkitektur og KI-agenter settes sammen til løsninger, og til slutt hvordan du vurderer resultatet kritisk.</p>
 <p>Hovedkilden er Canvas-sidene. Der kompendiet går utover dem, er teksten merket slik:</p>
 <div class="web"><span class="t">Utdypning fra nett</span>Gult felt som dette inneholder stoff som <strong>ikke</strong> står på Canvas-sidene, hentet fra eksterne kilder. Kildene står i bunnen av kapittelet.</div>
-<p>Grå <em>demo</em>-bokser peker til de interaktive demoene i dette repoet. Blå <em>kort sagt</em>-bokser oppsummerer hvert kapittel. Til slutt finnes en <a href="#glossar">ordliste</a> og en <a href="#litteratur">samlet litteraturliste</a>. Kompendiet dekker modul 0–2; modul 3 (Analyse og KI, 17. november) har ikke innhold i Canvas-kopien ennå og er derfor ikke med, bortsett fra det som allerede står om KI-agenter.</p>
+<p>Grå <em>demo</em>-bokser peker til de interaktive demoene i dette repoet. Blå <em>kort sagt</em>-bokser oppsummerer hvert kapittel. Til slutt finnes en <a href="#glossar">ordliste</a> og en <a href="#litteratur">samlet litteraturliste</a>. Kompendiet dekker modul 0–3. Modul 3 (analyse og KI) står i kapittel 12 (nærhet, tetthet og dekning), kapittel 16.6–16.8 (oppsett, skills) og kapittel 17 (kritisk vurdering og ansvar). Forelesningsslidene bygger i hovedsak på demoer og caser fra de samme temaene; stoff som bare står der (clustering, grafalgoritmer, hva som gjelder alltid i en agent) er tatt med i kapittel 12 og 16.</p>
 <p>Siden er laget for å kunne skrives ut (Ctrl/Cmd+P): innholdsfortegnelsen skjules og hvert kapittel starter på ny side. Lærebok i emnet er Rød, J. K. (2023): <em>GIS – Verktøy for å forstå verden</em>, 2. utgave, Fagbokforlaget.</p>
 
 <!-- ======================================================= -->
@@ -708,14 +710,96 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <div class="kilder"><strong>Kilder:</strong> Canvas: «Geografiske operasjoner» (fordypning: ruteberegning). Øvelse: beregn en 15-minutters isokron med bil og sykkel på maps.openrouteservice.org og forklar forskjellen.</div>
 
 <!-- ======================================================= -->
-<h2 id="k12">12. Verktøylandskapet</h2>
+<h2 id="k12">12. Nærhet, tetthet og dekning</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>Tre analysetyper svarer på de fleste «hvor»-spørsmål: hvor langt er det til nærmeste (nærhet), hvor er det mest av noe (tetthet og klynger), og hvor mange nås av en tjeneste (dekning).</li>
+<li>Analysene er enkle å kjøre, særlig med en agent, men svaret styres av valg som ofte tas uten at noen merker det: avstandsmål, terskel, aggregeringsenhet og hvem som telles.</li>
+<li>Metoden og parameterne må følge med kartet. Vis alltid antall per areal eller per innbygger, ikke bare antall.</li>
+<li>Sjekk metoden, ikke bare svaret: samme tall kan komme fra feil metode.</li>
+</ul></div>
+
+<h3>12.1 Nærhet</h3>
+<p>Nærhet handler om avstand til nærmeste, eller om noe ligger innenfor en terskel. Avstanden kan være luftlinje, avstand langs vegnett eller reisetid, og forskjellen kan være stor i en fjordkommune. Operasjonene er beskrevet i <a href="#k10">kapittel 10</a>, og nettverksberegning i <a href="#k11">kapittel 11</a>.</p>
+<div class="tablewrap"><table>
+<tr><th>Avstandsmål</th><th>Verktøy</th></tr>
+<tr><td>Luftlinje</td><td><code>sjoin_nearest</code> i geopandas; <code>ST_DWithin</code> og <code>&lt;-&gt;</code> i PostGIS og DuckDB</td></tr>
+<tr><td>Vegnett og reisetid</td><td>osmnx og r5py i Python; OpenRouteService</td></tr>
+</table></div>
+<p>«Raskeste vei» er mer enn a-til-b. En rutemotor bygger en graf av vegnettet, og samme graf kan brukes til å regne ut avstand fra ett punkt til alle andre, eller hvilke områder som nås innen en gitt tid. Byer og regioner kan kjøres lokalt med vanlige grafer og algoritmer. Store land og kontinenter krever mer avanserte datastrukturer og tilpassede algoritmer.</p>
+
+<h3>12.2 Tetthet og klynger</h3>
+<p>Tetthet viser hvor det er mest av noe. Klynger viser hvor ting ligger i grupper. Tetthet kan telles på fire måter:</p>
+<ul>
+<li>per <strong>sone</strong> (grunnkrets, kommune),</li>
+<li>per <strong>rute</strong> (SSB 250 m),</li>
+<li>per <strong>heksagon</strong> (H3),</li>
+<li>glattes med <strong>kernel density estimation (KDE)</strong>, der du velger bandwidth.</li>
+</ul>
+<p><strong>Klyngeanalyse</strong> er en familie av metoder som grupperer objekter etter likhet eller nærhet. Algoritmene er deterministiske og effektive, og de kan gruppere etter avstand eller etter egenskaper; ulike parametere gir ulike resultater.</p>
+<div class="tablewrap"><table>
+<tr><th>Metode</th><th>Hvordan</th><th>Du må velge</th></tr>
+<tr><td>DBSCAN</td><td>Grupperer etter tetthet, finner klynger i vilkårlig form og markerer enkeltpunkter som støy</td><td><code>eps</code> (maks avstand mellom naboer) og minste antall punkter</td></tr>
+<tr><td>K-means</td><td>Deler punktene i et gitt antall grupper</td><td>Antall klynger på forhånd</td></tr>
+</table></div>
+<p>DBSCAN finner grupper av punkter uten at du må velge soner eller ruter. Samme data gir likevel ulike kart med ulik cellestørrelse, bandwidth eller <code>eps</code>. <strong>Normaliser:</strong> vis antall per areal eller per innbygger, aldri bare antall. Og husk at <code>eps</code> må regnes i meter (projisert CRS), ikke i grader.</p>
+
+<h3>12.3 Dekning</h3>
+<p>Dekning handler om hvor stor andel av befolkningen eller arealet som nås av en tjeneste. Serviceområder og isokroner (område som nås på en gitt kjøretid) kombineres med befolkning på rutenett. Terskelen du velger (5, 10 eller 15 minutter) avgjør svaret. <strong>Lokaliseringsanalyse</strong> går ett steg videre: hvor bør neste enhet ligge for å øke dekningen mest?</p>
+<p>Husk at SSBs rutenett for befolkning (250 m) bare har med bebodde ruter. Ruter uten innbyggere finnes ikke i filen, og det må du ta hensyn til når du regner areal, tetthet eller andeler.</p>
+
+<h3>12.4 Valgene som styrer svaret</h3>
+<p>Disse valgene gjelder for alle tre analysetypene, og de er det en kritisk leser (eller en agent) må spørre om:</p>
+<div class="tablewrap"><table>
+<tr><th>Valg</th><th>Eksempler</th></tr>
+<tr><td>Avstandsmål</td><td>Luftlinje, veg eller reisetid</td></tr>
+<tr><td>Terskel</td><td>5 eller 10 km; 10 eller 20 minutter</td></tr>
+<tr><td>Aggregeringsenhet</td><td>Sone, rute, heksagon eller kontinuerlig flate</td></tr>
+<tr><td>Hvem som telles</td><td>Befolkning på bosted teller ikke hytteturister og pendlere</td></tr>
+<tr><td>Datakildens dekning</td><td>OpenStreetMap er tettere i by enn i distrikt</td></tr>
+</table></div>
+
+<h3>12.5 Casestudier</h3>
+<div class="tablewrap"><table>
+<tr><th>Case</th><th>Sektor</th><th>Analysetype</th><th>Data</th></tr>
+<tr><td>Responstid for brann og redning</td><td>Forvaltning</td><td>Nærhet og dekning</td><td>Brannstasjoner, vegnett, befolkning på rutenett</td></tr>
+<tr><td>Skolevei og skyss</td><td>Kommune</td><td>Nærhet (nettverk)</td><td>Skoler, adresser, vegnett (NVDB)</td></tr>
+<tr><td>Legevakt og fastlege i distriktet</td><td>Helse</td><td>Dekning</td><td>Helseinstitusjoner, SSB rutenett</td></tr>
+<tr><td>Ny butikk eller ladestasjon</td><td>Næringsliv</td><td>Tetthet og dekning</td><td>Befolkning, konkurrenter (OSM), trafikk (NVDB)</td></tr>
+<tr><td>Mobil- og bredbåndsdekning</td><td>Næringsliv og Nkom</td><td>Dekning</td><td>Nkom dekningskart, befolkning</td></tr>
+<tr><td>Hytter og fritidsboliger</td><td>Plan</td><td>Tetthet og klynger</td><td>Matrikkelen (bygningstype), kommuneplan</td></tr>
+</table></div>
+<p>For hvert case: hvilket spørsmål stilles, hvilke valg ligger bak, og hvordan kan svaret misforstås eller misbrukes?</p>
+
+<h3>12.6 Eksempel: samme spørsmål, ulike modeller</h3>
+<p>På samling 3 ble samme nærhetsanalyse forhåndskjørt med fire ulike modeller og agentverktøy: «Hvor mange husstander bor innenfor 15 minutters kjøring fra et sted i Agder?», med Matrikkelens bygningspunkter fra Geonorge og en ferdig isokron. Poenget var at ulike modeller og harnesser gjør ulike ting, og at svaret må vurderes mot fem spørsmål:</p>
+<ul>
+<li><strong>Nedlasting:</strong> fant den riktig datasett, fylke og format?</li>
+<li><strong>CRS:</strong> håndterte den 4326 (isokronen) mot 25832/25833 (bygningspunktene)?</li>
+<li><strong>Bolig-filter:</strong> brukte den bygningstype 111–159, eller tok den med fritidsbygg (16x) og garasjer (18x)?</li>
+<li><strong>Husstand versus bygning:</strong> husstander finnes ikke i åpne data, bare bygningstype. Et korrekt svar sier at tallet er bygninger.</li>
+<li><strong>Svar og metode:</strong> hvor langt fra fasit, og var metoden riktig?</li>
+</ul>
+<p>Hovedbudskapet: <strong>sjekk metoden, ikke bare svaret.</strong> Samme tall kan komme fra feil metode. Skriv gjerne ned et eget anslag før du ser svaret.</p>
+
+<h3>12.7 Prøv selv</h3>
+<ul>
+<li>Hvor stor andel av boligbyggene i Agder tror du ligger mer enn 5 km fra nærmeste brannstasjon? Skriv ned anslaget, la en agent beregne det, og sammenlign.</li>
+<li>Lag et kart over restauranter i en by du kjenner med to ulike H3-størrelser og DBSCAN med to verdier av <code>eps</code>. Peker metodene på de samme områdene?</li>
+<li>Beregn andelen som bor innenfor 10 km luftlinje fra en brannstasjon, og sammenlign med 15 minutters kjøring.</li>
+<li>Gran Canaria-CTF (Ø8): løs en reell geodata-oppgave med DuckDB og Overture Maps ved hjelp av en agent, og la den oversette spørringen til PostGIS. Hvor tok KI feil, og hvordan oppdaget du det?</li>
+<li>Hvilke analyser i din virksomhet er egentlig nærhet, tetthet eller dekning?</li>
+</ul>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «M3 – Nærhet, tetthet og dekning» og «M3 – Øvinger» (Ø1, Ø4, Ø5). Slides: «Forelesning 3» (clustering, grafalgoritmer). Videre: scikit-learn: Clustering og DBSCAN, H3, osmnx og r5py, SSB: Befolkning på rutenett, DSB: dimensjoneringsforskriften.</div>
+
+<!-- ======================================================= -->
+<h2 id="k13">13. Verktøylandskapet</h2>
 <div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
 <li>Fem kategorier: desktop-GIS, web-GIS/plattformer, kartservere, databaser, kommandolinje og biblioteker. De overlapper.</li>
 <li>Velg kategori ut fra oppgaven. Tre spørsmål: hvor store er dataene, hvor ofte skal det gjøres, hvem skal bruke resultatet?</li>
 <li>Velg det enkleste verktøyet som løser oppgaven. Åpen kildekode ≠ gratis drift.</li>
 </ul></div>
 
-<h3>12.1 Velg kategori ut fra oppgaven</h3>
+<h3>13.1 Velg kategori ut fra oppgaven</h3>
 <div class="tablewrap"><table>
 <tr><th>Jeg vil …</th><th>Start med</th><th>Fordi</th></tr>
 <tr><td>undersøke et ukjent datasett visuelt</td><td>Desktop-GIS</td><td>Raskt og visuelt, uten kode</td></tr>
@@ -728,7 +812,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 </table></div>
 <p><strong>Tre spørsmål:</strong> (1) <em>Størrelse</em>: tusenvis av objekter går i nesten alt, millioner peker mot database eller GeoParquet. (2) <em>Hyppighet</em>: én gang = klikk i GIS, gjentatt = skript/SQL. (3) <em>Brukere</em>: bare deg, kolleger eller bredt publikum?</p>
 
-<h3>12.2 Desktop-GIS</h3>
+<h3>13.2 Desktop-GIS</h3>
 <div class="tablewrap"><table>
 <tr><th>Programvare</th><th>Lisens</th><th>Hovedbruk</th></tr>
 <tr><td>QGIS</td><td>Åpen (GPL)</td><td>Fullverdig GIS med plugins og Python. Kursets standardverktøy.</td></tr>
@@ -738,7 +822,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <tr><td>AutoCAD Map 3D</td><td>Kommersiell (Autodesk)</td><td>CAD-basert GIS</td></tr>
 </table></div>
 
-<h3>12.3 Web-GIS og kartplattformer</h3>
+<h3>13.3 Web-GIS og kartplattformer</h3>
 <div class="tablewrap"><table>
 <tr><th>Programvare</th><th>Lisens</th><th>Hovedbruk</th></tr>
 <tr><td>GeoLibre</td><td>Åpen</td><td>Nettleserbasert GIS; leser skybaserte formater og kjører spatial SQL i nettleseren</td></tr>
@@ -749,7 +833,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <tr><td>Kepler.gl</td><td>Åpen (MIT)</td><td>Store punkt- og bevegelsesdata i nettleseren</td></tr>
 </table></div>
 
-<h3>12.4 Kartservere og tjenester</h3>
+<h3>13.4 Kartservere og tjenester</h3>
 <div class="tablewrap"><table>
 <tr><th>Programvare</th><th>Lisens</th><th>Hovedbruk</th></tr>
 <tr><td>GeoServer</td><td>GPL</td><td>Java-kartserver; WMS, WFS, WCS, WMTS fra filer og databaser</td></tr>
@@ -763,7 +847,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <tr><td>ArcGIS Enterprise</td><td>Kommersiell</td><td>Esris serverplattform for egen drift</td></tr>
 </table></div>
 
-<h3>12.5 Slik velger du</h3>
+<h3>13.5 Slik velger du</h3>
 <ul>
 <li>Åpen kildekode er ikke det samme som gratis drift: du sparer lisens, men betaler med tid til installasjon, oppdatering og sikkerhet.</li>
 <li>Kommersielle plattformer gir mindre drift og støtte, men binder deg til en leverandør. Sjekk prisnivå og hvilke formater du kan ta med ut igjen.</li>
@@ -773,7 +857,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <div class="kilder"><strong>Kilder:</strong> Canvas: «Verktøylandskapet» og «Desktop, web og serverprogramvare». Videre: QGIS User Guide, GeoLibre Tutorials, OSGeo Software projects, GeoServer-/QGIS Server-/pygeoapi-dokumentasjon, Awesome Geospatial.</div>
 
 <!-- ======================================================= -->
-<h2 id="k13">13. Kommandolinje og biblioteker</h2>
+<h2 id="k14">14. Kommandolinje og biblioteker</h2>
 <div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
 <li>Kode og kommandolinje gjør arbeid repeterbart, delbart og kvalitetssikret. Her er KI-agenter mest nyttige.</li>
 <li>GDAL (<code>ogr2ogr</code>, <code>gdal_translate</code>, <code>gdalwarp</code>) ligger under de fleste GIS-verktøy.</li>
@@ -782,7 +866,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 </ul></div>
 <p><em>Merk: Canvas-siden «CLI og biblioteker» er fortsatt merket som kladd.</em></p>
 
-<h3>13.1 GDAL og ogr2ogr</h3>
+<h3>14.1 GDAL og ogr2ogr</h3>
 <div class="tablewrap"><table>
 <tr><th>Oppgave</th><th>Kommando</th></tr>
 <tr><td>Se hva som ligger i en fil</td><td><code>ogrinfo -so -al kommuner.gpkg</code></td></tr>
@@ -797,7 +881,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 </table></div>
 <p>Fra GDAL 3.11 finnes også en samlet kommando (<code>gdal vector convert</code>, <code>gdal raster info</code>). På Windows brukes OSGeo4W Shell (følger med QGIS), på Mac <code>brew install gdal</code>.</p>
 
-<h3>13.2 Andre kommandolinjeverktøy</h3>
+<h3>14.2 Andre kommandolinjeverktøy</h3>
 <ul>
 <li><strong>PROJ</strong> (<code>projinfo</code>, <code>cs2cs</code>): slå opp og transformere koordinatsystemer.</li>
 <li><strong>DuckDB</strong>: SQL på filer, som CLI eller bibliotek.</li>
@@ -806,7 +890,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <li><strong>qgis_process</strong>: kjøre QGIS-analyser fra terminalen.</li>
 </ul>
 
-<h3>13.3 Python-biblioteker</h3>
+<h3>14.3 Python-biblioteker</h3>
 <div class="tablewrap"><table>
 <tr><th>Bibliotek</th><th>Hva</th><th>Typisk bruk</th></tr>
 <tr><td>geopandas</td><td>Tabeller med geometri (pandas)</td><td>Lese, analysere, skrive; dekker alle seks operasjoner</td></tr>
@@ -820,7 +904,7 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 <tr><td>leafmap</td><td>Interaktive kart i notebooks</td><td>Vise data mens du analyserer</td></tr>
 </table></div>
 
-<h3>13.4 JavaScript-biblioteker</h3>
+<h3>14.4 JavaScript-biblioteker</h3>
 <div class="tablewrap"><table>
 <tr><th>Bibliotek</th><th>Hva / bruk</th></tr>
 <tr><td>MapLibre GL JS</td><td>Åpen vektorkart med WebGL; moderne, raske kartapper</td></tr>
@@ -833,13 +917,13 @@ ogr2ogr -f GPKG kommuner_av_krets.gpkg grunnkrets.gpkg -dialect sqlite \
 </table></div>
 <p>Nettleseren laster ikke moduler fra <code>file://</code>, så kartsider med <code>import</code> må åpnes via lokal server: <code>uv run python -m http.server 8000</code>.</p>
 
-<h3>13.5 Kom i gang uten oppsett: uv</h3>
+<h3>14.5 Kom i gang uten oppsett: uv</h3>
 <pre><code>uv run --with geopandas --with pyogrio python eksempel.py
 uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').show()"</code></pre>
 <div class="kilder"><strong>Kilder:</strong> Canvas: «CLI og biblioteker (kladd)». Videre: GDAL ogr2ogr, GeoPandas Getting started, Geographic Data Science with Python (Rey, Arribas-Bel, Wolf), uv-dokumentasjon, MapLibre GL JS-dokumentasjon.</div>
 
 <!-- ======================================================= -->
-<h2 id="k14">14. Arkitekturer og stack-valg</h2>
+<h2 id="k15">15. Arkitekturer og stack-valg</h2>
 <div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
 <li>Fire mønstre: frontend-only, frontend + backend-API (+ PostGIS), 3-lags med kartserver, og caching/tile-pyramider.</li>
 <li>Hovedregel: velg det enkleste mønsteret som løser oppgaven. Mønstrene kan kombineres.</li>
@@ -847,7 +931,7 @@ uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').s
 <li>Én HTML-fil eller kompilert løsning? Behov for å skrive data, skjule noe eller styre tilgang krever backend.</li>
 </ul></div>
 
-<h3>14.1 Fire mønstre</h3>
+<h3>15.1 Fire mønstre</h3>
 <div class="tablewrap"><table>
 <tr><th>Mønster</th><th>Skisse</th><th>Passer når</th><th>Passer ikke når</th><th>Eksempel</th></tr>
 <tr><td>1. Frontend-only</td><td>Nettleser → andres tjenester / egne statiske filer</td><td>Åpne data, prototyper, enkel publisering uten drift</td><td>Du må skrive data, holde noe hemmelig, styre tilgang</td><td>Frontend-only kartapp</td></tr>
@@ -871,7 +955,7 @@ uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').s
 
 
 <figure><svg class="fig" viewBox="0 0 740 262" role="img" aria-label="<b>Fire arkitekturmønstre.</b> Pilene viser hvem som spør hvem. Mønstrene kan ko" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><text class="h" x="10" y="34">1. Frontend-only</text><rect class="accs" x="190" y="15" width="150" height="38" rx="5"/><text class="h" x="265.0" y="32" text-anchor="middle">Nettleser</text><text class="m" x="265.0" y="46" text-anchor="middle" style="font-size:11px">HTML + JS</text><line class="ar" x1="342" y1="34" x2="388" y2="34"/><rect class="accs" x="390" y="15" width="150" height="38" rx="5"/><text class="h" x="465.0" y="32" text-anchor="middle">Andres tjenester</text><text class="m" x="465.0" y="46" text-anchor="middle" style="font-size:11px">eller egne statiske filer</text><text class="h" x="10" y="96">2. Frontend + API</text><rect class="accs" x="190" y="77" width="150" height="38" rx="5"/><text class="h" x="265.0" y="94" text-anchor="middle">Nettleser</text><line class="ar" x1="342" y1="96" x2="388" y2="96"/><rect class="accs" x="390" y="77" width="150" height="38" rx="5"/><text class="h" x="465.0" y="94" text-anchor="middle">API</text><text class="m" x="465.0" y="108" text-anchor="middle" style="font-size:11px">Node, Python, edge</text><line class="ar" x1="542" y1="96" x2="588" y2="96"/><rect class="accs" x="590" y="77" width="150" height="38" rx="5"/><text class="h" x="665.0" y="94" text-anchor="middle">PostGIS</text><text class="m" x="665.0" y="108" text-anchor="middle" style="font-size:11px">database</text><text class="h" x="10" y="158">3. 3-lags kartserver</text><rect class="accs" x="190" y="139" width="150" height="38" rx="5"/><text class="h" x="265.0" y="156" text-anchor="middle">Klient</text><text class="m" x="265.0" y="170" text-anchor="middle" style="font-size:11px">nettleser, QGIS …</text><line class="ar" x1="342" y1="158" x2="388" y2="158"/><rect class="accs" x="390" y="139" width="150" height="38" rx="5"/><text class="h" x="465.0" y="156" text-anchor="middle">Kartserver</text><text class="m" x="465.0" y="170" text-anchor="middle" style="font-size:11px">GeoServer, pygeoapi</text><line class="ar" x1="542" y1="158" x2="588" y2="158"/><rect class="accs" x="590" y="139" width="150" height="38" rx="5"/><text class="h" x="665.0" y="156" text-anchor="middle">Data</text><text class="m" x="665.0" y="170" text-anchor="middle" style="font-size:11px">PostGIS, GeoPackage</text><text class="h" x="10" y="220">4. Cache / tiles</text><rect class="accs" x="190" y="201" width="150" height="38" rx="5"/><text class="h" x="265.0" y="218" text-anchor="middle">Nettleser</text><line class="ar" x1="342" y1="220" x2="388" y2="220"/><rect class="accs" x="390" y="201" width="150" height="38" rx="5"/><text class="h" x="465.0" y="218" text-anchor="middle">Cache / CDN</text><text class="m" x="465.0" y="232" text-anchor="middle" style="font-size:11px">MapProxy, PMTiles</text><line class="ar" x1="542" y1="220" x2="588" y2="220"/><rect class="accs" x="590" y="201" width="150" height="38" rx="5"/><text class="h" x="665.0" y="218" text-anchor="middle">Kartserver / fliser</text></svg><figcaption><b>Figur 18.</b> <b>Fire arkitekturmønstre.</b> Pilene viser hvem som spør hvem. Mønstrene kan kombineres, for eksempel frontend + API + PostGIS med cache foran.</figcaption></figure>
-<h3>14.2 Velg arkitektur</h3>
+<h3>15.2 Velg arkitektur</h3>
 <div class="tablewrap"><table>
 <tr><th>Spørsmål</th><th>Peker mot</th></tr>
 <tr><td>Åpne data som sjelden endres?</td><td>Frontend-only (evt. cloud native)</td></tr>
@@ -880,7 +964,7 @@ uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').s
 <tr><td>Mange brukere eller tunge kart?</td><td>Legg til caching</td></tr>
 </table></div>
 
-<h3>14.3 Stack-valg når en agent skal bygge</h3>
+<h3>15.3 Stack-valg når en agent skal bygge</h3>
 <div class="tablewrap"><table>
 <tr><th>Kriterium</th><th>Frontend + backend (kompilert)</th><th>Én HTML-fil</th></tr>
 <tr><td>Deploy</td><td>Bygg-steg og server/container</td><td>Kopier filen til statisk vert</td></tr>
@@ -893,21 +977,22 @@ uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').s
 <div class="kilder"><strong>Kilder:</strong> Canvas: «Arkitekturer» og «KI-agenter og stack-valg». Videre: MapLibre «Add a WMS source», Cloud-Native Geospatial: guide, postgis-sql-api og supabase_geojson_sqlapi (GitHub), PMTiles-dokumentasjon.</div>
 
 <!-- ======================================================= -->
-<h2 id="k15">15. KI-agenter og geografisk IT</h2>
+<h2 id="k16">16. KI-agenter og geografisk IT</h2>
 <div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
 <li>En KI-agent er en språkmodell som resonnerer, bruker verktøy og jobber i en løkke: planlegge, handle, observere, justere.</li>
 <li>Agenter kan lite på egen hånd: feil CRS, lange feilkjeder og hallusinering er typiske fallgruver.</li>
 <li>Fire nivåer for å gi agenten mer: prompt engineering → instruksjoner → skills → MCP.</li>
+<li>Praktisk oppsett: prosjektmappe, git, uv og en kort instruksjonsfil. Les skills før du installerer dem.</li>
 <li>Agenten er en rask praktikant: du må kunne kontrollere resultatet.</li>
 </ul></div>
 
-<h3>15.1 Hva er en KI-agent?</h3>
+<h3>16.1 Hva er en KI-agent?</h3>
 <p>En KI-agent er en språkmodell (LLM) som kan resonnere, bruke verktøy og jobbe i en løkke: <strong>1) resonnering</strong> («hva trenger jeg?»), <strong>2) verktøykall</strong> (kjør kode, kall API eller MCP-server), <strong>3) observasjon</strong> (resultat eller feilmelding). Resultatet går tilbake til modellen til oppgaven er løst. Hver runde gir ny informasjon, så agenten kan oppdage og rette egne feil, men en feil tidlig i løkken kan også forplante seg.</p>
 <p><em>Eksempel:</em> «Jeg trenger kommunegrensene» → agenten henter fra Geonorge og leser inn med geopandas → resultatet viser at CRS mangler → neste runde: sjekk og sett CRS.</p>
 
 
 <figure><svg class="fig" viewBox="0 0 720 245" role="img" aria-label="<b>Agent-løkken.</b> Hver runde gir modellen ny informasjon, slik at agenten kan" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs><rect class="box" x="10" y="95" width="130" height="50" rx="6"/><text class="h" x="75" y="124" text-anchor="middle">Oppgave</text><rect class="accs" x="200" y="20" width="170" height="54" rx="6"/><text class="h" x="285" y="44" text-anchor="middle">1. Resonnering</text><text class="m" x="285" y="62" text-anchor="middle">LLM: hva er neste steg?</text><rect class="accs" x="420" y="95" width="170" height="54" rx="6"/><text class="h" x="505" y="119" text-anchor="middle">2. Verktøykall</text><text class="m" x="505" y="137" text-anchor="middle">kode, API, MCP</text><rect class="accs" x="200" y="170" width="170" height="54" rx="6"/><text class="h" x="285" y="194" text-anchor="middle">3. Observasjon</text><text class="m" x="285" y="212" text-anchor="middle">resultat / feilmelding</text><path class="ar" d="M144,112 L196,60"/><path class="ar" d="M374,56 L416,100"/><path class="ar" d="M452,152 L372,190"/><path class="ar" d="M196,200 C150,200 150,120 196,70" /><rect class="box" x="640" y="95" width="70" height="50" rx="6"/><text class="h" x="675" y="124" text-anchor="middle">Svar</text><line class="ar" x1="594" y1="120" x2="636" y2="120"/><text class="m" x="500" y="215" text-anchor="middle">Løkken gjentas til oppgaven er løst. Feil tidlig i løkken forplanter seg.</text></svg><figcaption><b>Figur 19.</b> <b>Agent-løkken.</b> Hver runde gir modellen ny informasjon, slik at agenten kan oppdage og rette feil, men en tidlig feil kan også følge med hele veien.</figcaption></figure>
-<h3>15.2 Hva agenter er gode på, og hvor det går galt</h3>
+<h3>16.2 Hva agenter er gode på, og hvor det går galt</h3>
 <div class="tablewrap"><table>
 <tr><th>Godt egnet</th><th>Typiske feil</th></tr>
 <tr><td>Skrive og forklare spatial SQL</td><td>Koordinatsystem: buffer i grader i stedet for meter; blanding av 4326 og UTM</td></tr>
@@ -922,7 +1007,7 @@ uv run --with duckdb python -c "import duckdb; duckdb.sql('SELECT 42 AS svar').s
 
 
 <figure><img class="ramme" style="max-height:640px;width:auto" src="bilder/ki-hallusinering.png" alt="Chat der en språkmodell svarer på hvilke kommuner som grenser til Kristiansand"><figcaption><b>Figur 20.</b> Modellen svarer selvsikkert, men listen er ufullstendig (Lillesand mangler). Stille feil må fanges med kontroll mot data.</figcaption></figure>
-<h3>15.3 Fra prompt til MCP</h3>
+<h3>16.3 Fra prompt til MCP</h3>
 <p>Start nederst og bygg oppover når oppgaven krever det:</p>
 <div class="tablewrap"><table>
 <tr><th>Nivå</th><th>Hva</th><th>Geo-eksempel</th><th>Bruk når</th></tr>
@@ -949,16 +1034,128 @@ description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
 - Tematiske kart: normaliser verdiene og bruk en sekvensiell fargeskala.</code></pre>
 <p>Agenten ser først bare navn og beskrivelse og laster resten ved behov. Formatet ble opprinnelig utviklet av Anthropic og støttes av flere agentverktøy.</p>
 
-<h3>15.4 Slik styrer du en agent</h3>
+<h3>16.4 Slik styrer du en agent</h3>
 <ol>
 <li><strong>Gi kontekst</strong> i en instruksjonsfil (<code>AGENTS.md</code>/<code>CLAUDE.md</code>): versjoner, hva som ikke skal gjøres, hvordan resultatet testes. Eksempel fra MapLibre: «Kun ES-modul; pin eksakt versjon i CDN-URL; moduler lastes ikke fra file://; test at kartet laster (<code>map.on("load")</code>) før levering.»</li>
 <li><strong>Gi verktøy og kunnskap</strong>: skills og MCP-servere.</li>
 <li><strong>Krev verifisering</strong>: be agenten teste selv (kjøre koden, åpne kartet), og gjør egen kontroll: se på kartet, sjekk antall objekter, areal og koordinatsystem.</li>
 </ol>
 
-<h3>15.5 Superhelt eller praktikant?</h3>
+<h3>16.5 Superhelt eller praktikant?</h3>
 <p>Agenten er en rask og lærevillig praktikant. Den jobber raskt og er sjelden sliten, men tar ikke ansvar for resultatet. Du må kunne nok til å se når svaret er feil, og ha oversikt over datakvalitet og lisenser. Kunnskapen fra de foregående kapitlene (operasjoner, koordinatsystem, lagring, arkitektur, kvalitet) er det som gjør deg i stand til å gi gode oppdrag og kontrollere svarene. KI-bruk i emnet er tillatt og anbefalt, men skal dokumenteres i prosjektoppgaven.</p>
+<h3>16.6 Oppsett: agent, uv og instruksjonsfil</h3>
+<p>Språkmodellen regner ikke, den skriver kode som regner. Derfor er kodekjøring kjernen i oppsettet. Claude Code (terminal, VS Code eller desktop) er hovedeksempelet; GitHub Copilot (gratis for studenter via GitHub Education), Codex CLI og Gemini CLI fungerer etter de samme prinsippene. KI-teknikkene i kurset er språkmodeller og agenter, pluss klassisk maskinlæring på vektordata (klynger, prediksjon). Bildeanalyse og raster dekkes ikke.</p>
+<ul>
+<li><strong>Prosjektmappen er arbeidsrommet.</strong> Agenten ser filene og kjører kommandoer der. Bruk én mappe per analyse.</li>
+<li><strong>Tillatelser</strong> styrer hva agenten får lese, skrive, kjøre og hente fra nett. Godkjenn aldri en kommando du ikke forstår.</li>
+<li><strong>Git er angreknappen.</strong> Lagre (commit) før og etter agentarbeid, og se på diffen.</li>
+<li><strong>Hva sendes hvor?</strong> Data og kode går til leverandøren. Tenk på personopplysninger, graderte data og virksomhetens retningslinjer. Lokale modeller er et alternativ, men gir lavere kvalitet og hastighet.</li>
+</ul>
+<p><strong>uv</strong> installerer Python og pakker med én kommando, låser versjonene og gjør at analysen kan kjøres på nytt på en annen maskin. Pakkene og versjonene ligger i <code>pyproject.toml</code> og <code>uv.lock</code>. Regelen til agenten er enkel: «Kjør Python med <code>uv run</code>, aldri <code>pip install</code>.»</p>
+<pre><code># Lag et nytt prosjekt
+uv init naerhet
+# Legg til pakker
+uv add geopandas pyogrio matplotlib
+# Kjør et skript i prosjektets miljø
+uv run analyse.py</code></pre>
+<p>Instruksjonsfilen (<code>CLAUDE.md</code> eller <code>AGENTS.md</code>) leses av agenten hver gang den starter. Hold den kort og konkret. En mal for et geoprosjekt:</p>
+<pre><code># Prosjekt: nærhetsanalyse
+## Data
+- Alle data ligger i `data/`. Ikke last ned andre data uten å spørre.
+- Koordinatsystem: EPSG:25833 (UTM 33N, meter).
+## Regler
+- Kjør Python med `uv run`. Aldri `pip install`. Nye pakker: `uv add`.
+- Avstand og areal beregnes i meter (projisert CRS), aldri i grader.
+- Skriv analysen som skript i `analyse/`, ikke bare som svar i chatten.
+- Lag en plan og vent på godkjenning før du skriver kode.
+- Si fra hvis noe er usikkert. Les kolonnenavn fra dataene, ikke gjett.</code></pre>
+<p>Test den ved å starte agenten og spørre «Hva vet du om dette prosjektet?». Svarer den ut fra instruksjonsfilen?</p>
+
+<h3>16.7 Instruksjoner, skills, MCP og plugins: hva gjelder når?</h3>
+<div class="tablewrap"><table>
+<tr><th>Mekanisme</th><th>Når den er med</th></tr>
+<tr><td><code>AGENTS.md</code> / <code>CLAUDE.md</code></td><td>Gjelder <em>alltid</em></td></tr>
+<tr><td>Skills</td><td>Bare beskrivelsen (<code>description</code>) er alltid med. Resten leses ved behov</td></tr>
+<tr><td>MCP-servere</td><td>Verktøy og instruksjoner. Fordel: kan hostes eksternt</td></tr>
+<tr><td>Plugins</td><td>Innpakning av skills, instruksjoner, kommandoer og MCP-servere</td></tr>
+</table></div>
+
+<h3>16.8 Skills andre har laget, og egne skills</h3>
+<p>En skill er en vanlig mappe med instruksjoner som agenten laster når den passer, og den deles på GitHub. Det finnes tusenvis, og noen samlinger har over 100 000 stjerner. Mange av de mest brukte handler ikke om kode, men om arbeidsmåte: å bli utspurt, planlegge, verifisere og lære. Du kan installere en skill som plugin (<code>/plugin install ...</code> i Claude Code), med <code>npx skills@latest add &lt;repo&gt;</code> (krever Node) eller ved å kopiere mappen til <code>.claude/skills/</code>.</p>
+<p><strong>Les før du installerer.</strong> En skill er instruksjoner (og iblant skript) som agenten følger med dine tillatelser. Behandle den som kode fra en fremmed.</p>
+<div class="tablewrap"><table>
+<tr><th>Skill</th><th>Samling</th><th>Hva den gjør</th></tr>
+<tr><td>grill-me / grilling</td><td>mattpocock/skills (~310k ★)</td><td>Intervjuer deg om planen, ett spørsmål om gangen. Tvinger frem valg du ikke har tatt (avstandsmål, terskel, aggregeringsenhet)</td></tr>
+<tr><td>grill-with-docs</td><td>mattpocock/skills</td><td>Som grill-me, men skriver ordliste og beslutningslogg underveis</td></tr>
+<tr><td>teach</td><td>mattpocock/skills</td><td>Lærer deg et konsept i arbeidsmappen din</td></tr>
+<tr><td>research</td><td>mattpocock/skills</td><td>Undersøker et spørsmål mot primærkilder og lagrer funnene som Markdown</td></tr>
+<tr><td>interview-me</td><td>addyosmani/agent-skills (~113k ★)</td><td>Finner ut hva du egentlig vil. Nyttig for uklare bestillinger</td></tr>
+<tr><td>doubt-driven-development</td><td>addyosmani/agent-skills</td><td>Lar en ny kontekst gå kritisk gjennom hver viktig beslutning</td></tr>
+<tr><td>source-driven-development</td><td>addyosmani/agent-skills</td><td>Forankrer kode i offisiell dokumentasjon, mot utdaterte API-er</td></tr>
+<tr><td>brainstorming, writing-plans</td><td>obra/superpowers (~311k ★)</td><td>Utforsker idé og krav, og lager en trinnvis plan før koding</td></tr>
+<tr><td>systematic-debugging</td><td>obra/superpowers</td><td>Finner årsaken før den foreslår en løsning</td></tr>
+<tr><td>verification-before-completion</td><td>obra/superpowers</td><td>Krever bevis (kjørt kode, output) før agenten sier at noe er ferdig</td></tr>
+<tr><td>discernment-nudge</td><td>anthropics/skills (~187k ★)</td><td>Legger til 2–3 spørsmål etter et svar som hjelper deg å sjekke fakta og antakelser</td></tr>
+<tr><td>skill-creator</td><td>anthropics/skills</td><td>Hjelper deg å lage, teste og forbedre egne skills</td></tr>
+<tr><td>pdf, docx, xlsx</td><td>anthropics/skills</td><td>Leser og lager dokumenter og regneark</td></tr>
+<tr><td>find-skills</td><td>vercel-labs/skills</td><td>Finner og installerer skills for en oppgave</td></tr>
+</table></div>
+<p class="sub">Antall stjerner er avrundet, per november 2026. Kataloger å bla i: skills.sh, Claude-plugins og agentskills.io. Legg merke til at mange av de populære skillene er laget for å bremse agenten og spørre deg.</p>
+<p><strong>Lage en egen skill.</strong> Instruksjonsfilen gjelder ett prosjekt, mens en skill kan brukes på tvers av prosjekter og deles med kolleger. En skill er en mappe med <code>SKILL.md</code>, eventuelt med <code>scripts/</code> og <code>references/</code>. Beskrivelsen styrer når agenten laster den. Start i jobben din: skriv ned tre situasjoner der en agent uten bakgrunnskunnskap ville bommet (interne begreper, datasett, standarder, koordinatsystem, vurderinger en kollega gjør automatisk). Test alltid med og uten skillen på samme oppgave, og bruk skill-creator som hjelp. Spørsmålet er om svarene ble <em>bedre</em>, ikke bare annerledes.</p>
 <div class="kilder"><strong>Kilder:</strong> Canvas: «KI-agenter og geografisk IT» og «KI-agenter og stack-valg». Videre: agentskills.io, Anthropic: Agent Skills og Prompt engineering, Model Context Protocol, Claude Code best practices, GeoBenchX, GISAgentBench, GeoHaluBench, Esri: MCP for ArcGIS Location Services, AGENTS.md. Demo: <a href="../Fargeskalaer for tematiske kart/index.html">Fargeskalaer</a> inneholder <code>Skill.md</code> og en zip-pakke.</div>
+
+<!-- ======================================================= -->
+<h2 id="k17">17. Kritisk vurdering og ansvar</h2>
+<div class="sammendrag"><strong class="t">Kort sagt</strong><ul>
+<li>En agent leverer en ferdig analyse med kart på minutter. Det gjør det vanskeligere, ikke lettere, å oppdage når den er feil.</li>
+<li>Feilene endrer seg med hver ny modell. Det som varer, er fagkunnskapen og vanen med å stille spørsmål, ikke en sjekkliste.</li>
+<li>Tre vaner: gjør deg opp en mening først, spør hvordan det kunne vært feil, og se det fra en annens ståsted.</li>
+<li>Agenten tar ikke ansvar. Du må kunne si hva KI gjorde, og hva du selv vurderte.</li>
+</ul></div>
+
+<h3>17.1 Dømmekraft i stedet for oppskrift</h3>
+<p>Feilene endrer seg med hver ny modell og hvert nytt verktøy. En sjekkliste fanger gårsdagens feil. Det som varer, er fagkunnskapen (koordinatsystem, operasjoner, data) og vanen med å stille spørsmål. Det farligste resultatet er det som ser profesjonelt ut og bekrefter det du trodde fra før.</p>
+
+<h3>17.2 Tre vaner</h3>
+<ol>
+<li><strong>Gjør deg opp en mening før du ser svaret.</strong> Hvor mange bygg tror du ligger mer enn 3 km fra en brannstasjon? Et grovt anslag gjør at du reagerer når svaret er 10 ganger for stort.</li>
+<li><strong>Spør hvordan det kunne vært feil.</strong> Tenk deg at analysen viste seg å være feil om et halvt år. Hva var mest sannsynlig årsak: dataene, metoden, koden eller spørsmålet?</li>
+<li><strong>Se det fra en annens ståsted.</strong> Hva ville brannsjefen, en innbygger i distriktet eller en kollega som ikke liker konklusjonen, spurt om?</li>
+</ol>
+
+<h3>17.3 Hvor skjevheter kommer fra</h3>
+<div class="tablewrap"><table>
+<tr><th>Kilde</th><th>Eksempel</th></tr>
+<tr><td>Data</td><td>Ujevn dekning, og hvem som er registrert</td></tr>
+<tr><td>Modell</td><td>Kjenner Oslo bedre enn Bykle, og bekrefter gjerne det du antyder</td></tr>
+<tr><td>Metode</td><td>Aggregeringsenhet, terskler og luftlinje</td></tr>
+<tr><td>Oss selv</td><td>Vi stoler for mye på maskinen</td></tr>
+</table></div>
+<p>Se Haklay (2010) om kvaliteten på frivillig innsamlet geografisk informasjon, Manvi mfl. (2024) om geografiske skjevheter i språkmodeller og Parasuraman og Manzey (2010) om overdreven tillit til automatisering.</p>
+
+<h3>17.4 La verktøyene trene deg, ikke erstatte deg</h3>
+<p>Skills som grill-me, interview-me og discernment-nudge er laget for å få deg til å tenke, ikke for å tenke for deg. Be agenten forklare <em>hvorfor</em>, ikke bare hva. Hvis du ikke kan forklare analysen til en kollega, er du ikke ferdig. Risikoen ved å slutte å øve er at ferdighetene som trengs for å vurdere svaret, er de samme som agenten tar over.</p>
+
+<h3>17.5 Når passer KI, og når passer det ikke?</h3>
+<div class="tablewrap"><table>
+<tr><th>Passer</th><th>Passer dårlig</th></tr>
+<tr><td>Du kan vurdere svaret selv</td><td>Du ikke kan vurdere svaret</td></tr>
+<tr><td>Arbeidet er repetitivt</td><td>Feil rammer enkeltpersoner</td></tr>
+<tr><td>Utkast og utforsking</td><td>Dataene ikke kan deles med leverandøren</td></tr>
+</table></div>
+
+<h3>17.6 Ansvar og åpenhet</h3>
+<p>Agenten tar ikke ansvar. Hvem signerer analysen? I en rapport bør det stå hvilke verktøy som er brukt, hva KI gjorde, hva du vurderte selv, og hvordan du gjorde det. Rammer å kjenne til: EUs KI-forordning (risikonivåer), personvern for lokasjonsdata, Digdirs veiledning for ansvarlig bruk av KI og virksomhetens egne retningslinjer.</p>
+<p>Kurset selv følger samme prinsipp. Emneansvarlig har brukt Claude Code til å lage utkast til tekst, eksempler og kode, og til å bygge Canvas-sidene, og KI er brukt som sparringspartner for å finne svakheter. De syntetiske datasettene i modul 2 er generert med kode. Datasettene i øvingene er hentet fra åpne kilder (Geonorge, SSB, Overture Maps) og er ikke laget eller endret av KI. Alt er lest gjennom og redigert av emneansvarlig, men KI-generert tekst og kode kan inneholde feil som ser riktige ut.</p>
+
+<h3>17.7 Prøv selv</h3>
+<ul>
+<li>Let etter feil i et KI-generert skript uten agent i 15 minutter, og be deretter agenten gå gjennom det. Hvem fant hva, og hva fikk deg til å mistenke hver feil? (Øving 6)</li>
+<li>Still en modell tre faktaspørsmål om en stor og en liten kommune, uten nettsøk, og kontroller mot SSB og Kartverket. Var feilene jevnt fordelt? (Øving 7)</li>
+<li>Skriv fem setninger om hvordan du ville beskrevet KI-bruken i en rapport.</li>
+<li>Ville du levert resultatet til ledelsen i morgen? Hva måtte du visst først, og hvem ville vært uenig i konklusjonen?</li>
+</ul>
+<div class="kilder"><strong>Kilder:</strong> Canvas: «M3 – Kritisk vurdering og ansvar», «KI i kursmaterialet» og «M3 – Øvinger» (Ø6–Ø8). Videre: Digdir: veiledning for ansvarlig bruk av KI; Datatilsynet: kunstig intelligens og personvern; Haklay (2010); Manvi mfl. (2024); Parasuraman og Manzey (2010).</div>
 
 <!-- ======================================================= -->
 <h2 id="glossar">Ordliste</h2>
@@ -973,7 +1170,9 @@ description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
 <dt>Cloud native</dt><dd>Formater laget for å leses direkte fra objektlagring med range requests.</dd>
 <dt>CRS</dt><dd>Coordinate Reference System; koordinatsystem (datum + evt. projeksjon).</dd>
 <dt>CSW</dt><dd>Catalogue Service for the Web; OGC-tjeneste for metadatasøk.</dd>
+<dt>DBSCAN</dt><dd>Klyngealgoritme som grupperer punkter etter tetthet, finner klynger i vilkårlig form og markerer enkeltpunkter som støy. Krever <code>eps</code> og minste antall punkter.</dd>
 <dt>De-facto-standard</dt><dd>Utbredt praksis uten formell standardisering (XYZ-tiles, MVT, ArcGIS REST).</dd>
+<dt>Dekningsanalyse</dt><dd>Beregner hvor stor andel av befolkning eller areal som nås av en tjeneste, ofte med isokroner og befolkning på rutenett.</dd>
 <dt>Dissolve</dt><dd>Slå sammen flater som deler en attributtverdi.</dd>
 <dt>Dot density</dt><dd>Kart der hver prikk representerer et fast antall enheter.</dd>
 <dt>DuckDB</dt><dd>Innebygd analysedatabase med spatial-utvidelse.</dd>
@@ -989,11 +1188,15 @@ description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
 <dt>Geovekst</dt><dd>Samarbeid om å etablere og forvalte geodata (FKB).</dd>
 <dt>Graf</dt><dd>Noder og kanter med kostnad; grunnlag for ruteberegning.</dd>
 <dt>Heatmap</dt><dd>Glatt tetthetsflate beregnet fra punkter (kernel density).</dd>
+<dt>H3</dt><dd>Heksagonalt rutenett i flere oppløsninger, brukt til å aggregere punkter.</dd>
 <dt>Hallusinering</dt><dd>At en språkmodell finner opp fakta, datasett, URL-er eller lag som ikke finnes.</dd>
 <dt>Isokron</dt><dd>Område man rekker innen en gitt reisetid.</dd>
 <dt>ISO 19115 / 19157</dt><dd>Standarder for henholdsvis metadata og datakvalitet.</dd>
 <dt>Kartogram</dt><dd>Kart der geografi forvrenges eller forlates slik at størrelsen viser verdien (Dorling).</dd>
+<dt>KDE</dt><dd>Kernel density estimation; glatter punkter til en kontinuerlig tetthetsflate. Bandwidth styrer glattingen.</dd>
 <dt>Klasse / klassifisering</dt><dd>Inndeling av verdier i grupper (like intervaller, kvantiler, Jenks).</dd>
+<dt>Klyngeanalyse</dt><dd>Metoder som grupperer objekter etter likhet eller nærhet (f.eks. DBSCAN og k-means).</dd>
+<dt>Lokaliseringsanalyse</dt><dd>Analyse av hvor neste enhet bør ligge for å øke dekningen mest.</dd>
 <dt>MCP</dt><dd>Model Context Protocol; åpen protokoll som kobler KI-agenter til verktøy og data.</dd>
 <dt>Metadata</dt><dd>Data om data: innhold, opphav, kvalitet, lisens, CRS.</dd>
 <dt>MVT</dt><dd>Mapbox Vector Tiles; mest brukte vektortileformat.</dd>
@@ -1015,6 +1218,7 @@ description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
 <dt>SOSI</dt><dd>Norsk utvekslingsformat for geografiske data fra Kartverket.</dd>
 <dt>STAC</dt><dd>SpatioTemporal Asset Catalog; katalogisering av satellittdata.</dd>
 <dt>Tissots indikatriks</dt><dd>Sirkler på kartet som viser en projeksjons forvrengning.</dd>
+<dt>uv</dt><dd>Verktøy som installerer Python og pakker, låser versjonene og gjør analysen reproduserbar.</dd>
 <dt>Vektor</dt><dd>Punkter, linjer og flater med attributter.</dd>
 <dt>WFS / WMS / WMTS / WCS</dt><dd>Klassiske OGC-tjenester for henholdsvis vektorobjekter, kartbilder, fliser og raster.</dd>
 </dl>
@@ -1034,6 +1238,8 @@ description: Bruk når oppgaven gjelder norske geodata, koordinatsystemer,
 <li>QGIS User Guide; QGIS Training Manual; GeoLibre Tutorials; OSGeo Software projects</li>
 <li>GeoPandas: Getting started; uv-dokumentasjon; MapLibre GL JS</li>
 <li>Agent Skills (agentskills.io); Anthropic: Agent Skills og Prompt engineering; Model Context Protocol; Claude Code: Best practices; GeoBenchX</li>
+<li>Modul 3: SSB: Befolkning på rutenett; DSB: dimensjoneringsforskriften; scikit-learn: Clustering (DBSCAN); H3; osmnx og r5py; uv-dokumentasjon; skill-samlingene mattpocock/skills, addyosmani/agent-skills, obra/superpowers, anthropics/skills</li>
+<li>Digdir: veiledning for ansvarlig bruk av KI; Datatilsynet: kunstig intelligens og personvern; Haklay (2010): <em>How good is volunteered geographical information?</em>; Manvi mfl. (2024): <em>Large Language Models are Geographically Biased</em>; Parasuraman og Manzey (2010): <em>Complacency and bias in human use of automation</em></li>
 </ul>
 <h3>Tilleggskilder fra nett (brukt i gule felt)</h3>
 <ul>

@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M3 - Øvinger</title>
+<link rel="stylesheet" href="../styles/00_fonts-eb4a10fb18.css">
+<link rel="stylesheet" href="../styles/01_variables-9dec371ad57e3dd0396f0b2eddb63479.css">
+<link rel="stylesheet" href="../styles/02_common-0b407277f8.css">
+<link rel="stylesheet" href="../styles/03_wiki_page-5a55818398.css">
+<link rel="stylesheet" href="../styles/04_UIAjuli2025smartoppdat.css"></head>
+<body class="ic-no-flash-warning">
+<div id="content" class="ic-Layout-contentMain">
+<h1 class="page-title">M3 - Øvinger</h1>
+<div class="user_content enhanced">
+<div class="_smartdesigner" data-template-id="cmpfeifoe001v3kta1pxa8gnn_50">
+<div class="rounded-lg pl-3 mb-2 pr-3 pt-2 pb-2 mt-10" data-component-type="rte" id="ov37" style="color: black; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<h2 id="ov38">Øvinger</h2>
+</div>
+<section class="flex flex-col flex-wrap md:flex-row items-center justify-evenly pt-0 pb-0 mb-7 mt-8 md:mb-8" id="ov39" style="gap: 0 2rem;">
+<div class="min-w-auto flex flex-col items-center md:items-start md:text-left justify-center md:p-0 mr-0 p-0 w-full flex-grow" id="ov40">
+<div class="mt-0 mr-0 md:mr-0 pr-0 pl-0 md:pr-0 mb-0" data-component-type="rte" id="ov41" style="color: var(--sd-cmh3doa2r001d2e1fu32oz11u-nlka);">
+<p>Her er det laget en god del praktiske øvingsoppgaver som kan være fine å prøve seg på. Vi bruker noen av de på seminaret, resten er til inspirasjon og gjøre i selvstudiet. Øvingene er skrevet for Claude Code, men virker med andre agenter (GitHub Copilot, Codex CLI, Gemini CLI). Alle øvingene har samme oppbygning: <strong>mål</strong>, <strong>steg</strong>, <strong>vurder</strong> og <strong>refleksjon</strong>. Vurder-delen inneholder åpne spørsmål, ikke en fasit. Poenget er at du selv skal finne ut hva som må sjekkes.</p>
+<p><strong>Terminal er valgfritt.</strong> Alle kommandoer har en kommentar på hver linje (linjer som starter med <code>#</code>) som forklarer hva de gjør. Du kan kjøre dem selv, gjøre det samme i nettleser og filutforsker, eller be agenten gjøre det for deg: «Lag prosjektmappen, last ned dataene og legg dem i <code>data/</code>.»</p>
+<p><strong>Velg fritt.</strong> Du bestemmer selv hvilke øvinger du vil gjøre i verkstedene, og i hvilken rekkefølge. Øvingene forutsetter at uv, git og en agent er installert. Ø1 er et godt sted å starte, siden de andre bruker de samme dataene.</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Øving</th>
+<th style="text-align: left;">Tema</th>
+<th style="text-align: left;">Temaside</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ø1</td>
+<td>Oppsett og første nærhetsanalyse</td>
+<td>1 og 2</td>
+</tr>
+<tr>
+<td>Ø2</td>
+<td>Prøv skills andre har laget</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Ø3</td>
+<td>Lag en skill for ditt eget fagområde</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Ø4</td>
+<td>Tetthet og klynger</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Ø5</td>
+<td>Dekningsanalyse</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Ø6</td>
+<td>Finn feilen</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Ø7</td>
+<td>Samme spørsmål, ulike steder</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Ø8</td>
+<td>CTF med KI-agent: Gran Canaria</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov01" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov02" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov03">
+<h3 class="mt-2 mb-2" id="data">Data</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov04">
+<p>Du laster ned dataene selv. Lag mappen <code>data/</code> i prosjektet og legg filene der. Ø1, Ø4 og Ø5 bruker de samme filene, så du trenger bare laste dem ned én gang. Ø6 bruker filene som ligger i <a href="https://github.com/alexanno/is930-demoer/blob/main/modul-3/ovinger/" target="_blank">ovinger/</a>.</p>
+<div style="overflow-x: auto;">
+<table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+<thead>
+<tr style="background-color: rgba(0,0,0,0.08);">
+<th style="text-align: left;">Data</th>
+<th style="text-align: left;">Kilde</th>
+<th style="text-align: left;">Nedlasting</th>
+<th style="text-align: left;">Brukes i</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bygningspunkt</td>
+<td>Matrikkelen – Bygningspunkt, Geonorge</td>
+<td><a href="https://kartkatalog.geonorge.no/metadata/uuid/24d7e9d1-87f6-45a0-b38e-3447f8d7f9a1" target="_blank">Metadata og nedlasting</a></td>
+<td>Ø1, Ø4, Ø5</td>
+</tr>
+<tr>
+<td>Brannstasjoner</td>
+<td>DSB via Geonorge</td>
+<td><a href="https://kartkatalog.geonorge.no/Metadata/uuid/0ccce81d-a72e-46ca-8bd9-57b362376485" target="_blank">Metadata og nedlasting</a></td>
+<td>Ø1, Ø5</td>
+</tr>
+<tr>
+<td>Restauranter</td>
+<td>Overture Maps (tema <em>places</em>)</td>
+<td><a href="https://docs.overturemaps.org/getting-data/" target="_blank">Slik henter du data</a></td>
+<td>Ø4</td>
+</tr>
+<tr>
+<td>Befolkning 250 m</td>
+<td>SSB, befolkning på rutenett, via Geonorge</td>
+<td><a href="https://kartkatalog.geonorge.no/metadata/befolkning-paa-rutenett-250-m/0c0ad0ce-55e8-4d73-9c12-0eb0e2454acb" target="_blank">Alle årganger (tidsserie)</a>, <a href="https://kartkatalog.geonorge.no/metadata/befolkning-paa-rutenett-250-m-2026/d8f245c0-a002-4d3b-b833-10c638c6a879" target="_blank">bare 2026</a></td>
+<td>Ø4, Ø5, Ø6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Slik laster du ned fra Geonorge (bygningspunkt og brannstasjoner):</strong></p>
+<ol>
+<li>Åpne lenken i tabellen og klikk på nedlasting i kartkatalogen.</li>
+<li>Velg område: <strong>Agder</strong> (fylke). Brannstasjonene er landsdekkende, og du kan laste ned hele landet og la agenten velge ut Agder.</li>
+<li>Velg format <strong>GeoPackage</strong> hvis det finnes. Ellers duger FGDB eller GML. Agenten kan lese dem alle.</li>
+<li>Velg koordinatsystem <strong>EUREF89 UTM sone 33 (EPSG:25833)</strong>.</li>
+<li>Last ned, pakk ut zip-filen og legg filen i <code>data/</code> som <code>bygningspunkt.gpkg</code> og <code>brannstasjoner.gpkg</code>.</li>
+</ol>
+<p><strong>Slik laster du ned befolkning (SSB-rutenett):</strong> åpne lenken for 2026 i tabellen over (bruk tidsserie-lenken hvis du vil sammenligne år), og last ned <strong>Agder</strong> som <strong>GeoPackage</strong> i EPSG:25833, på samme måte som over. Du kan også bruke den ferdige filen i repoet: <a href="https://github.com/alexanno/is930-demoer/blob/main/modul-3/ovinger/Befolkning_42_Agder_25833_BefolkningsstatistikkRutenett250m2026_GPKG.gpkg" target="_blank">Befolkning_42_Agder_25833_BefolkningsstatistikkRutenett250m2026_GPKG.gpkg</a>. Legg den i <code>data/</code> som <code>befolkning_250m.gpkg</code>. Filen inneholder:</p>
+<ul>
+<li>Ett lag, <code>befolkningparutenett_befolkningparuter250m</code>, med 15 359 ruter på 250 × 250 m i Agder (2026), i EPSG:25833.</li>
+<li>Kolonnene <code>ssbid250m</code> (rute-ID), <code>poptot</code> (antall innbyggere) og <code>statistikkar</code> (årstall). Geometrien heter <code>omrade</code>.</li>
+<li>Til sammen 323 535 innbyggere. Bare <strong>bebodde</strong> ruter er med (minste verdi i <code>poptot</code> er 1). Ruter uten innbyggere finnes ikke i filen. Husk det når du regner areal, tetthet eller andeler.</li>
+</ul>
+<p><strong>Slik laster du ned restauranter fra Overture Maps:</strong></p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Forklaring av valgene: --bbox er et rektangel rundt Agder (vest,sør,øst,nord, i grader),
+# -f geoparquet er filformatet, --type=place betyr steder (butikker, restauranter m.m.), -o er filen som lagres.
+# uvx kjører verktøyet «overturemaps» uten å installere det permanent.
+uvx overturemaps download --bbox=6.4,57.9,9.4,59.7 -f geoparquet --type=place -o data/steder_agder.parquet
+</code></pre>
+<p>Filen inneholder alle steder, ikke bare restauranter. Be agenten filtrere på kategorien <code>restaurant</code> (kolonnen <code>categories</code>). Verktøyets dokumentasjon: <a href="https://github.com/OvertureMaps/overturemaps-py" target="_blank">overturemaps-py på GitHub</a>. Datamodellen for steder: <a href="https://docs.overturemaps.org/" target="_blank">docs.overturemaps.org</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov05" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov06" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov07">
+<h3 class="mt-2 mb-2">Ø1 Oppsett og første nærhetsanalyse</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov08">
+<p><strong>Mål:</strong> Lage en prosjektmappe der agenten har reglene den trenger for geodata, og gjennomføre en hel nærhetsanalyse på ekte data fra spørsmål til resultat. Danne deg en egen mening om resultatet.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li>Lag et prosjekt og legg til pakker. Kommandoene kan du også be agenten kjøre:
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Lag en ny prosjektmappe «naerhet» med et Python-oppsett
+uv init naerhet
+# Gå inn i mappen
+cd naerhet
+# Legg til pakkene: geopandas (geodata), pyogrio (rask filinnlesing), matplotlib (kart)
+uv add geopandas pyogrio matplotlib
+# Lag mappen «data» der datafilene skal ligge
+mkdir data
+# Gjør mappen til et git-repo, så du kan se hva agenten endrer
+git init
+# Legg alle filer til i neste lagring
+git add .
+# Lagre utgangspunktet med meldingen «start»
+git commit -m "start"
+</code></pre>
+</li>
+<li>Last ned <strong>bygningspunkt</strong> og <strong>brannstasjoner</strong> (se <a href="#data">Data</a>) og legg dem i <code>data/</code>.</li>
+<li>Lag <code>CLAUDE.md</code> (eller <code>AGENTS.md</code>) med malen under, og tilpass den.</li>
+<li>Start agenten i mappen og spør: «Hva vet du om dette prosjektet?» Svarer den ut fra instruksjonsfilen?</li>
+<li><strong>Før du spør agenten om analysen:</strong> skriv ned et anslag. Hvor stor andel av boligbyggene i Agder tror du ligger mer enn 5 km fra nærmeste brannstasjon?</li>
+<li>Gi agenten oppdraget:
+<blockquote style="margin: 8px 0 8px 8px; padding: 4px 14px; border-left: 4px solid rgba(128, 128, 128, 0.5);">
+<p>Hvor mange boligbygg (bygningstype 111–159) ligger mer enn 5 km fra nærmeste brannstasjon, og hvor mange er det per kommune? Lag et skript, kjør det, og lag et kart som viser byggene farget etter avstand.</p>
+</blockquote>
+</li>
+<li>Les planen før du godkjenner. Spør hvis noe er uklart.</li>
+<li>La agenten kjøre. Les skriptet den lagde. Se på <code>git diff</code>.</li>
+</ol>
+<p><strong>Mal for instruksjonsfil:</strong></p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Prosjekt: nærhetsanalyse
+
+## Data
+- Alle data ligger i `data/`: `bygningspunkt.gpkg` og `brannstasjoner.gpkg`. Ikke last ned andre data uten å spørre.
+- Koordinatsystem: EPSG:25833 (UTM 33N, meter).
+
+## Regler
+- Kjør Python med `uv run`. Aldri `pip install`. Nye pakker: `uv add`.
+- Avstand og areal beregnes i meter (projisert CRS), aldri i grader.
+- Skriv analysen som skript i `analyse/`, ikke bare som svar i chatten.
+- Lag en plan og vent på godkjenning før du skriver kode.
+- Si fra hvis noe er usikkert. Les kolonnenavn fra dataene, ikke gjett.
+</code></pre>
+<p><strong>Vurder (i gruppen):</strong></p>
+<ul>
+<li>Be agenten beskrive lagene og kolonnene i <code>data/</code>. Hvordan kan du finne ut om beskrivelsen stemmer, uten å spørre agenten igjen?</li>
+<li>Hvor nær var anslaget ditt? Hvis det var langt unna: tok du feil, eller tok agenten feil?</li>
+<li>Hvilke bygg regnet agenten som bolig? Hva ville skjedd med svaret hvis fritidsbygg (16x) og garasjer (18x) var med?</li>
+<li>Hva i resultatet ville du måttet bekrefte selv før du viste det til noen?</li>
+<li>Finn én måte å kontrollere svaret på som ikke bruker agentens kode, for eksempel i QGIS.</li>
+</ul>
+<p><strong>Variant (for de raske):</strong> Konverter dataene til EPSG:4326, fjern CRS-regelen fra instruksjonsfilen og kjør på nytt i en ny sesjon. Gjør agenten en feil? Ville du merket det hvis du ikke visste at den kunne skje?</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Lag en kopi av bygningspunktene i lengde/bredde (EPSG:4326) i stedet for meter (EPSG:25833)
+# -t_srs er koordinatsystemet som skal brukes. Først kommer filen som lages, deretter filen den leses fra.
+ogr2ogr -t_srs EPSG:4326 data/bygningspunkt_4326.gpkg data/bygningspunkt.gpkg
+</code></pre>
+<p><strong>Refleksjon:</strong> Hvilke regler fra din egen virksomhet burde stått i en slik fil? Avstanden er i luftlinje. Hvordan ville svaret endret seg med kjøreavstand i en fjordkommune, og hvordan ville du forklart det i en rapport?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov09" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov10" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov11">
+<h3 class="mt-2 mb-2">Ø2 Prøv skills andre har laget</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov12">
+<p><strong>Mål:</strong> Finne, vurdere og bruke skills fra andre, og se hvordan de endrer måten du jobber med agenten på.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li><strong>Les før du installerer.</strong> Åpne <a href="https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me" target="_blank">grill-me</a> på GitHub og les <code>SKILL.md</code>. Hva ber den agenten om å gjøre? Er det noe der du ikke ville latt agenten gjøre?</li>
+<li>Installer, på én av disse måtene (eller be agenten gjøre det):
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Måte 1: installer som Claude Code-plugin fra den offisielle plugin-katalogen
+claude plugin install mattpocock-skills@claude-plugins-official
+</code></pre>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Måte 2: bruk Node til å hente skills fra GitHub. Du får velge hvilke skills du vil ha.
+npx skills@latest add mattpocock/skills
+</code></pre>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Måte 3 (manuelt): lag skills-mappen i prosjektet hvis den ikke finnes
+mkdir -p .claude/skills
+# Kopier mappen «grill-me» (lastet ned fra GitHub) inn i den
+cp -r grill-me .claude/skills/
+</code></pre>
+</li>
+<li>Beskriv en analyse du vil gjøre, for eksempel en dekningsanalyse for legevakt i din region, og skriv <code>/grill-me</code>. Svar på spørsmålene til agenten er fornøyd.</li>
+<li>Velg én skill til fra tabellen på temasiden <em>Oppsett, agenter og skills</em>, for eksempel <code>discernment-nudge</code>, <code>verification-before-completion</code> eller <code>teach</code>. Bruk den på Ø1-analysen.</li>
+</ol>
+<p><strong>Vurder:</strong></p>
+<ul>
+<li>Hvilke spørsmål stilte <code>grill-me</code> som du ikke hadde tenkt på selv?</li>
+<li>Ble planen bedre, eller bare lengre?</li>
+<li>Hva gjorde den andre skillen annerledes enn agenten gjør uten den?</li>
+</ul>
+<p><strong>Refleksjon:</strong> Mange av de mest populære skillene er laget for å bremse agenten og spørre deg. Hvorfor tror du det er slik? Hvilken av skillene ville du anbefalt til en kollega?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov13" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov14" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov15">
+<h3 class="mt-2 mb-2">Ø3 Lag en skill for ditt eget fagområde</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov16">
+<p><strong>Mål:</strong> Lage en skill som gir agenten kunnskap om din egen virksomhet, ditt fagområde og dine egne problemstillinger, og finne ut om den hjelper.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li><strong>Start i jobben din, ikke i verktøyet.</strong> Skriv ned tre situasjoner fra eget fagområde der en agent uten bakgrunnskunnskap ville bommet. Eksempler på hva det kan være: interne begreper og forkortelser, datasett og systemer bare dere bruker, standarder og maler dere må følge, koordinatsystem og kilder dere alltid bruker, og vurderinger en kollega ville gjort automatisk.</li>
+<li>Lag skillen. Du kan be <code>skill-creator</code> (fra anthropics/skills) hjelpe deg, eller skrive den selv:
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Lag mappen for skillen. -p gjør at mellomliggende mapper lages samtidig. Gi mappen et navn som beskriver fagområdet ditt.
+mkdir -p .claude/skills/mitt-fagomrade
+# Lag filen SKILL.md. Den skal ha en «description» som sier når skillen skal brukes, og en brødtekst med kunnskapen.
+touch .claude/skills/mitt-fagomrade/SKILL.md
+</code></pre>
+Skriv inn det du la merke til i steg 1: begreper, datakilder, regler og vanlige feil. Skriv det slik du ville forklart det til en ny kollega.</li>
+<li>Velg tre oppgaver fra egen jobb der du vet hva et godt svar er. Bruk gjerne ekte, anonymiserte eksempler.</li>
+<li>Kjør hver oppgave i en ny sesjon uten skill og med skill. Noter hva som ble annerledes.</li>
+<li>Forbedre beskrivelsen (<code>description</code>) hvis skillen ikke ble brukt når den skulle.</li>
+</ol>
+<p><strong>Hvis du står fast, kan du låne en idé:</strong> en skill om norske geodata med regler som «bruk EPSG:25833 for Agder», hvor kommunegrenser hentes fra, og at avstand regnes i meter. Det er et eksempel, ikke fasit. En skill fra din egen virksomhet er mer nyttig enn en generell.</p>
+<p><strong>Vurder:</strong> Hvordan vet du om skillen faktisk gjorde svarene bedre, og ikke bare annerledes? Hvor mange ganger må du kjøre en oppgave før du tror på forskjellen?</p>
+<p><strong>Refleksjon:</strong> Hva hører hjemme i en skill, og hva hører hjemme i instruksjonsfilen for ett prosjekt? Hvem i din virksomhet ville hatt nytte av skillen, og hva må være på plass før du tør dele den?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov17" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov18" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov19">
+<h3 class="mt-2 mb-2">Ø4 Tetthet og klynger</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov20">
+<p><strong>Mål:</strong> Se hvordan valg av metode og parametere (cellestørrelse, bandwidth, avstand) endrer hvor du finner «hotspots», og velge en metode du kan forsvare.</p>
+<p><strong>Data:</strong> restauranter fra Overture Maps og befolkning på 250 m-rutenett fra SSB (se <a href="#data">Data</a>). Velg en kommune eller et byområde i Agder, for eksempel Kristiansand.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li><strong>Hexagon-aggregering (H3):</strong> be agenten telle restauranter per heksagon på to oppløsninger, for eksempel H3 8 og H3 9, og vise kartene side om side. Be den også regne restauranter per 1000 innbyggere, ved å fordele SSB-rutene på heksagonene. Husk at SSB-filen bare har bebodde ruter.</li>
+<li><strong>Rutenett:</strong> gjør det samme per SSB-rute (250 m). Ligner kartet på heksagonene?</li>
+<li><strong>Kernel density estimation (KDE):</strong> lag et tetthetskart for restaurantene med to ulike bandwidth, for eksempel 250 m og 1000 m.</li>
+<li><strong>Klynger med DBSCAN:</strong> be agenten finne klynger av restauranter med to verdier for <code>eps</code> (maks avstand mellom naboer, for eksempel 150 m og 500 m) og <code>min_samples</code>. Vis klyngene på kart, og merk hvilke restauranter som regnes som støy.</li>
+<li>Be agenten finne de fem tetteste områdene med hver metode.</li>
+</ol>
+<p><strong>Vurder:</strong></p>
+<ul>
+<li>Peker metodene på de samme områdene? Hvis ikke: hvilken er «riktig»?</li>
+<li>Hva skjer med DBSCAN når du dobler <code>eps</code>? Er det noe i dataene som tilsier hvilken verdi som er best?</li>
+<li>Er <code>eps</code> regnet i meter? Hva ville skjedd om agenten brukte grader?</li>
+<li>Kan kartene sammenlignes, eller har agenten valgt ulike farger og klasser?</li>
+<li>Hvilken variant ville du vist til en politiker, og hvorfor?</li>
+</ul>
+<p><strong>Refleksjon:</strong> Finn en beslutning i din egen virksomhet som bygger på et kart over «hvor det er mest av noe». Hvilke valg av metode og parametere lå bak, og visste mottakeren om dem?</p>
+<p><strong>Dokumentasjon:</strong> <a href="https://h3geo.org/docs" target="_blank">H3</a> og <a href="https://uber.github.io/h3-py/" target="_blank">h3-py</a>, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html" target="_blank">DBSCAN i scikit-learn</a>, <a href="https://scikit-learn.org/stable/modules/density.html#kernel-density" target="_blank">KDE i scikit-learn</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov21" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov22" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov23">
+<h3 class="mt-2 mb-2">Ø5 Dekningsanalyse</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov24">
+<p><strong>Mål:</strong> Beregne hvor stor andel av befolkningen som nås av en tjeneste, og se hvor følsomt svaret er for valgene.</p>
+<p><strong>Data:</strong> bygningspunkt, brannstasjoner og befolkning på 250 m-rutenett (se <a href="#data">Data</a>), samt en ferdig isochrone-fil (se steg 3).</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li>Bruk gjerne <code>grill-me</code> på planen først (se Ø2).</li>
+<li><strong>Luftlinje:</strong> be agenten beregne andel innbyggere (fra SSB-rutenettet) innen 5, 10 og 15 km luftlinje fra nærmeste brannstasjon.</li>
+<li><strong>Ferdig isochrone fra OpenRouteService:</strong> i stedet for luftlinje bruker du en isochrone (et område som kan nås på en gitt kjøretid) som allerede er laget.
+<ul>
+<li>Lag egne isokron-data fra <a href="https://routing.heigit.org/ors/" target="_blank">https://routing.heigit.org/ors/</a> og velg "reachability"</li>
+<li>Be agenten regne ut hvor mange innbyggere (SSB-ruter) og hvor mange boligbygg som ligger innenfor isochronen. Rutene og isochronen har ulike koordinatsystemer. Sjekk at agenten tar høyde for det.</li>
+<li>Sammenlign med luftlinje på 10 km. Hva er forskjellen?</li>
+<li><em>Vil du lage en egen med kode?</em> Hent en gratis API-nøkkel på <a href="https://openrouteservice.org/" target="_blank">openrouteservice.org</a> og se <a href="https://giscience.github.io/openrouteservice/api-reference/endpoints/isochrones" target="_blank">dokumentasjonen for isochrones</a>. Kommandoen under ber om en 15-minutters isochrone for bil fra ett punkt:
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Be OpenRouteService om en isochrone for kjøring med bil. Bytt DIN_NØKKEL med din egen API-nøkkel.
+# locations er punktet du starter fra (lengde, bredde). range er kjøretiden i sekunder (900 = 15 min).
+# Svaret lagres som GeoJSON i data/isokron.geojson.
+curl -X POST "https://api.openrouteservice.org/v2/isochrones/driving-car" -H "Authorization: DIN_NØKKEL" -H "Content-Type: application/json" -d '{"locations":[[7.99,58.15]],"range":[900]}' -o data/isokron.geojson
+</code></pre>
+</li>
+</ul>
+</li>
+<li><strong>Kjøretid langs vegnettet selv med osmnx:</strong> se veiledningen under. Beregn kjøretid på 10 og 20 minutter fra nærmeste brannstasjon.</li>
+<li>Be agenten foreslå hvor en ny brannstasjon ville gitt størst økning i dekning.</li>
+</ol>
+<p><strong>Kom i gang med osmnx:</strong></p>
+<p><a href="https://osmnx.readthedocs.io/" target="_blank">osmnx</a> laster ned vegnettet fra OpenStreetMap og lar deg regne kjøretid langs det. Start smått: ett tettsted, ikke hele Agder.</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Legg til osmnx i prosjektet
+uv add osmnx
+</code></pre>
+<p>Skriptet under viser rekkefølgen. Be gjerne agenten bruke det som utgangspunkt.</p>
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code>import osmnx as ox
+import networkx as nx
+
+# Last ned vegnettet for biler i Kristiansand (første gang tar det et minutt)
+G = ox.graph_from_place("Kristiansand, Norway", network_type="drive")
+
+# Legg til fartsgrense på hver veg (fra OSM, og et anslag der den mangler)
+G = ox.add_edge_speeds(G)
+
+# Regn ut kjøretid i sekunder for hver veg
+G = ox.add_edge_travel_times(G)
+
+# Finn vegnettets nærmeste punkt til brannstasjonen (X er lengde og Y er bredde, i grader)
+node = ox.distance.nearest_nodes(G, X=7.99, Y=58.15)
+
+# Finn alle punkter som nås innen 10 minutter (600 sekunder) fra brannstasjonen
+nådd = nx.ego_graph(G, node, radius=600, distance="travel_time")
+
+# Gjør de nådde vegene om til en GeoDataFrame, så du kan telle bygg og innbyggere innenfor
+nodes, edges = ox.graph_to_gdfs(nådd)
+</code></pre>
+<p>Dokumentasjon og eksempler:</p>
+<ul>
+<li><a href="https://osmnx.readthedocs.io/en/stable/user-reference.html" target="_blank">Brukerreferanse for osmnx</a></li>
+<li><a href="https://github.com/gboeing/osmnx-examples" target="_blank">Eksempler fra osmnx-utvikleren (Jupyter-notebooks)</a></li>
+<li><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.ego.ego_graph.html" target="_blank">networkx <code>ego_graph</code></a></li>
+<li><a href="https://r5py.readthedocs.io/" target="_blank">r5py</a> er et alternativ for kjøretid med kollektivtransport og større områder.</li>
+</ul>
+<p><strong>Vurder:</strong></p>
+<ul>
+<li>Hvor mye endret svaret seg mellom luftlinje, OpenRouteService-isochronen og din egen osmnx-beregning? Overrasket det deg?</li>
+<li>Hvilke forutsetninger ligger i kjøretiden (fartsgrenser, trafikk, tid på døgnet)?</li>
+<li>Er forslaget til ny plassering et sted der det faktisk er mulig å bygge?</li>
+<li>Hvilke av forutsetningene ville en brannsjef protestert på?</li>
+</ul>
+<p><strong>Refleksjon:</strong> Hvem blir usynlige i et befolkningsrutenett (hytteturister, pendlere, de uten fast adresse)? Betyr det noe for konklusjonen?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov25" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov26" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov27">
+<h3 class="mt-2 mb-2">Ø6 Finn feilen</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov28">
+<p><strong>Mål:</strong> Øve på å vurdere et resultat du ikke har laget selv.</p>
+<p><strong>Data:</strong> <a href="https://github.com/alexanno/is930-demoer/blob/main/modul-3/ovinger/finn_feilen.py" target="_blank">ovinger/finn_feilen.py</a>, et skript som ser KI-generert ut og kjører uten feilmelding. Det henter kommunegrenser for Agder fra <a href="https://github.com/robhop/fylker-og-kommuner" target="_blank">robhop/fylker-og-kommuner</a> og befolkning fra SSB-rutenettet i <a href="https://github.com/alexanno/is930-demoer/blob/main/modul-3/ovinger/" target="_blank">ovinger/</a>, og lager en tabell og et kart over befolkningen i kommunene. Du får ikke vite om det er feil, eller hvor mange.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li>Kjør skriptet:
+<pre style="overflow-x: auto; padding: 10px; border-width: 1px; border-style: solid; border-color: rgba(128, 128, 128, 0.5); border-radius: 8px;"><code># Gå til mappen der øvingsfilene ligger
+cd modul-3/ovinger
+# Kjør skriptet med uv. uv henter pakkene skriptet trenger første gang.
+uv run finn_feilen.py
+</code></pre>
+</li>
+<li>Se på tabellen i terminalen og kartet (<code>kart_befolkning.png</code>). Skriv ned førsteinntrykket: ser det rimelig ut?</li>
+<li>Let etter feil <strong>uten</strong> agent i 15 min.</li>
+<li>Be deretter agenten gå gjennom skriptet. Prøv også med <code>doubt-driven-development</code> eller <code>systematic-debugging</code>. Fant den det samme som deg?</li>
+<li>Rett feilene og sammenlign resultatet med førsteinntrykket.</li>
+</ol>
+<p><strong>Vurder:</strong> Hva fikk deg til å mistenke hver feil? Var det noe du visste om geodata, noe i tallene, eller noe på kartet?</p>
+<p><strong>Refleksjon:</strong> Hvilke feil fant du, og hvilke fant agenten? Hva sier det om hvem som bør vurdere hva?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov29" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov30" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov31">
+<h3 class="mt-2 mb-2">Ø7 Samme spørsmål, ulike steder</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov32">
+<p><strong>Mål:</strong> Oppdage at kvaliteten på svarene kan avhenge av <em>hvor</em> du spør om.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li>Velg to kommuner: en stor (for eksempel Kristiansand) og en liten (for eksempel Bykle eller Kautokeino).</li>
+<li>Still samme spørsmål om begge, uten nettsøk:
+<ul>
+<li>«Hvilke nabokommuner har kommunen?»</li>
+<li>«Hva heter de største tettstedene, og hvor mange bor der?»</li>
+<li>«Hva er de største arbeidsgiverne?»</li>
+</ul>
+</li>
+<li>Kontroller svarene mot SSB, Kartverket og Store norske leksikon.</li>
+<li>Gjenta med en mindre modell, og med nettsøk slått på.</li>
+</ol>
+<p><strong>Vurder:</strong> Var feilene jevnt fordelt? Sa modellen fra når den var usikker? Hvilken av kildene du kontrollerte mot, stoler du mest på, og hvorfor?</p>
+<p><strong>Refleksjon:</strong> Hva betyr dette for analyser av distrikts-Norge? Hvordan ville du merket det i en analyse der du ikke kjenner stedet?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:min-w-72 min-w-auto mb-3 mt-3 rounded-2xl md:w-full p-3 md:mb-6 md:mt-6" data-component-id="cmmyu8nra00ymmy9yiuz0ulhd_15" id="ov33" style="background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-lwme);">
+<div class="flex border flex-col rounded-2xl md:mt-0 md:mb-0 mb-0 mt-0 md:p-5 p-5 w-full" id="ov34" style="border-color: transparent; background-color: var(--sd-cmh3doa2r001d2e1fu32oz11u-ndju); color: var(--sd-cmh3doa2r001d2e1fu32oz11u-plgs);">
+<div class="flex-1" id="ov35">
+<h3 class="mt-2 mb-2">Ø8 CTF med KI-agent: Gran Canaria</h3>
+<div class="mt-3 mb-3" data-component-type="rte" id="ov36">
+<p><strong>Mål:</strong> Løse en reell geodata-oppgave med et KI-verktøy, og reflektere over hvor verktøyet hjalp, og hvor det tok feil.</p>
+<p><strong>Steg:</strong></p>
+<ol>
+<li>Åpne <a href="https://colab.research.google.com/github/kartAI/skygeo/blob/main/src/skygeo-workshop/gran_canaria_overnatting_tetthet.ipynb" target="_blank">notebooken i Colab</a>. Den beskriver oppgaven og dataene (DuckDB og Overture Maps).</li>
+<li>Løs CTF-en med en KI-agent (Claude Code eller tilsvarende). Du trenger ikke skrive SQL selv. Hvis agenten ikke virker, bruk chat i Colab. Noter hvilket verktøy du brukte.</li>
+<li>Be agenten oversette spørringen din til <strong>PostGIS-SQL</strong>. Se på forskjellene fra DuckDB-versjonen.</li>
+<li>Skriv en kort logg som gruppe (se under).</li>
+</ol>
+<p><strong>Vurder:</strong></p>
+<ul>
+<li>Hvordan vet du at svaret er riktig, utover at CTF-en godtar det?</li>
+<li>Hva ble endret i oversettelsen til PostGIS? Hva ville stoppet spørringen i en ekte database?</li>
+</ul>
+<p><strong>Refleksjon (logg, ca. 5 setninger):</strong> Hvilket verktøy brukte dere? Hvor tok KI feil? Hvordan oppdaget dere det? Hva var forskjellen mellom DuckDB og PostGIS, og når ville dere valgt det ene eller det andre (fil mot server, flere brukere, indekser)?</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
